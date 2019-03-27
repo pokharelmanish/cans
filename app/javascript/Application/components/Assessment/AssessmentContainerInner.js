@@ -2,12 +2,12 @@ import React, { Component, Fragment } from 'react'
 import Assessment from './Assessment'
 import PropTypes from 'prop-types'
 import AssessmentSummaryCard from './AssessmentSummary/AssessmentSummaryCard'
-import { LoadingState, isReadyForAction } from '../../util/loadingHelper'
-import { AssessmentFormHeader, AssessmentFormFooter } from './'
-import { completeTip } from './AssessmentHelper'
+import { isReadyForAction } from '../../util/loadingHelper'
+import { AssessmentFormFooter, AssessmentFormHeader } from './'
 import RenderWarning from '../common/RenderWarning'
 import CompleteModal from '../Assessment/CompleteModal'
 import { isCompleteAssessmentAuthorized } from '../common/AuthHelper'
+import ChangelogLink from './ChangelogLink'
 
 class AssessmentContainerInner extends Component {
   constructor(props) {
@@ -63,6 +63,34 @@ class AssessmentContainerInner extends Component {
     )
   }
 
+  displayAssessmentFooter() {
+    const {
+      assessment,
+      client,
+      assessmentServiceStatus,
+      isEditable,
+      onCancelClick,
+      handleCompleteAssessment,
+      isValidForSubmit,
+    } = this.props
+    const canPerformUpdates = isReadyForAction(assessmentServiceStatus)
+    const isSubmissionEnabled =
+      isEditable && canPerformUpdates && isValidForSubmit && isCompleteAssessmentAuthorized(assessment, client)
+    const onSubmitAssessment =
+      assessment.can_release_confidential_info === true
+        ? handleCompleteAssessment
+        : this.handleCompleteWarning.bind(this, true)
+    return (
+      <AssessmentFormFooter
+        isEditable={isEditable}
+        assessment={assessment}
+        onCancelClick={onCancelClick}
+        isSubmissionEnabled={isSubmissionEnabled}
+        onSubmitAssessment={onSubmitAssessment}
+      />
+    )
+  }
+
   displayAssessment() {
     const {
       client,
@@ -76,7 +104,7 @@ class AssessmentContainerInner extends Component {
       substanceUseItemsIds,
     } = this.props
     const isUnderSix = assessment && assessment.state && assessment.state.under_six
-    const isDefaultExpanded = this.state.isDefaultExpanded
+    const assessmentFooter = this.displayAssessmentFooter()
     return (
       <Fragment>
         <div rol="completeScrollLocator">
@@ -107,53 +135,20 @@ class AssessmentContainerInner extends Component {
           onAssessmentUpdate={onAssessmentUpdate}
           handleWarningShow={this.handleWarningShow}
           disabled={!isEditable}
-          isDefaultExpanded={isDefaultExpanded}
+          isDefaultExpanded={this.state.isDefaultExpanded}
           expandCollapse={this.handleExpandAllDomains}
+          footer={assessmentFooter}
         />
+        {assessment.id && <ChangelogLink assessmentId={assessment.id} assessmentStatus={assessment.status} />}
       </Fragment>
     )
   }
-  displayAssessmentFooter() {
-    const {
-      assessment,
-      client,
-      assessmentServiceStatus,
-      isEditable,
-      onCancelClick,
-      handleCompleteAssessment,
-      isValidForSubmit,
-    } = this.props
-    const canPerformUpdates = isReadyForAction(assessmentServiceStatus)
-    const isCompleteButtonEnabled =
-      isEditable && canPerformUpdates && isValidForSubmit && isCompleteAssessmentAuthorized(assessment, client)
-    return (
-      <Fragment>
-        <AssessmentFormFooter
-          isEditable={isEditable}
-          assessment={assessment}
-          onCancelClick={onCancelClick}
-          isSubmitButtonEnabled={isCompleteButtonEnabled}
-          onSubmitAssessment={
-            assessment.can_release_confidential_info === true
-              ? handleCompleteAssessment
-              : this.handleCompleteWarning.bind(this, true)
-          }
-        />
-      </Fragment>
-    )
-  }
+
   render() {
-    const { assessment, assessmentServiceStatus, isEditable } = this.props
-    const isUnderSix = assessment && assessment.state && assessment.state.under_six
     return (
       <Fragment>
         {this.displayModalWarning()}
         {this.displayAssessment()}
-        {LoadingState.ready === assessmentServiceStatus &&
-          isEditable &&
-          !(isUnderSix === null || isUnderSix === undefined) &&
-          completeTip}
-        {this.displayAssessmentFooter()}
       </Fragment>
     )
   }

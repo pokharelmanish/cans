@@ -132,7 +132,7 @@ class Domain extends Component {
                 <Button
                   id={`domain${index}-review`}
                   color="primary"
-                  className={'review-regular-button'}
+                  className={'review-regular-button no-uppercase'}
                   onClick={this.handleOpenToReview}
                 >
                   Open to review

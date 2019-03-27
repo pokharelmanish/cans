@@ -51,8 +51,12 @@ class AssessmentSummary < SitePrism::Section
 end
 
 class AssessmentFormFooter < SitePrism::Section
+  element :review_confirmation_checkbox, 'span.review-confirmation-label'
   element :complete_button, 'button#submit-assessment'
-  element :change_log_link, '.view-changelog-link'
+
+  def confirm_domains_review
+    review_confirmation_checkbox.click
+  end
 end
 
 class ReassessmentModal < SitePrism::Section
@@ -126,6 +130,40 @@ class AssessmentForm < SitePrism::Page
           match: :first
   element :caregiver_domain_warning_popup, 'div.warning-modal-body'
   element :caregiver_domain_warning_message, 'div.warning-modal-body div div'
+  element :change_log_link, '.view-changelog-link'
+
+  def review_all_domains_0_to_5
+    targets = [
+      'button#domain5-review',
+      'button#domain6-review',
+      'button#domain7-review',
+      'button#domain8-review',
+      'button#domain9-review',
+      'button#domain10-review',
+      'button#domain11-review',
+      'button#domain12-review'
+    ]
+    targets.each do |element|
+      find(element).click
+      sleep 2
+    end
+  end
+
+  def review_all_domains_6_to_21
+    targets = [
+      'button#domain0-review',
+      'button#domain1-review',
+      'button#domain2-review',
+      'button#domain3-review',
+      'button#domain4-review',
+      'button#domain11-review',
+      'button#domain12-review'
+    ]
+    targets.each do |element|
+      find(element).click
+      sleep 2
+    end
+  end
 end
 
 def fill_conducted_by_field(text)

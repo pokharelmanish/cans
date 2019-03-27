@@ -12,7 +12,7 @@ class AddCansButton extends Component {
   renderButton = () => {
     const { isReassessment } = this.props
     return (
-      <Button className="modal-regular-button" id="new-cans-button" disabled={this.isDisabled()}>
+      <Button className="modal-regular-button no-uppercase" id="new-cans-button" disabled={this.isDisabled()}>
         {isReassessment ? 'Add reassessment' : 'Add CANS'}
       </Button>
     )

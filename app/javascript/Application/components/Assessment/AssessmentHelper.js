@@ -4,7 +4,6 @@ import { globalAlertService } from '../../util/GlobalAlertService'
 import { urlTrimmer } from '../../util/urlTrimmer'
 import React, { Fragment } from 'react'
 import { Link } from 'react-router-dom'
-import Typography from '@material-ui/core/Typography'
 import { isEmpty } from '../../util/common'
 
 export const AssessmentType = Object.freeze({
@@ -96,6 +95,10 @@ export function shouldDomainBeRendered(isAssessmentUnderSix, domain) {
 
 export function shouldItemBeRendered(isAssessmentUnderSix, item) {
   return (isAssessmentUnderSix && item.under_six_id) || (!isAssessmentUnderSix && item.above_six_id)
+}
+
+export function containsNotReviewedDomains(domains, isUnderSix) {
+  return Boolean(domains.find(domain => shouldDomainBeRendered(isUnderSix, domain) && !domain.is_reviewed))
 }
 
 export function getActionVerbByStatus(status) {
@@ -195,12 +198,6 @@ export const caregiverWarning = (
   </div>
 )
 
-export const completeTip = (
-  <Typography variant="body1" className={'submit-validation-message'}>
-    The Assessment Date and all assessment ratings must be completed before the Complete button becomes active.
-  </Typography>
-)
-
 export const getCaregiverDomainsNumber = domains => {
   return domains.state.domains.filter(domain => {
     return domain.is_caregiver_domain === true
@@ -286,6 +283,7 @@ export function preparePrecedingAssessment(precedingAssessment, eventDate, dob) 
   delete precedingAssessment.conducted_by
   precedingAssessment.state.domains.forEach(domain => {
     delete domain.comment
+    delete domain.is_reviewed
     domain.items.forEach(item => {
       delete item.comment
     })

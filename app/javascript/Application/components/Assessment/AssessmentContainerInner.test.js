@@ -1,11 +1,12 @@
 import React from 'react'
 import { shallow } from 'enzyme'
-import AssessmentContainerInner from '../Assessment/AssessmentContainerInner'
+import AssessmentContainerInner from './AssessmentContainerInner'
 import { assessment } from './assessment.mocks.test'
-import AssessmentSummaryCard from '../Assessment/AssessmentSummary/AssessmentSummaryCard'
-import AssessmentFormFooter from '../Assessment/AssessmentFormFooter'
-import AssessmentFormHeader from '../Assessment/AssessmentFormHeader'
+import AssessmentSummaryCard from './AssessmentSummary/AssessmentSummaryCard'
+import AssessmentFormHeader from './AssessmentFormHeader'
+import ChangelogLink from './ChangelogLink'
 import RenderWarning from '../common/RenderWarning'
+import { Assessment } from './index'
 
 const getLength = (wrapper, component) => wrapper.find(component).length
 
@@ -40,9 +41,28 @@ describe('AssessmentContainerInner />', () => {
       expect(getLength(wrapper, AssessmentFormHeader)).toBe(1)
     })
 
-    it('renders with <AssessmentFormFooter /> component initially', () => {
+    it('renders with <Assessment /> component initially', () => {
       const wrapper = shallow(<AssessmentContainerInner {...props} />)
-      expect(getLength(wrapper, AssessmentFormFooter)).toBe(1)
+      expect(getLength(wrapper, Assessment)).toBe(1)
+    })
+
+    describe('ChangelogLink', () => {
+      it('renders ChangelogLink when assessment has an id', () => {
+        const wrapper = shallow(<AssessmentContainerInner {...props} />)
+        expect(wrapper.find(ChangelogLink).exists()).toBeTruthy()
+      })
+
+      it('hides ChangelogLink when assessment has no id yet', () => {
+        const wrapper = shallow(<AssessmentContainerInner {...props} />)
+        wrapper.setProps({ assessment: { ...assessment, id: null } })
+        expect(wrapper.find(ChangelogLink).exists()).toBeFalsy()
+      })
+
+      it('sets props for ChangelogLink', () => {
+        const changelogLink = shallow(<AssessmentContainerInner {...props} />).find(ChangelogLink)
+        expect(changelogLink.props().assessmentId).toBe(1)
+        expect(changelogLink.props().assessmentStatus).toEqual('IN_PROGRESS')
+      })
     })
   })
 

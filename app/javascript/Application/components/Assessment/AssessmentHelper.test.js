@@ -19,7 +19,7 @@ import {
   hasOneCompletedForReassessment,
   AssessmentType,
   preparePrecedingAssessment,
-  isAllDomainsReviewed,
+  containsNotReviewedDomains,
   currentClientAge,
 } from './AssessmentHelper'
 import { globalAlertService } from '../../util/GlobalAlertService'
@@ -580,10 +580,12 @@ describe('AssessmentHelper', () => {
           domains: [
             {
               comment: 'domain 1 comment',
+              is_reviewed: true,
               items: [{}, { comment: 'item 1-1 comment' }, { comment: 'item 1-2 comment' }],
             },
             {
               comment: 'domain 2 comment',
+              is_reviewed: false,
               items: [{ comment: 'item 2-1 comment' }],
             },
           ],
@@ -647,52 +649,23 @@ describe('AssessmentHelper', () => {
     })
   })
 
-  describe('#isAllDomainsReviewed', () => {
-    const underSixAssessment = {
-      some_field: 'will not be updated',
-      id: 12345,
-      status: 'COMPLETED',
-      event_date: '2019-01-01',
-      can_release_confidential_info: true,
-      conducted_by: 'John Doe',
-      state: {
-        domains: [
-          {
-            comment: 'domain 1 comment',
-            items: [{}, { comment: 'item 1-1 comment' }, { comment: 'item 1-2 comment' }],
-            under_six: false,
-            above_six: true,
-          },
-          {
-            comment: 'domain 2 comment',
-            items: [{}, { comment: 'item 2-1 comment' }],
-            under_six: true,
-            above_six: false,
-          },
-        ],
-        under_six: true,
-      },
-    }
-    const aboveSixAssessment = {
-      ...underSixAssessment,
-      state: { ...underSixAssessment.state, under_six: false },
-    }
-    it('returns false for under six assessment if all under six domains are not reviewed', () => {
-      expect(isAllDomainsReviewed(underSixAssessment)).toBe(false)
+  describe('#containsNotReviewedDomains()', () => {
+    it('returns true when there is at least ont not reviewed domain in the requested age group', () => {
+      const domains = [
+        { under_six: true, is_reviewed: true },
+        { under_six: true, is_reviewed: false },
+        { under_six: false, is_reviewed: true },
+      ]
+      expect(containsNotReviewedDomains(domains, true)).toBeTruthy()
     })
 
-    it('returns true for under six assessment if all under six domains are reviewed', () => {
-      underSixAssessment.state.domains[1].is_reviewed = true
-      expect(isAllDomainsReviewed(underSixAssessment)).toBe(true)
-    })
-
-    it('returns false for above six assessment if all above six domains are not reviewed', () => {
-      expect(isAllDomainsReviewed(aboveSixAssessment)).toBe(false)
-    })
-
-    it('returns true for above six assessment if all above six domains are reviewed', () => {
-      aboveSixAssessment.state.domains[0].is_reviewed = true
-      expect(isAllDomainsReviewed(aboveSixAssessment)).toBe(true)
+    it('returns false when all the domains in the requested age group are reviewed', () => {
+      const domains = [
+        { under_six: true, is_reviewed: true },
+        { under_six: true, is_reviewed: true },
+        { under_six: false, is_reviewed: false },
+      ]
+      expect(containsNotReviewedDomains(domains, true)).toBeFalsy()
     })
   })
 })

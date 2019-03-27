@@ -15,7 +15,7 @@ const CompleteModal = ({
     <ModalBody>Once you select &quot;Complete&quot;, you will no longer be able to edit CANS assessment.</ModalBody>
     <div className="p-3 text-right">
       <Button
-        className="m-1 save-return-button"
+        className="m-1 save-return-button no-uppercase"
         onClick={() => {
           handleCompleteWarning(false)
           handleSaveAssessment()
@@ -24,7 +24,7 @@ const CompleteModal = ({
         Save and return to the assessment
       </Button>
       <Button
-        className="m-1 complete-confirm-button"
+        className="m-1 complete-confirm-button no-uppercase"
         color="primary"
         onClick={() => {
           handleCompleteWarning(false)

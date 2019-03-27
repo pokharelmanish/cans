@@ -6,7 +6,7 @@ import * as AHelper from './AssessmentHelper'
 import { childInfoJson } from '../Client/Client.helper.test'
 import ClientService from '../Client/Client.service'
 import { mount, shallow } from 'enzyme'
-import AssessmentFormFooter from './AssessmentFormFooter'
+import AssessmentFormFooter from './FormFooter/AssessmentFormFooter'
 import * as AssessmentAutoScroll from '../../util/assessmentAutoScroll'
 import AssessmentContainerInner from '../Assessment/AssessmentContainerInner'
 import PageModal from '../common/PageModal'
@@ -60,8 +60,8 @@ describe('<AssessmentContainer />', () => {
 
       const getLength = (wrapper, component) => wrapper.find(component).length
 
-      it('renders with 1 <AssessmentContainerInner/> component', () => {
-        const wrapper = mount(<AssessmentContainer {...props} />)
+      it('renders with 1 <AssessmentContainerInner/> component', async () => {
+        const wrapper = await mount(<AssessmentContainer {...props} />)
         expect(getLength(wrapper, AssessmentContainerInner)).toBe(1)
       })
     })
@@ -652,7 +652,7 @@ describe('<AssessmentContainer />', () => {
           isEditable: true,
           assessment,
         })
-        expect(wrapper.find('AssessmentFormFooter').prop('isSubmitButtonEnabled')).toBe(false)
+        expect(wrapper.find('AssessmentFormFooter').prop('isSubmissionEnabled')).toBe(false)
 
         wrapper.setState({
           isValidForSubmit: true,
@@ -660,7 +660,7 @@ describe('<AssessmentContainer />', () => {
           isEditable: true,
           assessment,
         })
-        expect(wrapper.find('AssessmentFormFooter').prop('isSubmitButtonEnabled')).toBe(true)
+        expect(wrapper.find('AssessmentFormFooter').prop('isSubmissionEnabled')).toBe(true)
       })
     })
 
@@ -747,7 +747,7 @@ describe('<AssessmentContainer />', () => {
         })
 
         // then
-        expect(wrapper.find('AssessmentFormFooter').props().isSubmitButtonEnabled).toBeFalsy()
+        expect(wrapper.find('AssessmentFormFooter').props().isSubmissionEnabled).toBeFalsy()
       })
 
       it('should be enabled when assessment service is done loading', () => {
@@ -762,7 +762,7 @@ describe('<AssessmentContainer />', () => {
         })
 
         // then
-        expect(wrapper.find('AssessmentFormFooter').instance().props.isSubmitButtonEnabled).toBeTruthy()
+        expect(wrapper.find('AssessmentFormFooter').props().isSubmissionEnabled).toBeTruthy()
       })
 
       it('should not be rendered when assessment is not editable', () => {

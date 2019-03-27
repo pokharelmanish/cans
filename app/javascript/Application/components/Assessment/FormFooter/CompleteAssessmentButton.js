@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 const CompleteAssessmentButton = ({ onSubmitAssessment, disabled }) => (
   <Button
     id={'submit-assessment'}
-    className={'button-fix-primary'}
+    className={'no-uppercase'}
     color={'primary'}
     onClick={onSubmitAssessment}
     disabled={disabled}

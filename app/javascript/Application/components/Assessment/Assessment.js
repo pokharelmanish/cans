@@ -4,10 +4,11 @@ import { getI18nByCode } from '../common/I18nHelper'
 import Domain from './Domain'
 import { clone } from '../../util/common'
 import DomainsHeader from './DomainsHeader'
-import { Card, CardBody } from '@cwds/components'
-import { isAllDomainsReviewed } from './AssessmentHelper'
+import { Card, CardBody, CardFooter } from '@cwds/components'
+import { containsNotReviewedDomains } from './AssessmentHelper'
 
 const INDICES = 'abcdefghijklmnopqrstuvwxyz'
+
 class Assessment extends Component {
   /* eslint-disable camelcase */
   UNSAFE_componentWillReceiveProps(nextProps) {
@@ -150,13 +151,10 @@ class Assessment extends Component {
   }
 
   render() {
-    const { i18n, isDefaultExpanded } = this.props
-    const assessmentDto = this.props.assessment
-    const canReleaseConfidentialInfo = assessmentDto.can_release_confidential_info
-    const assessmentJson = assessmentDto.state
-    const isUnderSix = assessmentJson.under_six
-    const domains = assessmentJson.domains
-    const isDomainsReviewed = assessmentDto.preceding_assessment_id ? isAllDomainsReviewed(assessmentDto) : true
+    const { assessment, i18n, footer, isDefaultExpanded } = this.props
+    const canReleaseConfidentialInfo = assessment.can_release_confidential_info
+    const { under_six: isUnderSix, domains } = assessment.state
+    const isDomainsReviewed = !assessment.preceding_assessment_id || !containsNotReviewedDomains(domains, isUnderSix)
     return (
       <Fragment>
         {!(isUnderSix === null || isUnderSix === undefined) ? (
@@ -190,12 +188,13 @@ class Assessment extends Component {
                     onDomainCommentUpdate={this.updateDomainComment}
                     onDomainReviewed={this.updateDomainIsReviewed}
                     handleWarningShow={this.props.handleWarningShow}
-                    isUsingPriorRatings={Boolean(assessmentDto.preceding_assessment_id)}
+                    isUsingPriorRatings={Boolean(assessment.preceding_assessment_id)}
                     disabled={this.props.disabled}
                   />
                 )
               })}
             </CardBody>
+            <CardFooter>{footer}</CardFooter>
           </Card>
         ) : null}
       </Fragment>
@@ -207,6 +206,7 @@ Assessment.propTypes = {
   assessment: PropTypes.object.isRequired,
   disabled: PropTypes.bool,
   expandCollapse: PropTypes.func,
+  footer: PropTypes.node.isRequired,
   handleWarningShow: PropTypes.func,
   i18n: PropTypes.object.isRequired,
   isDefaultExpanded: PropTypes.bool,

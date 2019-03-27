@@ -27,7 +27,7 @@ class AssessmentActionsEllipsis extends React.Component {
 
   renderDeleteMenuItem = () => {
     return this.canDeleteAssessment() ? (
-      <MenuItem className={'delete-action'} onClick={this.toggleDeleteModal}>
+      <MenuItem className={'delete-action no-uppercase'} onClick={this.toggleDeleteModal}>
         Delete CANS
       </MenuItem>
     ) : null

@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom'
 import { Button } from '@cwds/components'
 import pageLockService from '../common/PageLockService'
 
-class AssessmentChangelogLink extends React.Component {
+class ChangelogLink extends React.Component {
   state = {
     shouldRedirect: false,
   }
@@ -38,13 +38,13 @@ class AssessmentChangelogLink extends React.Component {
   }
 }
 
-AssessmentChangelogLink.propTypes = {
+ChangelogLink.propTypes = {
   assessmentId: PropTypes.number,
   assessmentStatus: PropTypes.string,
 }
-AssessmentChangelogLink.defaultProps = {
+ChangelogLink.defaultProps = {
   assessmentId: undefined,
   assessmentStatus: 'IN_PROGRESS',
 }
 
-export default AssessmentChangelogLink
+export default ChangelogLink

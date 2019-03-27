@@ -1,8 +1,8 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 import { Redirect } from 'react-router-dom'
-import AssessmentChangelogLink from './AssessmentChangelogLink'
-import { AssessmentStatus } from '../Assessment/AssessmentHelper'
+import ChangelogLink from './ChangelogLink'
+import { AssessmentStatus } from './AssessmentHelper'
 
 const defaultProps = {
   assessmentId: 1234,
@@ -10,10 +10,10 @@ const defaultProps = {
 }
 
 const getWrapper = (props = defaultProps) => {
-  return shallow(<AssessmentChangelogLink {...props} />)
+  return shallow(<ChangelogLink {...props} />)
 }
 
-describe('AssessmentChangelogLink', () => {
+describe('ChangelogLink', () => {
   describe('layout', () => {
     let changeLogMenuItem
     beforeEach(() => {

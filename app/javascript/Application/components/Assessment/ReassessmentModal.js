@@ -22,14 +22,14 @@ class ReassessmentModal extends PureComponent {
         </div>
         <div className={'cans-modal-footer'}>
           <Button
-            className={'modal-regular-button'}
+            className={'modal-regular-button no-uppercase'}
             disabled={isDisabled}
             onClick={() => this.disableAndInvoke(startEmpty)}
           >
             Start new
           </Button>
           <Button
-            className={'modal-regular-button'}
+            className={'modal-regular-button no-uppercase'}
             disabled={isDisabled}
             onClick={() => this.disableAndInvoke(fillPrecedingData)}
           >

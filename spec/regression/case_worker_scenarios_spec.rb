@@ -79,11 +79,11 @@ feature 'Case Worker Functionality' do
     validate_unsaved_warning_closed
   end
 
-  scenario 'Fill out Reassessment with preceding assessment data, from 0 to 5' do
+  scenario 'Fill out Reassessment with preceding assessment data, from 6 to 21' do
     visit '/'
     is_reassessment = @assessment_helper.start_assessment_for(CLIENT_NAME, true)
     unless is_reassessment
-      click_0_to_5_button
+      click_6_to_21_button
       expand_all_domains
       @form.caregiver_name_fields[0].set 'Awesome Caregiver'
       fill_out_assessment_form_with_rating_1
@@ -91,9 +91,10 @@ feature 'Case Worker Functionality' do
       visit '/'
       @assessment_helper.start_assessment_for(CLIENT_NAME, true)
     end
-    expand_first_domain
+    @form.review_all_domains_6_to_21
     expand_first_item
     item_and_domain_level_comment_test
+    @form.footer.confirm_domains_review
     warning_and_summary_card_shown_after_complete_button_clicked true
   end
 
@@ -104,8 +105,8 @@ feature 'Case Worker Functionality' do
     @assessment_helper.start_assessment_for CLIENT_NAME
     click_0_to_5_button
     fill_conducted_by_field(CONDUCTED_BY)
+    save_and_check_the_success_message
     validate_change_log_link
-    unsaved_warning_save_and_continue
     validate_changelog_page_is_accessible(current_date, CLIENT_NAME)
     visit_assessment_page_from_changelog(assessment_link)
     fill_conducted_by_field(CONDUCTED_BY_UPDATED)
@@ -181,7 +182,7 @@ feature 'Case Worker Functionality' do
     unsaved_warning_discard_and_continue
     expect(@client_profile).to have_client_information_title
     @client_profile.go_to_recently_updated_assessment(current_date)
-    @form.footer.change_log_link.click
+    @form.change_log_link.click
     go_back
     fill_conducted_by_field('3')
     go_forward
@@ -408,13 +409,14 @@ feature 'Case Worker Functionality' do
   end
 
   def fill_form_header_6_to_21
-    @assessment_helper.start_assessment_for CLIENT_NAME
+    is_reassessment = @assessment_helper.start_assessment_for CLIENT_NAME
     fill_conducted_by_field('')
     click_6_to_21_button
     expect(@form.header).to have_redaction_message_6_to_21
     expect(@form).to have_assessment_card_title_6_21
     with_retry(proc { @form.header.authorization_label_yes.click },
                proc { @form.header.wait_until_redaction_message_invisible(wait: 2) })
+    is_reassessment
   end
 
   def check_redacted_checkbox_0_to_5
@@ -617,7 +619,7 @@ feature 'Case Worker Functionality' do
   end
 
   def validate_change_log_link
-    @form.footer.change_log_link.click
+    @form.change_log_link.click
   end
 
   def validate_changelog_page_is_accessible(current_date, client_name)

@@ -10,7 +10,7 @@ const UserMenu = ({ user }) => {
   const name = user ? formatUserName(user) : 'Not Available'
   return (
     <UncontrolledUserMenu label={name}>
-      <MenuItem className={'logoutMenu'} onClick={logout}>
+      <MenuItem className={'no-uppercase'} onClick={logout}>
         Logout
       </MenuItem>
     </UncontrolledUserMenu>
