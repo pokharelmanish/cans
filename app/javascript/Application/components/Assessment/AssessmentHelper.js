@@ -287,7 +287,6 @@ export function preparePrecedingAssessment(precedingAssessment, eventDate, dob) 
     domain.items.forEach(item => {
       delete item.comment
     })
-    domain.is_reviewed = false
   })
 }
 
