@@ -601,7 +601,7 @@ describe('AssessmentHelper', () => {
         client_age: 3,
         can_release_confidential_info: false,
         state: {
-          domains: [{ is_reviewed: false, items: [{}, {}, {}] }, { is_reviewed: false, items: [{}] }],
+          domains: [{ items: [{}, {}, {}] }, { items: [{}] }],
           under_six: true,
         },
       }
@@ -641,7 +641,7 @@ describe('AssessmentHelper', () => {
         client_age: 9,
         can_release_confidential_info: false,
         state: {
-          domains: [{ is_reviewed: false, items: [{}, {}, {}] }, { is_reviewed: false, items: [{}] }],
+          domains: [{ items: [{}, {}, {}] }, { items: [{}] }],
           under_six: false,
         },
       }
