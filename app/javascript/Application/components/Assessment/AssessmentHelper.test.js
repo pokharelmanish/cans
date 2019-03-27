@@ -565,12 +565,13 @@ describe('AssessmentHelper', () => {
   })
 
   describe('#preparePrecedingAssessment()', () => {
-    it('prepares preceding assessment for reassessment ', () => {
+    it('prepares preceding assessment for reassessment with AGE 0-5', () => {
       const input = {
         some_field: 'will not be updated',
         id: 12345,
         status: 'COMPLETED',
         event_date: '2019-01-01',
+        dob: '2016-01-01',
         can_release_confidential_info: true,
         conducted_by: 'John Doe',
         state: {
@@ -586,15 +587,17 @@ describe('AssessmentHelper', () => {
           ],
         },
       }
-      preparePrecedingAssessment(input, '2019-03-08')
+      preparePrecedingAssessment(input, '2019-03-08', '2016-01-01')
       const expected = {
         some_field: 'will not be updated',
         preceding_assessment_id: 12345,
         status: 'IN_PROGRESS',
         event_date: '2019-03-08',
+        dob: '2016-01-01',
         can_release_confidential_info: false,
         state: {
-          domains: [{ items: [{}, {}, {}] }, { items: [{}] }],
+          domains: [{ is_reviewed: false, items: [{}, {}, {}] }, { is_reviewed: false, items: [{}] }],
+          under_six: true,
         },
       }
       expect(input).toEqual(expected)
