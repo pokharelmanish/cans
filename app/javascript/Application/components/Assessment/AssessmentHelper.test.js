@@ -589,12 +589,12 @@ describe('AssessmentHelper', () => {
           ],
         },
       }
-      preparePrecedingAssessment(input, '2019-03-08', '2016-01-01')
+      preparePrecedingAssessment(input, '2019-03-26', '2016-01-01')
       const expected = {
         some_field: 'will not be updated',
         preceding_assessment_id: 12345,
         status: 'IN_PROGRESS',
-        event_date: '2019-03-08',
+        event_date: '2019-03-26',
         dob: '2016-01-01',
         client_age: 3,
         can_release_confidential_info: false,
@@ -611,9 +611,9 @@ describe('AssessmentHelper', () => {
         some_field: 'will not be updated',
         id: 12345,
         status: 'COMPLETED',
-        event_date: '2019-01-01',
-        dob: '2010-01-01',
-        client_age: currentClientAge('2010-01-01'),
+        event_date: '2019-03-26',
+        dob: '2010-02-01',
+        client_age: currentClientAge('2010-02-01'),
         can_release_confidential_info: true,
         conducted_by: 'John Doe',
         state: {
@@ -629,13 +629,13 @@ describe('AssessmentHelper', () => {
           ],
         },
       }
-      preparePrecedingAssessment(input, '2019-03-08', '2010-01-01')
+      preparePrecedingAssessment(input, '2019-03-26', '2010-02-01')
       const expected = {
         some_field: 'will not be updated',
         preceding_assessment_id: 12345,
         status: 'IN_PROGRESS',
-        event_date: '2019-03-08',
-        dob: '2010-01-01',
+        event_date: '2019-03-26',
+        dob: '2010-02-01',
         client_age: 9,
         can_release_confidential_info: false,
         state: {
