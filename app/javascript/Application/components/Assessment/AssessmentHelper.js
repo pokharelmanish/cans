@@ -270,15 +270,18 @@ export const getSubstanceUseItemsIds = assessment => {
   return { underSix: underSix, aboveSix: aboveSix }
 }
 
+export const currentClientAge = dob => {
+  return calculateDateDifferenceInYears(dob, getCurrentIsoDate())
+}
+
 export function preparePrecedingAssessment(precedingAssessment, eventDate, dob) {
   const SIX = 6
-  const currentClientAge = calculateDateDifferenceInYears(dob, getCurrentIsoDate())
 
   precedingAssessment.event_date = eventDate
   precedingAssessment.status = 'IN_PROGRESS'
   precedingAssessment.can_release_confidential_info = false
   precedingAssessment.preceding_assessment_id = precedingAssessment.id
-  precedingAssessment.state.under_six = currentClientAge < SIX
+  precedingAssessment.state.under_six = currentClientAge(dob) < SIX
   delete precedingAssessment.id
   delete precedingAssessment.conducted_by
   precedingAssessment.state.domains.forEach(domain => {
