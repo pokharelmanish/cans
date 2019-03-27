@@ -1,4 +1,4 @@
-import { getCurrentIsoDate } from '../../util/dateHelper'
+import { getCurrentIsoDate, calculateDateDifferenceInYears } from '../../util/dateHelper'
 import moment from 'moment'
 import { globalAlertService } from '../../util/GlobalAlertService'
 import { urlTrimmer } from '../../util/urlTrimmer'
@@ -270,12 +270,15 @@ export const getSubstanceUseItemsIds = assessment => {
   return { underSix: underSix, aboveSix: aboveSix }
 }
 
-export function preparePrecedingAssessment(precedingAssessment, eventDate) {
+export function preparePrecedingAssessment(precedingAssessment, eventDate, dob) {
+  const SIX = 6
+  const currentClientAge = calculateDateDifferenceInYears(dob, getCurrentIsoDate())
+
   precedingAssessment.event_date = eventDate
   precedingAssessment.status = 'IN_PROGRESS'
   precedingAssessment.can_release_confidential_info = false
   precedingAssessment.preceding_assessment_id = precedingAssessment.id
-
+  precedingAssessment.state.under_six = currentClientAge < SIX
   delete precedingAssessment.id
   delete precedingAssessment.conducted_by
   precedingAssessment.state.domains.forEach(domain => {
