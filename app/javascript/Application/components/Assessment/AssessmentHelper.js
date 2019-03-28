@@ -290,20 +290,12 @@ export function preparePrecedingAssessment(precedingAssessment, eventDate, dob) 
   })
 }
 
-export const isAllDomainsReviewed = assessment => {
-  let isAllDomainsReviewed = true
-  if (assessment.state.under_six) {
-    assessment.state.domains.filter(domain => domain.under_six === true).map(domain => {
-      if (!domain.is_reviewed) {
-        isAllDomainsReviewed = false
-      }
+export function createRatingsMap(domains) {
+  const codeToRatingMap = {}
+  domains.forEach(domain =>
+    domain.items.forEach(item => {
+      codeToRatingMap[item.code] = item.rating
     })
-  } else if (!assessment.state.under_six) {
-    assessment.state.domains.filter(domain => domain.above_six === true).map(domain => {
-      if (!domain.is_reviewed) {
-        isAllDomainsReviewed = false
-      }
-    })
-  }
-  return isAllDomainsReviewed
+  )
+  return codeToRatingMap
 }

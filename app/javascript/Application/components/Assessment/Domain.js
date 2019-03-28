@@ -94,6 +94,7 @@ class Domain extends Component {
     const i18nAll = this.props.i18nAll || {}
     const {
       isAssessmentUnderSix,
+      isCompletedAssessment,
       domain,
       onRatingUpdate,
       onItemCommentUpdate,
@@ -102,6 +103,7 @@ class Domain extends Component {
       index,
       disabled,
       isUsingPriorRatings,
+      previousRatingsMap,
     } = this.props
     const isReviewed = isUsingPriorRatings ? domain.is_reviewed : true
     const { items, is_caregiver_domain: isCaregiverDomain } = domain
@@ -114,8 +116,10 @@ class Domain extends Component {
       onItemCommentUpdate,
       onConfidentialityUpdate,
       isAssessmentUnderSix,
+      isCompletedAssessment,
       canReleaseConfidentialInfo,
       disabled,
+      previousRatingsMap,
     }
     const validItems = itemFilter(items, isAssessmentUnderSix)
     const totalScore = totalScoreCalculation(validItems)
@@ -216,6 +220,7 @@ Domain.propTypes = {
   i18nAll: PropTypes.object.isRequired,
   index: PropTypes.number.isRequired,
   isAssessmentUnderSix: PropTypes.bool,
+  isCompletedAssessment: PropTypes.bool.isRequired,
   isDefaultExpanded: PropTypes.bool,
   isUsingPriorRatings: PropTypes.bool,
   onAddCaregiverDomain: PropTypes.func.isRequired,
@@ -225,6 +230,7 @@ Domain.propTypes = {
   onDomainReviewed: PropTypes.func,
   onItemCommentUpdate: PropTypes.func.isRequired,
   onRatingUpdate: PropTypes.func.isRequired,
+  previousRatingsMap: PropTypes.object,
 }
 
 Domain.defaultProps = {
@@ -234,6 +240,7 @@ Domain.defaultProps = {
   isDefaultExpanded: false,
   isUsingPriorRatings: false,
   onDomainReviewed: () => {},
+  previousRatingsMap: undefined,
 }
 
 export default Domain

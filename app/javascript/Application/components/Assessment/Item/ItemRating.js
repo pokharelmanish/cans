@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import './style.sass'
 import RadioGroup from '@material-ui/core/RadioGroup'
 import Radio from '@material-ui/core/Radio'
 import FormControl from '@material-ui/core/FormControl'
@@ -17,58 +18,65 @@ const PrimRadio = withStyles({
   disabled: {},
 })(Radio)
 
-const ItemRating = props => {
-  const code = props.itemCode
+const getPreviousRatingClassName = (index, previousRating, isCompletedAssessment) =>
+  !isCompletedAssessment && index === previousRating ? 'previous-rating-radio-label' : undefined
+
+const getRatingClassName = (index, rating) => (index === rating ? 'rating-radio-label' : undefined)
+
+const ItemRating = ({
+  code,
+  options,
+  rating,
+  previousRating,
+  type,
+  shortType,
+  disabled,
+  onRatingUpdate,
+  isCompletedAssessment,
+}) => {
   const labelId = `${code}-outer-controls-label`
-  const radioButtons = props.options.map((label, i) => (
+  const radioButtons = options.map((label, i) => (
     <FormControlLabel
       id={`label-${code}-${i}`}
       style={ieFixStyle.label}
+      className={getPreviousRatingClassName(i, previousRating, isCompletedAssessment)}
       key={`rating-${i}`}
       value={stringify(i)}
       control={
         <PrimRadio
           inputProps={{
-            id: `input-${code}-${props.type}-${i}`,
+            id: `input-${code}-${type}-${i}`,
             'aria-label': labelId, // TODO - should be aria-labelled-by?
           }}
         />
       }
-      label={label}
+      label={<span className={getRatingClassName(i, rating)}>{label}</span>}
       labelPlacement={'start'}
     />
   ))
   return (
-    <div className={`item-${props.shortType}-rating`} style={{ display: 'flex' }}>
-      <form autoComplete="off">
-        <FormControl
-          style={{
-            display: 'flex',
-            flexWrap: 'nowrap',
-            flexDirection: 'row',
-            height: '1rem',
-          }}
-          disabled={isNARating(props.rating) || props.disabled}
+    <form autoComplete="off">
+      <FormControl disabled={disabled || isNARating(rating)}>
+        <RadioGroup
+          id={`${code}-${type}-rating`}
+          className={`items-radio-group item-${shortType}-rating`}
+          value={stringify(rating)}
+          onChange={onRatingUpdate}
         >
-          <RadioGroup
-            id={`${code}-${props.type}-rating`}
-            value={stringify(props.rating)}
-            onChange={props.onRatingUpdate}
-            style={{ flexWrap: 'nowrap', flexDirection: 'row' }}
-          >
-            {radioButtons}
-          </RadioGroup>
-        </FormControl>
-      </form>
-    </div>
+          {radioButtons}
+        </RadioGroup>
+      </FormControl>
+    </form>
   )
 }
 
 ItemRating.propTypes = {
+  code: PropTypes.string.isRequired,
   disabled: PropTypes.bool,
-  itemCode: PropTypes.string.isRequired,
+  isCompletedAssessment: PropTypes.bool.isRequired,
   onRatingUpdate: PropTypes.func.isRequired,
   options: PropTypes.arrayOf(PropTypes.string).isRequired,
+  previousRating: PropTypes.number,
   rating: PropTypes.number.isRequired,
   shortType: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
@@ -76,6 +84,7 @@ ItemRating.propTypes = {
 
 ItemRating.defaultProps = {
   disabled: false,
+  previousRating: undefined,
 }
 
 export default ItemRating

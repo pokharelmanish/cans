@@ -1,8 +1,7 @@
 export const ieFixedStyle = {
   radio: {
-    width: '1.25rem',
-    marginRight: '1.875rem',
-    marginLeft: '-0.625rem',
+    paddingLeft: '0.125rem',
+    paddingRight: '0',
     '&$checked': {
       color: '#09798E',
     },
@@ -11,7 +10,9 @@ export const ieFixedStyle = {
       opacity: 0.26,
     },
   },
-  label: { marginRight: '0' },
+  label: {
+    marginTop: '0.5rem',
+  },
 }
 
 export const noneIeFixedStyle = {
@@ -26,7 +27,11 @@ export const noneIeFixedStyle = {
       opacity: 0.26,
     },
   },
-  label: null,
+  label: {
+    margin: 0,
+    paddingLeft: '0.2rem',
+    paddingRight: '0.1rem',
+  },
 }
 
 export function ieStyleFixer(isIE) {

@@ -12,6 +12,7 @@ const fakeProps = {
   rating: 3,
   onRatingUpdate: jest.fn(),
   disabled: false,
+  isCompletedAssessment: false,
   isConfidential: false,
   isConfidentialByDefault: false,
   code: 'TRD',
@@ -84,7 +85,15 @@ describe('<ItemToolbarControls />', () => {
     const target = wrapper.find(ItemRegularRating)
     expect(fakeProps.ratingType).toBe('REGULAR')
     expect(target.exists()).toBe(true)
-    const expectedProps = ['itemCode', 'hasNaOption', 'rating', 'onRatingUpdate', 'disabled']
+    const expectedProps = [
+      'code',
+      'hasNaOption',
+      'rating',
+      'onRatingUpdate',
+      'disabled',
+      'previousRating',
+      'isCompletedAssessment',
+    ]
     expect(Object.keys(target.props())).toEqual(expectedProps)
   })
 
@@ -94,7 +103,15 @@ describe('<ItemToolbarControls />', () => {
     const boolWrapper = mount(<ItemToolbarControls {...boolProps} />)
     const target = boolWrapper.find(ItemBooleanRating)
     expect(target.exists()).toBe(true)
-    const expectedProps = ['itemCode', 'hasNaOption', 'rating', 'onRatingUpdate', 'disabled']
+    const expectedProps = [
+      'code',
+      'hasNaOption',
+      'rating',
+      'onRatingUpdate',
+      'disabled',
+      'previousRating',
+      'isCompletedAssessment',
+    ]
     expect(Object.keys(target.props())).toEqual(expectedProps)
     boolWrapper.unmount()
   })

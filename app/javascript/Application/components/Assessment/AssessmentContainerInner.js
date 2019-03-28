@@ -101,10 +101,9 @@ class AssessmentContainerInner extends Component {
       canDisplaySummaryOnSave,
       i18n,
       isEditable,
+      previousRatingsMap,
       substanceUseItemsIds,
     } = this.props
-    const isUnderSix = assessment && assessment.state && assessment.state.under_six
-    const assessmentFooter = this.displayAssessmentFooter()
     return (
       <Fragment>
         <div rol="completeScrollLocator">
@@ -126,7 +125,7 @@ class AssessmentContainerInner extends Component {
           assessmentStatus={assessment.status}
           domains={assessment && assessment.state && assessment.state.domains}
           i18n={i18n}
-          isUnderSix={Boolean(isUnderSix)}
+          isUnderSix={Boolean(assessment && assessment.state && assessment.state.under_six)}
           disabled={!isEditable}
         />
         <Assessment
@@ -137,7 +136,8 @@ class AssessmentContainerInner extends Component {
           disabled={!isEditable}
           isDefaultExpanded={this.state.isDefaultExpanded}
           expandCollapse={this.handleExpandAllDomains}
-          footer={assessmentFooter}
+          previousRatingsMap={previousRatingsMap}
+          footer={this.displayAssessmentFooter()}
         />
         {assessment.id && <ChangelogLink assessmentId={assessment.id} assessmentStatus={assessment.status} />}
       </Fragment>
@@ -169,6 +169,7 @@ AssessmentContainerInner.propTypes = {
   onAssessmentUpdate: PropTypes.func.isRequired,
   onCancelClick: PropTypes.func.isRequired,
   onEventDateFieldKeyUp: PropTypes.func.isRequired,
+  previousRatingsMap: PropTypes.object,
   substanceUseItemsIds: PropTypes.shape({
     underSix: PropTypes.array.isRequired,
     aboveSix: PropTypes.array.isRequired,
@@ -181,6 +182,7 @@ AssessmentContainerInner.defaultProps = {
   isUnderSix: null,
   domains: [],
   isEditable: undefined,
+  previousRatingsMap: undefined,
 }
 
 export default AssessmentContainerInner

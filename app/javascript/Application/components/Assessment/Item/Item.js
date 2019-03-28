@@ -120,6 +120,8 @@ class Item extends Component {
       qtcDescriptions,
       ratingDescriptions,
       isBooleanRating,
+      previousRating: this.props.previousRating,
+      isCompletedAssessment: this.props.isCompletedAssessment,
       handleRatingChange: this.handleRatingChange,
       handleConfidentialityChange: this.handleConfidentialityChange,
       handleNaValueSetting: this.handleNaValueSetting,
@@ -139,14 +141,17 @@ Item.propTypes = {
   disabled: PropTypes.bool,
   i18n: PropTypes.object.isRequired,
   isAssessmentUnderSix: PropTypes.bool.isRequired,
+  isCompletedAssessment: PropTypes.bool.isRequired,
   item: PropTypes.object.isRequired,
   onCommentUpdate: PropTypes.func.isRequired,
   onConfidentialityUpdate: PropTypes.func.isRequired,
   onRatingUpdate: PropTypes.func.isRequired,
+  previousRating: PropTypes.number,
 }
 
 Item.defaultProps = {
   caregiverIndex: undefined,
   disabled: false,
+  previousRating: undefined,
 }
 export default Item

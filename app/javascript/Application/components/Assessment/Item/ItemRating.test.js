@@ -4,11 +4,12 @@ import ItemRating from './ItemRating'
 
 describe('<ItemRating />', () => {
   const defaultProps = {
-    itemCode: 'FAMILY_STRENGTHS',
+    code: 'FAMILY_STRENGTHS',
     onRatingUpdate: () => {},
     rating: -1,
     shortType: 'reg',
     type: 'regular',
+    isCompletedAssessment: false,
   }
 
   const render = props => mount(<ItemRating {...defaultProps} {...props} />)
@@ -65,6 +66,43 @@ describe('<ItemRating />', () => {
     it('propagates disabled prop to <FormControl />', () => {
       wrapper.find('FormControl').forEach(control => {
         expect(control.props().disabled).toBe(true)
+      })
+    })
+  })
+
+  describe('when has previousRating', () => {
+    const options = ['0', '1', '2', '3']
+    describe('and assessment is not completed', () => {
+      it('adds style to the previous rating radio button block', () => {
+        const previousRating = 1
+        const wrapper = render({ options, previousRating, isCompletedAssessment: false })
+        const formControlLabel = wrapper.find('FormControlLabel').at(previousRating)
+        expect(formControlLabel.props().className).toEqual('previous-rating-radio-label')
+      })
+
+      it('does not add style to the other rating radio button blocks', () => {
+        const previousRating = 0
+        const wrapper = render({ options, previousRating, isCompletedAssessment: false })
+        const assertNoStyle = index =>
+          expect(
+            wrapper
+              .find('FormControlLabel')
+              .at(index)
+              .props().className
+          ).toBeUndefined()
+
+        assertNoStyle(1)
+        assertNoStyle(2)
+        assertNoStyle(3)
+      })
+    })
+
+    describe('and assessment is completed', () => {
+      it('does not add style to the previous rating radio button block', () => {
+        const previousRating = 1
+        const wrapper = render({ options, previousRating, isCompletedAssessment: true })
+        const formControlLabel = wrapper.find('FormControlLabel').at(previousRating)
+        expect(formControlLabel.props().className).toBeUndefined()
       })
     })
   })

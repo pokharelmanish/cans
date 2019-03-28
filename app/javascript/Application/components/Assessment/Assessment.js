@@ -5,7 +5,7 @@ import Domain from './Domain'
 import { clone } from '../../util/common'
 import DomainsHeader from './DomainsHeader'
 import { Card, CardBody, CardFooter } from '@cwds/components'
-import { containsNotReviewedDomains } from './AssessmentHelper'
+import { AssessmentStatus, containsNotReviewedDomains } from './AssessmentHelper'
 
 const INDICES = 'abcdefghijklmnopqrstuvwxyz'
 
@@ -151,10 +151,10 @@ class Assessment extends Component {
   }
 
   render() {
-    const { assessment, i18n, footer, isDefaultExpanded } = this.props
-    const canReleaseConfidentialInfo = assessment.can_release_confidential_info
+    const { assessment, i18n, footer, isDefaultExpanded, expandCollapse } = this.props
     const { under_six: isUnderSix, domains } = assessment.state
     const isDomainsReviewed = !assessment.preceding_assessment_id || !containsNotReviewedDomains(domains, isUnderSix)
+    const isCompletedAssessment = AssessmentStatus.completed === assessment.status
     return (
       <Fragment>
         {!(isUnderSix === null || isUnderSix === undefined) ? (
@@ -163,7 +163,7 @@ class Assessment extends Component {
               isUnderSix={isUnderSix}
               isDefaultExpanded={isDefaultExpanded}
               isDomainsReviewed={isDomainsReviewed}
-              expandCollapse={this.props.expandCollapse}
+              expandCollapse={expandCollapse}
             />
             <CardBody>
               {domains.map((domain, index) => {
@@ -177,8 +177,9 @@ class Assessment extends Component {
                     i18n={domainI18n}
                     i18nAll={i18n}
                     isAssessmentUnderSix={isUnderSix}
+                    isCompletedAssessment={isCompletedAssessment}
                     isDefaultExpanded={isDefaultExpanded}
-                    canReleaseConfidentialInfo={canReleaseConfidentialInfo}
+                    canReleaseConfidentialInfo={assessment.can_release_confidential_info}
                     onRatingUpdate={this.handleUpdateItemRating}
                     onItemCommentUpdate={this.handleUpdateItemComment}
                     onConfidentialityUpdate={this.handleUpdateItemConfidentiality}
@@ -190,6 +191,7 @@ class Assessment extends Component {
                     handleWarningShow={this.props.handleWarningShow}
                     isUsingPriorRatings={Boolean(assessment.preceding_assessment_id)}
                     disabled={this.props.disabled}
+                    previousRatingsMap={this.props.previousRatingsMap}
                   />
                 )
               })}
@@ -211,6 +213,7 @@ Assessment.propTypes = {
   i18n: PropTypes.object.isRequired,
   isDefaultExpanded: PropTypes.bool,
   onAssessmentUpdate: PropTypes.func.isRequired,
+  previousRatingsMap: PropTypes.object,
 }
 
 Assessment.defaultProps = {
@@ -218,6 +221,7 @@ Assessment.defaultProps = {
   expandCollapse: () => {},
   handleWarningShow: () => {},
   isDefaultExpanded: false,
+  previousRatingsMap: undefined,
 }
 
 export default Assessment

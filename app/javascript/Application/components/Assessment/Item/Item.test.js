@@ -78,6 +78,7 @@ const itemComponentDefault = (
     canReleaseConfidentialInfo={true}
     item={{ ...itemDefault }}
     isAssessmentUnderSix={true}
+    isCompletedAssessment={false}
     i18n={{ ...i18nDefault }}
     onRatingUpdate={() => {}}
     onConfidentialityUpdate={() => {}}
@@ -92,6 +93,7 @@ const mountItem = item => {
       canReleaseConfidentialInfo={true}
       item={item}
       isAssessmentUnderSix={false}
+      isCompletedAssessment={false}
       i18n={{ ...i18nDefault }}
       onRatingUpdate={() => {}}
       onConfidentialityUpdate={() => {}}
@@ -107,6 +109,7 @@ const mountDisabledItem = item => {
       canReleaseConfidentialInfo={true}
       item={item}
       isAssessmentUnderSix={false}
+      isCompletedAssessment={false}
       i18n={{ ...i18nDefault }}
       onRatingUpdate={() => {}}
       onConfidentialityUpdate={() => {}}
@@ -135,11 +138,10 @@ describe('<Item />', () => {
     expect(foldedText).not.toMatch(/Description/)
 
     icon.simulate('click')
-    const expandedText = wrapper.text()
     icon = wrapper.find('#lf10family-item-expand').at(0)
     expect(icon.props().icon).toBe('chevron-down')
     expect(icon.props().rotation).toBe(null)
-    expect(expandedText).toMatch(/Description/)
+    expect(wrapper.state().isExpanded).toBeTruthy()
   })
 
   it('when chevron button get focus and press tab item will not expand', async () => {
@@ -171,8 +173,7 @@ describe('<Item />', () => {
     expect(foldedText).not.toMatch(/rating/)
 
     wrapper.find('Icon#lf10family-item-expand').simulate('click')
-    const expandedText = wrapper.text()
-    expect(expandedText).toMatch(/TITLE/)
+    const expandedText = wrapper.find('ItemDescription').text()
     expect(expandedText).toMatch(/Description:Description/)
     expect(expandedText).toMatch(/qtc 0qtc 1/)
     expect(expandedText).toMatch(
@@ -307,7 +308,7 @@ describe('<Item />', () => {
       const wrapper = mount({ ...itemComponentDefault })
       wrapper.setProps({ ...propsDefault })
       wrapper.find('Icon#lf10family-item-expand').simulate('click')
-      const expandedText = wrapper.text()
+      const expandedText = wrapper.find('ItemDescription').text()
       expect(expandedText).toMatch(/0 = rating 0 description1 = rating 1 description/)
     })
 
@@ -317,7 +318,7 @@ describe('<Item />', () => {
       const wrapper = mountItem(item)
       wrapper.setProps({ ...propsDefault })
       wrapper.find('Icon#lf10family-item-expand').simulate('click')
-      const expandedText = wrapper.text()
+      const expandedText = wrapper.find('ItemDescription').text()
       expect(expandedText).toMatch(/No = rating 0 descriptionYes = rating 1 description/)
     })
   })
@@ -331,6 +332,7 @@ describe('<Item />', () => {
           canReleaseConfidentialInfo={true}
           item={{ ...itemDefault }}
           isAssessmentUnderSix={false}
+          isCompletedAssessment={false}
           i18n={{ ...i18nDefault }}
           onCommentUpdate={() => {}}
           onRatingUpdate={() => {}}
@@ -351,6 +353,7 @@ describe('<Item />', () => {
           isAssessmentUnderSix={false}
           item={{ ...itemDefault }}
           i18n={{ ...i18nDefault }}
+          isCompletedAssessment={false}
           canReleaseConfidentialInfo={false}
           onCommentUpdate={onCommentUpdateMock}
           onRatingUpdate={() => {}}
@@ -381,6 +384,7 @@ describe('<Item />', () => {
         isAssessmentUnderSix={false}
         item={{ ...nonSUDItem }}
         i18n={{ ...i18nDefault }}
+        isCompletedAssessment={false}
         canReleaseConfidentialInfo={false}
         onCommentUpdate={() => {}}
         onRatingUpdate={() => {}}
@@ -398,6 +402,7 @@ describe('<Item />', () => {
         isAssessmentUnderSix={false}
         item={{ ...boolRatingItem }}
         i18n={{ ...i18nDefault }}
+        isCompletedAssessment={false}
         canReleaseConfidentialInfo={false}
         onCommentUpdate={() => {}}
         onRatingUpdate={() => {}}
@@ -414,6 +419,7 @@ describe('<Item />', () => {
         isAssessmentUnderSix={false}
         item={{ ...nonSUDItem }}
         i18n={{ ...i18nDefault }}
+        isCompletedAssessment={false}
         canReleaseConfidentialInfo={false}
         onCommentUpdate={() => {}}
         onRatingUpdate={() => {}}
@@ -431,6 +437,7 @@ describe('<Item />', () => {
         isAssessmentUnderSix={false}
         item={{ ...nonSUDItem }}
         i18n={{ ...i18nDefault }}
+        isCompletedAssessment={false}
         canReleaseConfidentialInfo={false}
         onCommentUpdate={() => {}}
         onRatingUpdate={() => {}}
@@ -481,6 +488,8 @@ describe('<Item />', () => {
         'qtcDescriptions',
         'ratingDescriptions',
         'isBooleanRating',
+        'previousRating',
+        'isCompletedAssessment',
         'handleRatingChange',
         'handleConfidentialityChange',
         'handleNaValueSetting',

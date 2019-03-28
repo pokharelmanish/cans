@@ -25,6 +25,7 @@ const fakeProps = {
   rating_type: 'BOOL',
   hasNaOption: false,
   rating: 3,
+  isCompletedAssessment: false,
   isConfidential: false,
   isConfidentialByDefault: false,
   under_six_id: '01',
@@ -67,17 +68,18 @@ describe('<ItemInner/>', () => {
     const target = wrapper.find(ItemToolbarControls)
     expect(target.exists()).toBe(true)
     const expectedProps = [
-      'itemCode',
+      'code',
       'onRatingUpdate',
       'disabled',
+      'isCompletedAssessment',
       'isConfidential',
       'isConfidentialByDefault',
       'canReleaseConfidentialInfo',
       'handleConfidentialityChange',
       'handleNaValueSetting',
       'comment',
+      'previousRating',
       'ratingType',
-      'code',
       'hasNaOption',
       'rating',
     ]

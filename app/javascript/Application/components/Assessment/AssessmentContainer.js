@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { clone } from '../../util/common'
@@ -25,6 +25,7 @@ import {
   validateAssessmentEventDate,
   validateAssessmentForSubmit,
   getSubstanceUseItemsIds,
+  createRatingsMap,
 } from './AssessmentHelper'
 import { buildSaveAssessmentButton } from '../Header/PageHeaderButtonsBuilder'
 import PrintButton from '../Header/PageHeaderButtons/PrintButton'
@@ -64,6 +65,7 @@ export default class AssessmentContainer extends Component {
         aboveSix: [],
         underSix: [],
       },
+      previousRatingsMap: {},
     }
   }
 
@@ -183,14 +185,22 @@ export default class AssessmentContainer extends Component {
     }
   }
 
-  onFetchAssessmentSuccess(assessment) {
+  async onFetchAssessmentSuccess(assessment) {
     this.updatePageTitle(assessment)
     this.updateAssessment(assessment)
+    await this.fetchPreviousRatingsIfNeeded(assessment)
     this.setState({
       isUnsaved: false,
       substanceUseItemsIds: getSubstanceUseItemsIds(assessment),
     })
-    this.fetchI18n(assessment.instrument_id)
+    await this.fetchI18n(assessment.instrument_id)
+  }
+
+  async fetchPreviousRatingsIfNeeded(assessment) {
+    if (!assessment.preceding_assessment_id || AssessmentStatus.completed === assessment.status) return
+    const precedingAssessment = await AssessmentService.fetch(assessment.preceding_assessment_id)
+    const previousRatingsMap = createRatingsMap(precedingAssessment.state.domains)
+    this.setState({ previousRatingsMap })
   }
 
   async fetchI18n(instrumentId) {
@@ -375,7 +385,12 @@ export default class AssessmentContainer extends Component {
     const precedingAssessment = await AssessmentService.fetch(precedingAssessmentId)
     preparePrecedingAssessment(precedingAssessment, assessment.event_date, assessment.person.dob)
     this.updateAssessment(precedingAssessment)
-    this.setState({ isReassessmentModalShown: false, isShowReassessmentAlert: true })
+    const previousRatingsMap = createRatingsMap(precedingAssessment.state.domains)
+    this.setState({
+      isReassessmentModalShown: false,
+      isShowReassessmentAlert: true,
+      previousRatingsMap,
+    })
   }
 
   reassessmentCloseableAlert = reassessmentModalAlert => (
@@ -383,7 +398,6 @@ export default class AssessmentContainer extends Component {
   )
 
   render() {
-    const { client } = this.props
     const {
       shouldRedirectToClientProfile,
       isValidForSubmit,
@@ -393,45 +407,45 @@ export default class AssessmentContainer extends Component {
       isEditable,
       canDisplaySummaryOnSave,
       isReassessmentModalShown,
+      previousRatingsMap,
     } = this.state
     if (shouldRedirectToClientProfile) {
       return <Redirect push to={{ pathname: trimUrlForClientProfile(this.props.match.url) }} />
     }
     return (
-      <Fragment>
-        <div ref={this.assessmentHeader}>
-          {this.state.isShowReassessmentAlert && this.reassessmentCloseableAlert(reassessmentModalAlert)}
-          <ReassessmentModal
-            startEmpty={this.startEmptyReassessment}
-            isOpen={isReassessmentModalShown}
-            fillPrecedingData={this.fillAssessmentWithPrecedingData}
-          />
-          <UnsavedDataWarning
-            discardAndContinue={this.loadAssessment}
-            saveAndContinue={this.handleSaveAssessment}
-            isUnsaved={this.state.isUnsaved}
-            isSavable={this.state.isSaveButtonEnabled}
-            assessmentId={assessment.id}
-          />
-          <AssessmentContainerInner
-            client={client}
-            onEventDateFieldKeyUp={this.handleEventDateFieldKeyUp}
-            assessment={assessment}
-            i18n={i18n}
-            onAssessmentUpdate={this.updateAssessment}
-            assessmentServiceStatus={assessmentServiceStatus}
-            isEditable={isEditable}
-            onCancelClick={this.handleCancelClick}
-            handleCompleteAssessment={this.handleCompleteAssessment}
-            handleSaveAssessment={this.handleSaveAssessment}
-            handleCaregiverRemove={this.handleCaregiverRemove}
-            isValidForSubmit={isValidForSubmit}
-            canDisplaySummaryOnSave={canDisplaySummaryOnSave}
-            isEventDateBeforeDob={this.state.isValidDate && this.state.isEventDateBeforeDob}
-            substanceUseItemsIds={this.state.substanceUseItemsIds}
-          />
-        </div>
-      </Fragment>
+      <div ref={this.assessmentHeader}>
+        {this.state.isShowReassessmentAlert && this.reassessmentCloseableAlert(reassessmentModalAlert)}
+        <ReassessmentModal
+          startEmpty={this.startEmptyReassessment}
+          isOpen={isReassessmentModalShown}
+          fillPrecedingData={this.fillAssessmentWithPrecedingData}
+        />
+        <UnsavedDataWarning
+          discardAndContinue={this.loadAssessment}
+          saveAndContinue={this.handleSaveAssessment}
+          isUnsaved={this.state.isUnsaved}
+          isSavable={this.state.isSaveButtonEnabled}
+          assessmentId={assessment.id}
+        />
+        <AssessmentContainerInner
+          client={this.props.client}
+          onEventDateFieldKeyUp={this.handleEventDateFieldKeyUp}
+          assessment={assessment}
+          i18n={i18n}
+          onAssessmentUpdate={this.updateAssessment}
+          assessmentServiceStatus={assessmentServiceStatus}
+          isEditable={isEditable}
+          onCancelClick={this.handleCancelClick}
+          handleCompleteAssessment={this.handleCompleteAssessment}
+          handleSaveAssessment={this.handleSaveAssessment}
+          handleCaregiverRemove={this.handleCaregiverRemove}
+          isValidForSubmit={isValidForSubmit}
+          canDisplaySummaryOnSave={canDisplaySummaryOnSave}
+          isEventDateBeforeDob={this.state.isValidDate && this.state.isEventDateBeforeDob}
+          substanceUseItemsIds={this.state.substanceUseItemsIds}
+          previousRatingsMap={previousRatingsMap}
+        />
+      </div>
     )
   }
 }

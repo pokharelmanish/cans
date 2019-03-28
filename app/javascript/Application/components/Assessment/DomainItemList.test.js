@@ -11,6 +11,11 @@ describe('<DomainItemList/>', () => {
     i18nAll: { i18nkey: 'i18nvalue' },
     isAssessmentUnderSix: false,
     canReleaseConfidentialInfo: true,
+    isCompletedAssessment: false,
+    previousRatingsMap: {
+      code1: 2,
+      code2: 3,
+    },
     onConfidentialityUpdate: () => {
       return 'onConfidentialityUpdate haveBeenCalled'
     },
@@ -44,6 +49,8 @@ describe('<DomainItemList/>', () => {
     expect(target.isAssessmentUnderSix).toBe(false)
     expect(target.item).toEqual({ code: 'code1', above_six_id: 1, rating: -1 })
     expect(target.onConfidentialityUpdate()).toBe('onConfidentialityUpdate haveBeenCalled')
+    expect(target.isCompletedAssessment).toBe(false)
+    expect(target.previousRating).toBe(2)
     expect(target.onRatingUpdate()).toBe('onRatingUpdate haveBeenCalled')
   })
 

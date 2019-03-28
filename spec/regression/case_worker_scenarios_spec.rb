@@ -362,7 +362,7 @@ feature 'Case Worker Functionality' do
     within(@form.not_applicable_checkbox) do
       expect(find('input', visible: false).checked?).to be(true)
     end
-    not_applicable_radio_group = @form.not_applicable_text.sibling('div.item-reg-rating')
+    not_applicable_radio_group = @form.not_applicable_text.sibling('form')
     within(not_applicable_radio_group) do
       not_applicable_radios = page.all('input', visible: false)
       not_applicable_radios.each do |radio|

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import Toolbar from '@material-ui/core/Toolbar'
 import Paper from '@material-ui/core/Paper'
@@ -18,15 +18,17 @@ const ItemInner = props => {
   }
 
   const toolbarControlsProps = {
-    itemCode: props.code,
+    code: props.code,
     onRatingUpdate: props.handleRatingChange,
     disabled: props.disabled,
+    isCompletedAssessment: props.isCompletedAssessment,
     isConfidential: props.isConfidential,
     isConfidentialByDefault: props.isConfidentialByDefault,
     canReleaseConfidentialInfo: props.canReleaseConfidentialInfo,
     handleConfidentialityChange: props.handleConfidentialityChange,
     handleNaValueSetting: props.handleNaValueSetting,
     comment: props.comment,
+    previousRating: props.previousRating,
     ratingType: props.rating_type,
   }
 
@@ -46,7 +48,7 @@ const ItemInner = props => {
   const sharingProps = { code: props.code, hasNaOption: props.hasNaOption, rating: props.rating }
 
   return (
-    <div>
+    <Fragment>
       <Paper>
         <Toolbar className="item-inner-toolbar">
           <ItemHeader {...itemHeaderProps} />
@@ -54,7 +56,7 @@ const ItemInner = props => {
         </Toolbar>
       </Paper>
       {props.isExpanded ? <ItemDescription {...itemDescriptionProps} {...sharingProps} /> : null}
-    </div>
+    </Fragment>
   )
 }
 
@@ -72,11 +74,13 @@ ItemInner.propTypes = {
   handleRatingChange: PropTypes.func.isRequired,
   hasNaOption: PropTypes.bool,
   isBooleanRating: PropTypes.bool.isRequired,
+  isCompletedAssessment: PropTypes.bool.isRequired,
   isConfidential: PropTypes.bool.isRequired,
   isConfidentialByDefault: PropTypes.bool,
   isExpanded: PropTypes.bool.isRequired,
   itemNumber: PropTypes.string.isRequired,
   maxCommentLength: PropTypes.number.isRequired,
+  previousRating: PropTypes.number,
   qtcDescriptions: PropTypes.array.isRequired,
   rating: PropTypes.number.isRequired,
   ratingDescriptions: PropTypes.array.isRequired,
@@ -92,6 +96,7 @@ ItemInner.defaultProps = {
   isConfidentialByDefault: undefined,
   handleKeyCheck: undefined,
   hasNaOption: false,
+  previousRating: undefined,
   switchExpandedState: undefined,
 }
 

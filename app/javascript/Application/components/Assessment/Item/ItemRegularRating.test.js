@@ -4,15 +4,17 @@ import ItemRegularRating from './ItemRegularRating'
 
 describe('<ItemBooleanRating/>', () => {
   const regularRatingProps = {
-    itemCode: 'FAMILY_STRENGTHS',
+    code: 'FAMILY_STRENGTHS',
     rating: -1,
     onRatingUpdate: jest.fn(),
+    isCompletedAssessment: false,
   }
 
   const regularRatingWithNaProps = {
-    itemCode: 'FAMILY_STRENGTHS',
+    code: 'FAMILY_STRENGTHS',
     rating: 8,
     onRatingUpdate: jest.fn(),
+    isCompletedAssessment: false,
   }
 
   it('will render 4 Radio buttons with label 0 1 2 3 when has regularRating ', () => {

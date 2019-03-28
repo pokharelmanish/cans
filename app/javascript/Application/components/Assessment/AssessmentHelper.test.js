@@ -19,8 +19,9 @@ import {
   hasOneCompletedForReassessment,
   AssessmentType,
   preparePrecedingAssessment,
-  containsNotReviewedDomains,
   currentClientAge,
+  containsNotReviewedDomains,
+  createRatingsMap,
 } from './AssessmentHelper'
 import { globalAlertService } from '../../util/GlobalAlertService'
 import { clone } from '../../util/common'
@@ -667,5 +668,25 @@ describe('AssessmentHelper', () => {
       ]
       expect(containsNotReviewedDomains(domains, true)).toBeFalsy()
     })
+  })
+
+  describe('#createRatingsMap()', () => {
+    const domains = [
+      {
+        items: [{ code: 'code00', rating: 1 }, { code: 'code01', rating: -1 }, { code: 'code02', rating: 2 }],
+      },
+      {
+        items: [{ code: 'code10', rating: 8 }, { code: 'code11', rating: 3 }],
+      },
+    ]
+    const expectedRatingsMap = {
+      code00: 1,
+      code01: -1,
+      code02: 2,
+      code10: 8,
+      code11: 3,
+    }
+    const actualRatingsMap = createRatingsMap(domains)
+    expect(actualRatingsMap).toEqual(expectedRatingsMap)
   })
 })

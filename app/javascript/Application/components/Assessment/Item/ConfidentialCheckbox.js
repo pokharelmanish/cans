@@ -23,6 +23,7 @@ const ConfidentialCheckbox = props => {
             onChange={handleConfidentialityChange}
             label={isConfidentialByDefault ? 'Confidential' : 'Discretion Needed'}
             value={stringify(isConfidential)}
+            style={{ margin: 0 }}
             id={`${code}Checkbox`}
             control={
               <Checkbox

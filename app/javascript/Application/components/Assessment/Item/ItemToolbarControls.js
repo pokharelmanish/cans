@@ -13,6 +13,7 @@ const ItemToolbarControls = props => {
     rating,
     onRatingUpdate,
     disabled,
+    isCompletedAssessment,
     isConfidential,
     isConfidentialByDefault,
     code,
@@ -21,14 +22,17 @@ const ItemToolbarControls = props => {
     handleNaValueSetting,
     comment,
     ratingType,
+    previousRating,
   } = props
 
   const ratingProps = {
-    itemCode: code,
+    code,
     hasNaOption,
     rating,
     onRatingUpdate,
     disabled,
+    previousRating,
+    isCompletedAssessment,
   }
 
   const confidentialCheckboxProps = {
@@ -67,9 +71,11 @@ ItemToolbarControls.propTypes = {
   handleConfidentialityChange: PropTypes.func.isRequired,
   handleNaValueSetting: PropTypes.func.isRequired,
   hasNaOption: PropTypes.bool.isRequired,
+  isCompletedAssessment: PropTypes.bool.isRequired,
   isConfidential: PropTypes.bool.isRequired,
   isConfidentialByDefault: PropTypes.bool.isRequired,
   onRatingUpdate: PropTypes.func.isRequired,
+  previousRating: PropTypes.number,
   rating: PropTypes.number.isRequired,
   ratingType: PropTypes.string.isRequired,
 }
@@ -77,6 +83,7 @@ ItemToolbarControls.propTypes = {
 ItemToolbarControls.defaultProps = {
   disabled: false,
   comment: '',
+  previousRating: undefined,
 }
 
 export default ItemToolbarControls

@@ -4,15 +4,17 @@ import ItemBooleanRating from './ItemBooleanRating'
 
 describe('<ItemBooleanRating/>', () => {
   const boolRatingProps = {
-    itemCode: 'DISRUPTIONS_CG_ATTACHMENT_LOSSES',
+    code: 'DISRUPTIONS_CG_ATTACHMENT_LOSSES',
     rating: -1,
     onRatingUpdate: jest.fn(),
+    isCompletedAssessment: false,
   }
 
   const boolNaRatingProps = {
-    itemCode: 'DISRUPTIONS_CG_ATTACHMENT_LOSSES',
+    code: 'DISRUPTIONS_CG_ATTACHMENT_LOSSES',
     rating: 8,
     onRatingUpdate: jest.fn(),
+    isCompletedAssessment: false,
   }
 
   it('will render 2 Radio buttons with label Yes and No when has booleanRating', () => {

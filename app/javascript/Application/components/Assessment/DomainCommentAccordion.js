@@ -39,7 +39,7 @@ class DomainCommentAccordion extends Component {
     const ROTATION_RIGHT = 270
     return (
       <Paper>
-        <Toolbar className="domain-comment-header">
+        <Toolbar className="item-inner-toolbar">
           <Icon
             id={`${code}-comment-accordion-expand`}
             className="item-expand-icon"

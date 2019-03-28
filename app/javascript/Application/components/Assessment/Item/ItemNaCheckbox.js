@@ -26,6 +26,7 @@ const ItemNaCheckbox = props => {
             onChange={props.handleRatingChange}
             label={'N/A'}
             value={props.naValue}
+            style={{ margin: 0 }}
             control={<PrimCheckbox checked={isNAChecked} disabled={props.disabled} />}
           />
         </FormControl>

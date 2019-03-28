@@ -21,8 +21,10 @@ const DomainItemList = props => {
           onCommentUpdate={props.onItemCommentUpdate}
           onConfidentialityUpdate={props.onConfidentialityUpdate}
           isAssessmentUnderSix={isAssessmentUnderSix}
+          isCompletedAssessment={props.isCompletedAssessment}
           canReleaseConfidentialInfo={props.canReleaseConfidentialInfo}
           disabled={props.disabled}
+          previousRating={props.previousRatingsMap[code]}
         />
         <Divider />
       </div>
@@ -36,15 +38,18 @@ DomainItemList.propTypes = {
   disabled: PropTypes.bool,
   i18nAll: PropTypes.object.isRequired,
   isAssessmentUnderSix: PropTypes.bool.isRequired,
+  isCompletedAssessment: PropTypes.bool.isRequired,
   items: PropTypes.array.isRequired,
   onConfidentialityUpdate: PropTypes.func.isRequired,
   onItemCommentUpdate: PropTypes.func.isRequired,
   onRatingUpdate: PropTypes.func.isRequired,
+  previousRatingsMap: PropTypes.object,
 }
 
 DomainItemList.defaultProps = {
   caregiverIndex: undefined,
   disabled: false,
+  previousRatingsMap: {},
 }
 
 export default DomainItemList

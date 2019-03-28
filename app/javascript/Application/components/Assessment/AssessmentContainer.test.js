@@ -1,6 +1,6 @@
 import { globalAlertService } from '../../util/GlobalAlertService'
 import React from 'react'
-import { AssessmentContainer, AssessmentService } from './index'
+import { AssessmentContainer, AssessmentService, AssessmentStatus } from './index'
 import { I18nService } from '../common/'
 import * as AHelper from './AssessmentHelper'
 import { childInfoJson } from '../Client/Client.helper.test'
@@ -1006,6 +1006,38 @@ describe('<AssessmentContainer />', () => {
         subsequentAssessment.person.dob
       )
       expect(wrapper.state().assessment).toEqual(precedingAssessment)
+      const expectedRatingsMap = AHelper.createRatingsMap(precedingAssessment.state.domains)
+      expect(wrapper.state().previousRatingsMap).toEqual(expectedRatingsMap)
+    })
+
+    describe('after assessment is fetched', () => {
+      it('loads previous ratings', async () => {
+        const precedingAssessment = { ...assessment }
+        jest.spyOn(AssessmentService, 'fetch').mockReturnValue(Promise.resolve(precedingAssessment))
+        jest.spyOn(I18nService, 'fetchByInstrumentId').mockReturnValue(Promise.resolve({}))
+        const wrapper = shallow(<AssessmentContainer {...defaultProps} />)
+        await wrapper.instance().onFetchAssessmentSuccess({ ...assessment, preceding_assessment_id: 12345 })
+        const expectedPreviousRatingsMap = AHelper.createRatingsMap(precedingAssessment.state.domains)
+        expect(wrapper.state().previousRatingsMap).toEqual(expectedPreviousRatingsMap)
+      })
+
+      it('does not load previous ratings when no preceding assessment', async () => {
+        jest.spyOn(I18nService, 'fetchByInstrumentId').mockReturnValue(Promise.resolve({}))
+        const wrapper = shallow(<AssessmentContainer {...defaultProps} />)
+        await wrapper.instance().onFetchAssessmentSuccess(assessment)
+        expect(wrapper.state().previousRatingsMap).toEqual({})
+      })
+
+      it('does not load previous ratings when assessment is completed', async () => {
+        jest.spyOn(I18nService, 'fetchByInstrumentId').mockReturnValue(Promise.resolve({}))
+        const wrapper = shallow(<AssessmentContainer {...defaultProps} />)
+        await wrapper.instance().onFetchAssessmentSuccess({
+          ...assessment,
+          preceding_assessment_id: 12345,
+          status: AssessmentStatus.completed,
+        })
+        expect(wrapper.state().previousRatingsMap).toEqual({})
+      })
     })
   })
 

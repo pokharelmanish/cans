@@ -48,6 +48,7 @@ const domainComponentDefault = (
     handleWarningShow={() => {}}
     onCaregiverNameUpdate={() => {}}
     onDomainReviewed={() => {}}
+    isCompletedAssessment={false}
   />
 )
 
@@ -100,6 +101,7 @@ describe('<Domain />', () => {
         onCaregiverNameUpdate={() => {}}
         onDomainReviewed={onDomainReviewed}
         isUsingPriorRatings={false}
+        isCompletedAssessment={false}
       />,
       { attachTo: div }
     )
@@ -137,6 +139,7 @@ describe('<Domain />', () => {
           onCaregiverNameUpdate={() => {}}
           onDomainReviewed={onDomainReviewed}
           isUsingPriorRatings={true}
+          isCompletedAssessment={false}
         />
       )
       wrapper.find('Button#domain1-review').simulate('click')
@@ -169,6 +172,7 @@ describe('<Domain />', () => {
         onAddCaregiverDomain={() => {}}
         handleWarningShow={() => {}}
         onCaregiverNameUpdate={() => {}}
+        isCompletedAssessment={false}
       />
     )
     wrapper.setState({ expanded: true })
@@ -224,6 +228,7 @@ describe('<Domain />', () => {
           onAddCaregiverDomain={() => {}}
           handleWarningShow={() => {}}
           onCaregiverNameUpdate={() => {}}
+          isCompletedAssessment={false}
         />
       )
       wrapper.instance().handleExpandedChange(testExpandingEvent)
@@ -247,6 +252,7 @@ describe('<Domain />', () => {
           onAddCaregiverDomain={() => {}}
           handleWarningShow={() => {}}
           onCaregiverNameUpdate={() => {}}
+          isCompletedAssessment={false}
         />
       )
       wrapper.instance().handleExpandedChange(testExpandingEvent)
@@ -273,6 +279,7 @@ describe('<Domain />', () => {
       i18nAll: {},
       index: 1,
       isAssessmentUnderSix: true,
+      isCompletedAssessment: false,
       onAddCaregiverDomain: callbackMock,
       onCaregiverNameUpdate: () => {},
       onConfidentialityUpdate: () => {},
@@ -349,6 +356,7 @@ describe('<Domain />', () => {
                 onAddCaregiverDomain={() => {}}
                 handleWarningShow={() => {}}
                 onCaregiverNameUpdate={() => {}}
+                isCompletedAssessment={false}
               />
             )
             const wrapper = mount(domainComponent)
@@ -393,6 +401,7 @@ describe('<Domain />', () => {
                 onAddCaregiverDomain={() => {}}
                 handleWarningShow={() => {}}
                 onCaregiverNameUpdate={callbackMock}
+                isCompletedAssessment={false}
               />
             )
             const wrapper = mount(domainComponent)
@@ -436,6 +445,7 @@ describe('<Domain />', () => {
                 onAddCaregiverDomain={() => {}}
                 handleWarningShow={() => {}}
                 onCaregiverNameUpdate={callbackMock}
+                isCompletedAssessment={false}
               />
             )
             const wrapper = mount(domainComponent)
@@ -468,6 +478,7 @@ describe('<Domain />', () => {
                 onAddCaregiverDomain={() => {}}
                 handleWarningShow={() => {}}
                 onCaregiverNameUpdate={callbackMock}
+                isCompletedAssessment={false}
               />
             )
             const wrapper = mount(domainComponent)
@@ -500,6 +511,7 @@ describe('<Domain />', () => {
                 onAddCaregiverDomain={() => {}}
                 handleWarningShow={() => {}}
                 onCaregiverNameUpdate={callbackMock}
+                isCompletedAssessment={false}
               />
             )
             const wrapper = mount(domainComponent)
@@ -523,6 +535,7 @@ describe('<Domain />', () => {
       i18nAll: {},
       index: 1,
       isAssessmentUnderSix: true,
+      isCompletedAssessment: false,
       onAddCaregiverDomain: callbackMock,
       onCaregiverNameUpdate: () => {},
       onConfidentialityUpdate: () => {},
@@ -573,6 +586,7 @@ describe('<Domain />', () => {
           onAddCaregiverDomain={() => {}}
           handleWarningShow={() => {}}
           onCaregiverNameUpdate={() => {}}
+          isCompletedAssessment={false}
         />
       )
       expect(domainWrapper.state().expanded).toBe(false)
@@ -599,6 +613,7 @@ describe('<Domain />', () => {
           onAddCaregiverDomain={() => {}}
           handleWarningShow={() => {}}
           onCaregiverNameUpdate={() => {}}
+          isCompletedAssessment={false}
         />
       )
       expect(domainWrapper.instance().state.expanded).toBe(true)
