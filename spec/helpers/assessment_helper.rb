@@ -15,7 +15,7 @@ class AssessmentHelper
   def start_assessment_for(client_name, should_start_prefilled = false)
     visit_start_assessment client_name
     sleep(2)
-    is_reassessment = @form.has_reassessment_modal?
+    is_reassessment = @form.has_reassessment_modal?(wait: 5)
     if is_reassessment
       if should_start_prefilled
         @form.reassessment_modal.fill_reassessment_with_preceding_data

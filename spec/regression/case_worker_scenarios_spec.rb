@@ -497,27 +497,24 @@ feature 'Case Worker Functionality' do
   end
 
   def warning_and_summary_card_shown_after_complete_button_clicked(is_reassessment)
-    expect(@form.header.authorization_radio_no.checked?).to be(true)
     @form.footer.complete_button.click
+    sleep 2
     expect(@form.app_globals).to have_complete_warning_modal
-    sleep(2)
     @form.app_globals.complete_warning_save_return_button.click
     if is_reassessment
       expect(@form.global).to have_reassessment_page_header
     else
       expect(@form.global).to have_assessment_page_header
     end
-    expect(@form.footer).to have_complete_button
-    @form.footer.complete_button.click
-    sleep(2)
-    @form.app_globals.complete_warning_confirm_button.click
-    expect(@form.global).to have_global_complete_message_box
-    expect(@form).to have_summary
+    click_complete_button_then_summary_card_shown
   end
 
   def click_complete_button_then_summary_card_shown
-    expect(@form.header.authorization_radio_yes.checked?).to be(true)
+    expect(@form.footer).to have_complete_button
     @form.footer.complete_button.click
+    sleep 2
+    expect(@form.app_globals).to have_complete_warning_modal
+    @form.app_globals.complete_warning_confirm_button.click
     expect(@form.global).to have_global_complete_message_box
     expect(@form.app_globals).to have_no_complete_warning_modal
     expect(@form).to have_summary

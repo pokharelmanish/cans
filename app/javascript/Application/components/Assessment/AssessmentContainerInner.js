@@ -21,10 +21,7 @@ class AssessmentContainerInner extends Component {
   }
 
   handleCompleteWarning = switcher => {
-    const { assessment } = this.props
-    if (assessment.can_release_confidential_info === false) {
-      this.setState({ isCompleteModalShown: switcher })
-    }
+    this.setState({ isCompleteModalShown: switcher })
     return null
   }
 
@@ -64,29 +61,17 @@ class AssessmentContainerInner extends Component {
   }
 
   displayAssessmentFooter() {
-    const {
-      assessment,
-      client,
-      assessmentServiceStatus,
-      isEditable,
-      onCancelClick,
-      handleCompleteAssessment,
-      isValidForSubmit,
-    } = this.props
+    const { assessment, client, assessmentServiceStatus, isEditable, onCancelClick, isValidForSubmit } = this.props
     const canPerformUpdates = isReadyForAction(assessmentServiceStatus)
     const isSubmissionEnabled =
       isEditable && canPerformUpdates && isValidForSubmit && isCompleteAssessmentAuthorized(assessment, client)
-    const onSubmitAssessment =
-      assessment.can_release_confidential_info === true
-        ? handleCompleteAssessment
-        : this.handleCompleteWarning.bind(this, true)
     return (
       <AssessmentFormFooter
         isEditable={isEditable}
         assessment={assessment}
         onCancelClick={onCancelClick}
         isSubmissionEnabled={isSubmissionEnabled}
-        onSubmitAssessment={onSubmitAssessment}
+        onSubmitAssessment={this.handleCompleteWarning}
       />
     )
   }
