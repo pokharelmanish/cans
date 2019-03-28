@@ -19,7 +19,6 @@ import {
   hasOneCompletedForReassessment,
   AssessmentType,
   preparePrecedingAssessment,
-  currentClientAge,
   containsNotReviewedDomains,
   createRatingsMap,
 } from './AssessmentHelper'
