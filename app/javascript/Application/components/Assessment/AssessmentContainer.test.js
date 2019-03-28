@@ -935,6 +935,11 @@ describe('<AssessmentContainer />', () => {
           messageId: 'readonlyMessage',
         })
       })
+
+      it('"isUnsaved" flag should be false when assessment state is updated', async () => {
+        await wrapper.instance().updateAssessment(assessment)
+        expect(wrapper.instance().state.isUnsaved).toBeFalsy()
+      })
     })
 
     describe('when assessment status=IN_PROGRESS', () => {

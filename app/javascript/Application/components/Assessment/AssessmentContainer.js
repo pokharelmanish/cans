@@ -226,7 +226,7 @@ export default class AssessmentContainer extends Component {
       assessment,
       assessmentServiceStatus: LoadingState.ready,
       isValidForSubmit,
-      isUnsaved: true,
+      isUnsaved: this.state.isEditable,
     })
   }
 

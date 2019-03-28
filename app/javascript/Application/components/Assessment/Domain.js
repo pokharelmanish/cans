@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import { Input } from 'reactstrap'
 import { DomainProgressBar, DomainScore, DomainItemList, DomainCaregiverControls } from './'
-import DomainCommentAccordion from './DomainCommentAccordion'
+import DomainComment from './DomainComment'
 import DomainCommentIcon from './DomainCommentIcon'
 import { shouldDomainBeRendered } from './AssessmentHelper'
 import { isA11yAllowedInput } from '../../util/events'
@@ -187,7 +187,7 @@ class Domain extends Component {
               >
                 {isCaregiverDomain && this.renderCaregiverName()}
                 <DomainItemList {...itemListProps} />
-                <DomainCommentAccordion
+                <DomainComment
                   id={`${domain.code}-${domain.caregiver_index}`}
                   title={title}
                   domain={domain}

@@ -386,10 +386,10 @@ feature 'Case Worker Functionality' do
     end
     domain_comment_content = 'some domain level comments'
     @form.inner_items[-1].click
-    @form.domain_level_comment.set domain_comment_content
-    expect(@form.domain_level_comment.value).to eq(domain_comment_content)
+    @form.domain_level_comments[0].set domain_comment_content
+    expect(@form.domain_level_comments[0].value).to eq(domain_comment_content)
     expect(page.has_content?("#{domain_comment_content.length}/2500")).to be(true)
-    domain_comment_label = @form.domain_level_comment.sibling('label')
+    domain_comment_label = @form.domain_level_comments[0].sibling('label')
     within domain_comment_label do
       expect(find('svg')[:class].include?('comment-icon-solid')).to be(true)
     end

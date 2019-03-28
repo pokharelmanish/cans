@@ -112,7 +112,7 @@ class AssessmentForm < SitePrism::Page
   element :not_applicable_checkbox, 'label', text: 'N/A'
   element :not_applicable_text, 'h2', text: 'N/A'
   element :item_level_comment, 'div.item-comment-block textarea'
-  element :domain_level_comment, 'div.domain-comment-block textarea'
+  elements :domain_level_comments, 'div.domain-comment-block textarea'
   elements :domain_toolbar_comment_icon_block, 'div.domain-toolbar-comment-icon-block'
   elements :item_comment_icons, '.item-toolbar-comment-icon'
   element :item_description_header, 'h3', text: 'Item Description:'

@@ -51,7 +51,7 @@ class Comment extends Component {
 
   render() {
     const { isFocused, value, safariMaxLengthCompensation } = this.state
-    const { prefix, maxCommentLength, id, isCommentIconDisabled = false } = this.props
+    const { prefix, maxCommentLength, id, isCommentIconDisabled = false, title } = this.props
     const isFolded = !isFocused && !value
     const inputClassSuffix = isFolded ? '-empty' : ''
     const lengthClassSuffix = isFocused ? '' : '-hidden'
@@ -60,7 +60,7 @@ class Comment extends Component {
     const renderCommentLabel = isCommentIconDisabled ? null : (
       <Label for={inputId}>
         {isFolded ? null : renderCommentIcon}
-        <span className={`${prefix}-label`}>Comment</span>
+        <span className={`${prefix}-label`}>{title}</span>
       </Label>
     )
     return (
@@ -94,6 +94,7 @@ Comment.propTypes = {
   onChange: PropTypes.func.isRequired,
   onKeyUp: PropTypes.func,
   prefix: PropTypes.string.isRequired,
+  title: PropTypes.string,
 }
 
 Comment.defaultProps = {
@@ -102,6 +103,7 @@ Comment.defaultProps = {
   isCommentIconDisabled: false,
   maxCommentLength: 250,
   onKeyUp: undefined,
+  title: 'Comment',
 }
 
 export default Comment

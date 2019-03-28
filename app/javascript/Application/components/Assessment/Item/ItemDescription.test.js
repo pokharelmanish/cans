@@ -74,6 +74,7 @@ describe('<ItemDescription />', () => {
       'disabled',
       'isCommentIconDisabled',
       'onKeyUp',
+      'title',
     ]
     expect(Object.keys(target.props())).toEqual(expectedProps)
   })

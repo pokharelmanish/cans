@@ -306,10 +306,14 @@ $item-confidential-label-height: 6.05rem
 //********************
 // DomainComment
 //********************
-.domain-comment-accordion-paper
+.domain-comment-header
+  justify-content: left
+  height: 4.0625rem
+  background-color: $light-blue-shade
+.domain-comment-paper
   box-shadow: none
   padding: .625rem 1.875rem
-  background-color: $light-blue-shade
+  background-color: $white
 
 .domain-comment-wrapper
   display: flex
@@ -324,7 +328,7 @@ $item-confidential-label-height: 6.05rem
   color: $black
   margin-left: 0.5rem
   vertical-align: text-bottom
-
+  font-weight: 600
   label
     display: block
 
@@ -364,6 +368,12 @@ $item-confidential-label-height: 6.05rem
   display: flex
   width: 9rem
   margin-top: auto
+
+.domain-comment-title
+  color: #0e6f89
+  font-size: 1rem
+  margin-top: 0.8rem
+  margin-bottom: 0.8rem
 
 .domain-comment-accordion-comment-icon
   height: $item-confidential-label-height
