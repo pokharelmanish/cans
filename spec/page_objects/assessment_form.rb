@@ -57,6 +57,15 @@ class AssessmentFormFooter < SitePrism::Section
   def confirm_domains_review
     review_confirmation_checkbox.click
   end
+
+  def complete_assessment(has_previous_values)
+    if has_previous_values
+      confirm_domains_review
+      sleep 1
+    end
+    complete_button.click
+    sleep 2
+  end
 end
 
 class ReassessmentModal < SitePrism::Section
@@ -163,6 +172,10 @@ class AssessmentForm < SitePrism::Page
       find(element).click
       sleep 2
     end
+  end
+
+  def complete_assessment(has_previous_values)
+    footer.complete_assessment has_previous_values
   end
 end
 

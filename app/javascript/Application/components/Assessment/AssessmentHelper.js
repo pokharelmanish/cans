@@ -286,15 +286,21 @@ export function preparePrecedingAssessment(precedingAssessment, eventDate, dob) 
     delete domain.is_reviewed
     domain.items.forEach(item => {
       delete item.comment
+      if (item.confidential_by_default) {
+        item.confidential = true
+      }
     })
   })
 }
+
+export const buildItemUniqueKey = (code, caregiverIndex) => `${code}${caregiverIndex || ''}`
 
 export function createRatingsMap(domains) {
   const codeToRatingMap = {}
   domains.forEach(domain =>
     domain.items.forEach(item => {
-      codeToRatingMap[item.code] = item.rating
+      const key = buildItemUniqueKey(item.code, domain.caregiver_index)
+      codeToRatingMap[key] = item.rating
     })
   )
   return codeToRatingMap

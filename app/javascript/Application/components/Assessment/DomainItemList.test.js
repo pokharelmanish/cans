@@ -13,8 +13,8 @@ describe('<DomainItemList/>', () => {
     canReleaseConfidentialInfo: true,
     isCompletedAssessment: false,
     previousRatingsMap: {
-      code1: 2,
-      code2: 3,
+      code1a: 2,
+      code2a: 3,
     },
     onConfidentialityUpdate: () => {
       return 'onConfidentialityUpdate haveBeenCalled'
@@ -80,5 +80,12 @@ describe('<DomainItemList/>', () => {
     }
     const wrapper = shallow(<DomainItemList {...props} />)
     wrapper.find(Item).forEach(item => expect(item.prop('disabled')).toBe(true))
+  })
+
+  it('propagates previousRating to Item component', () => {
+    const wrapper = shallow(<DomainItemList {...fakeItemListProps} />)
+    const items = wrapper.find(Item)
+    expect(items.at(0).props().previousRating).toEqual(2)
+    expect(items.at(1).props().previousRating).toEqual(3)
   })
 })
