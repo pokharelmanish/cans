@@ -4,13 +4,13 @@ import { MenuItem, UncontrolledUserMenu } from '@cwds/components'
 import { formatUserName } from '../../util/formatters'
 import { logoutUrl } from '../../util/navigationUtil'
 
-const logout = () => window.location.assign(logoutUrl())
+const logoutPath = logoutUrl()
 
 const UserMenu = ({ user }) => {
   const name = user ? formatUserName(user) : 'Not Available'
   return (
     <UncontrolledUserMenu label={name}>
-      <MenuItem className={'no-uppercase'} onClick={logout}>
+      <MenuItem className={'no-uppercase'} tag={'a'} href={logoutPath}>
         Logout
       </MenuItem>
     </UncontrolledUserMenu>

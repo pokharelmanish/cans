@@ -24,7 +24,7 @@ module LoginHelper
 
   def click_logout
     find('.fa-user').click
-    find('button[role="menuitem"]').click
+    find('a[role="menuitem"]').click
   end
 
   private

@@ -2,7 +2,6 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import UserMenu from './UserMenu'
 import { UncontrolledUserMenu, MenuItem } from '@cwds/components'
-import { logoutUrl } from '../../util/navigationUtil'
 
 describe('<UserMenu />', () => {
   const render = user => shallow(<UserMenu user={user} />)
@@ -19,12 +18,5 @@ describe('<UserMenu />', () => {
   it('renders a logout item', () => {
     const item = render().find(MenuItem)
     expect(item.props().children).toBe('Logout')
-  })
-
-  it('logs out when clicking logout item', () => {
-    const item = render().find(MenuItem)
-    const spy = jest.spyOn(window.location, 'assign').mockImplementation(() => {})
-    item.props().onClick()
-    expect(spy).toHaveBeenCalledWith(logoutUrl())
   })
 })
