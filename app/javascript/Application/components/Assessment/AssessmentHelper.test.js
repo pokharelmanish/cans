@@ -567,7 +567,7 @@ describe('AssessmentHelper', () => {
   })
 
   describe('#preparePrecedingAssessment()', () => {
-    it('prepares preceding assessment for reassessment ', () => {
+    it('prepares preceding assessment for reassessment with AGE 0-5', () => {
       const input = {
         some_field: 'will not be updated',
         id: 12345,
@@ -596,12 +596,12 @@ describe('AssessmentHelper', () => {
           ],
         },
       }
-      preparePrecedingAssessment(input, '2019-03-08')
+      preparePrecedingAssessment(input, '2019-03-26', '2016-01-01')
       const expected = {
         some_field: 'will not be updated',
         preceding_assessment_id: 12345,
         status: 'IN_PROGRESS',
-        event_date: '2019-03-08',
+        event_date: '2019-03-26',
         can_release_confidential_info: false,
         state: {
           domains: [
@@ -616,6 +616,60 @@ describe('AssessmentHelper', () => {
             },
             { items: [{}] },
           ],
+          under_six: true,
+        },
+      }
+      expect(input).toEqual(expected)
+    })
+
+    it('prepares preceding assessment for reassessment with AGE 6-21', () => {
+      const input = {
+        some_field: 'will not be updated',
+        id: 12345,
+        status: 'COMPLETED',
+        event_date: '2019-03-26',
+        can_release_confidential_info: true,
+        conducted_by: 'John Doe',
+        state: {
+          domains: [
+            {
+              comment: 'domain 1 comment',
+              items: [
+                {},
+                { confidential: true, confidential_by_default: false },
+                { confidential: false, confidential_by_default: false },
+                { comment: 'item 1-1 comment', confidential: true, confidential_by_default: true },
+                { comment: 'item 1-2 comment', confidential: false, confidential_by_default: true },
+              ],
+            },
+            {
+              comment: 'domain 2 comment',
+              items: [{ comment: 'item 2-1 comment' }],
+            },
+          ],
+        },
+      }
+      preparePrecedingAssessment(input, '2019-03-26', '2010-02-01')
+      const expected = {
+        some_field: 'will not be updated',
+        preceding_assessment_id: 12345,
+        status: 'IN_PROGRESS',
+        event_date: '2019-03-26',
+        can_release_confidential_info: false,
+        state: {
+          domains: [
+            {
+              items: [
+                {},
+                { confidential: true, confidential_by_default: false },
+                { confidential: false, confidential_by_default: false },
+                { confidential: true, confidential_by_default: true },
+                { confidential: true, confidential_by_default: true },
+              ],
+            },
+            { items: [{}] },
+          ],
+          under_six: false,
         },
       }
       expect(input).toEqual(expected)
