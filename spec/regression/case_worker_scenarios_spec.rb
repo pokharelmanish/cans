@@ -507,7 +507,7 @@ feature 'Case Worker Functionality' do
     expect(@form.app_globals).to have_complete_warning_modal
     @form.app_globals.complete_warning_save_return_button.click
     sleep 2
-    @form.footer.review_confirmation_checkbox.click if has_previous_values
+    @form.footer.confirm_domains_review if has_previous_values
     click_complete_button_then_summary_card_shown has_previous_values
   end
 

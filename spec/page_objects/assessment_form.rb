@@ -51,11 +51,11 @@ class AssessmentSummary < SitePrism::Section
 end
 
 class AssessmentFormFooter < SitePrism::Section
-  element :review_confirmation_checkbox, 'span.review-confirmation-label'
+  element :review_confirmation_checkbox, 'input#review-confirmation-input', visible: false
   element :complete_button, 'button#submit-assessment'
 
   def confirm_domains_review
-    review_confirmation_checkbox.click
+    review_confirmation_checkbox.set(true)
   end
 
   def complete_assessment(has_previous_values)

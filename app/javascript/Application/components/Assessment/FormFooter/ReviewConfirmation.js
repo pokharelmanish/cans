@@ -13,7 +13,7 @@ const ReviewConfirmation = ({ isReviewConfirmed, onReviewConfirmedChange }) => {
       }
       value={stringify(isReviewConfirmed)}
       onChange={onReviewConfirmedChange}
-      control={<Checkbox checked={isReviewConfirmed} color={'default'} />}
+      control={<Checkbox id="review-confirmation-input" checked={isReviewConfirmed} color={'default'} />}
     />
   )
 }
