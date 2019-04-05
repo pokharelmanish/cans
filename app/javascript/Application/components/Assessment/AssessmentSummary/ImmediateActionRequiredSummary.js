@@ -13,7 +13,7 @@ const ImmediateActionRequiredSummary = ({ domains, i18n }) => (
   <SummaryGrid
     domainFilter={isNeedsDomain}
     domains={domains}
-    header={<DataGridHeader title="Immediate Action Required" tooltip={tooltip} />}
+    header={<DataGridHeader title="Immediate Action Required" tooltip={tooltip} index="id1" />}
     i18n={i18n}
     itemFilter={hasTargetRating}
   />

@@ -1,16 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Icon } from '@cwds/components'
-import Tooltip from '@material-ui/core/Tooltip'
-import './style.sass'
+import { UncontrolledInfotip, PopoverBody } from '@cwds/components'
+// import './style.sass'
 
-const DataGridHeader = ({ title, tooltip }) => (
+const DataGridHeader = ({ title, tooltip, index }) => (
   <div>
     <span>{title}</span>
     {tooltip && (
-      <Tooltip title={tooltip} placement="top" classes={{ tooltip: 'tooltip_' }}>
-        <Icon className="data-grid-header-help-icon" icon="info-circle" />
-      </Tooltip>
+      <UncontrolledInfotip id={`title-${index}`} placement="top">
+        <PopoverBody>{tooltip}</PopoverBody>
+      </UncontrolledInfotip>
     )}
   </div>
 )

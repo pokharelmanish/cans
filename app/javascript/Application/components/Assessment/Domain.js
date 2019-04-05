@@ -14,7 +14,7 @@ import Grid from '@material-ui/core/Grid'
 import { totalScoreCalculation, itemFilter } from './DomainScoreHelper.js'
 import { isEmpty } from '../../util/common'
 import { expandingThenScroll } from '../../util/assessmentAutoScroll'
-import { Button, Icon, UncontrolledTooltip } from '@cwds/components'
+import { Button, Icon, UncontrolledInfotip, PopoverBody } from '@cwds/components'
 import './style.sass'
 
 const mapI18nToState = props => ({
@@ -160,11 +160,10 @@ class Domain extends Component {
                     rotation={expanded ? null : ROTATION_RIGHT}
                   />
                   <span className="domain-item-margin">{title}</span>
-                  <Icon className="domain-help-icon" icon="info-circle" id={`domain-${index}`} />
                   {description ? (
-                    <UncontrolledTooltip style={{ minWidth: '20rem' }} target={`domain-${index}`} placement="top">
-                      {description}
-                    </UncontrolledTooltip>
+                    <UncontrolledInfotip style={{ minWidth: '20rem' }} id={`domain-${index}`} placement="top">
+                      <PopoverBody>{description}</PopoverBody>
+                    </UncontrolledInfotip>
                   ) : null}{' '}
                   {(isCaregiverDomain && caregiverName === '') ||
                   (isCaregiverDomain && caregiverName && caregiverName.trim() === '')

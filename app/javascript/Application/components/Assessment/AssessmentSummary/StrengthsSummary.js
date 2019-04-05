@@ -11,7 +11,7 @@ const StrengthsSummary = ({ domains, i18n }) => (
   <SummaryGrid
     domainFilter={isStrengthsDomain}
     domains={domains}
-    header={<DataGridHeader title="Strengths" tooltip={tooltip} />}
+    header={<DataGridHeader title="Strengths" tooltip={tooltip} index="id2" />}
     i18n={i18n}
     itemFilter={hasTargetRating}
   />

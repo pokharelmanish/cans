@@ -11,7 +11,7 @@ const TraumaSummary = ({ domains, i18n }) => (
   <SummaryGrid
     domainFilter={isTraumaDomain}
     domains={domains}
-    header={<DataGridHeader title="Trauma" tooltip={tooltip} />}
+    header={<DataGridHeader title="Trauma" tooltip={tooltip} index="id4" />}
     i18n={i18n}
     itemFilter={hasTargetRating}
   />

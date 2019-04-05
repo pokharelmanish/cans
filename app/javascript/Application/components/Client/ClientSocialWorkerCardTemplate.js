@@ -44,6 +44,7 @@ and meet the setting rules of reactTable at same time */
       Header: (
         <DataGridHeader
           title={'Reassessment Reminder Date'}
+          index={'reassessment'}
           tooltip={
             'A CANS reassessment should be completed in conjunction with the case plan update or at a minimum of every six months'
           }

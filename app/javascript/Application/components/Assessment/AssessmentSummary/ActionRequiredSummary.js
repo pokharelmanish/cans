@@ -12,7 +12,7 @@ const ActionRequiredSummary = ({ domains, i18n }) => (
   <SummaryGrid
     domainFilter={isNeedsDomain}
     domains={domains}
-    header={<DataGridHeader title="Action Required" tooltip={tooltip} />}
+    header={<DataGridHeader title="Action Required" tooltip={tooltip} index="id3" />}
     i18n={i18n}
     itemFilter={hasTargetRating}
   />
