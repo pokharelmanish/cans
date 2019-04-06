@@ -161,7 +161,7 @@ class Domain extends Component {
                   />
                   <span className="domain-item-margin">{title}</span>
                   {description ? (
-                    <UncontrolledInfotip style={{ minWidth: '20rem' }} id={`domain-${index}`} placement="top">
+                    <UncontrolledInfotip id={`domain-${index}`} placement="top">
                       <PopoverBody>{description}</PopoverBody>
                     </UncontrolledInfotip>
                   ) : null}{' '}
