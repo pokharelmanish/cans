@@ -5,7 +5,7 @@ import { datesGenerator, domainBarsDataGenerator } from './comparisonGraphDataTr
 
 const ComparisonGraph = props => {
   const { data, i18n } = props
-  const graphDates = [...data.event_dates].reverse()
+  const graphDates = [...data.event_dates]
   return (
     <ComparisonGraphInner
       dates={datesGenerator(graphDates)}

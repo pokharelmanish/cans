@@ -33,8 +33,7 @@ class ComparisonOuterTable extends React.PureComponent {
           const type = domain.items[0].item_ratings[0].type
           return domainRatingSwitcher(ratingTotal, type)
         },
-        className: 'outer-content',
-        headerClassName: 'outer-content-header',
+        className: 'item-rating ',
       }
     })
   }
@@ -66,8 +65,6 @@ class ComparisonOuterTable extends React.PureComponent {
         const domainTitle = getTitle(this.props.i18n, domain.code)
         return domainTitle
       },
-      className: 'outer-domain-name-content',
-      headerClassName: 'outer-domain-name-header',
     }
     const domainTotalCols = this.domainTotalColsGenerator(assessmentDates)
     blankColFiller(domainTotalCols, 'domain', requiredDomainColumnsAmount)
@@ -76,7 +73,6 @@ class ComparisonOuterTable extends React.PureComponent {
 
     return (
       <DataGrid
-        className={'comparison-grid'}
         columns={domainCmparisonTableTemplate}
         data={domains}
         sortable={false}
@@ -85,6 +81,7 @@ class ComparisonOuterTable extends React.PureComponent {
         showPaginationBottom={false}
         defaultPageSize={50}
         SubComponent={this.renderSubComponent}
+        className={'comparison-grid'}
       />
     )
   }

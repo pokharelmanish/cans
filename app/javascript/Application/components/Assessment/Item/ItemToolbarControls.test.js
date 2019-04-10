@@ -47,7 +47,7 @@ describe('<ItemToolbarControls />', () => {
 
   it('will render ItemNaCheckbox with correct props', () => {
     const target = wrapper.find(ItemNaCheckbox)
-    const expectedProps = ['rating', 'handleRatingChange', 'naValue', 'disabled']
+    const expectedProps = ['rating', 'handleRatingChange', 'naValue', 'disabled', 'previousRating']
     expect(Object.keys(target.props())).toEqual(expectedProps)
   })
 

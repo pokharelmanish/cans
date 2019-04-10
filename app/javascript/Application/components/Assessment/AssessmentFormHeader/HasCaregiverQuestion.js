@@ -5,7 +5,7 @@ import RadioGroupMessageBox from './RadioGroupMessageBox'
 const HasCaregiverQuestion = ({ hasCaregiver, onHasCaregiverChange, onHasCaregiverNoClicked, disabled }) => (
   <RadioGroupMessageBox
     isDisabled={disabled}
-    legend="Child/Youth has Caregiver?"
+    legend="Child/Youth has Caregiver? *"
     message="You will be able to add and remove caregiver names from the CANS form in the Caregiver Resources and Needs domain."
     name="has_caregiver"
     onChange={onHasCaregiverChange}

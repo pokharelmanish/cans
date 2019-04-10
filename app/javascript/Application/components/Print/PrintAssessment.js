@@ -34,12 +34,6 @@ import {
   validateAssessmentForSubmit,
 } from '../Assessment/AssessmentHelper'
 import { totalScoreCalculation } from '../Assessment/DomainScoreHelper.js'
-import {
-  isStrengthsDomain,
-  isNeedsDomain,
-  isTraumaDomain,
-  itemsValue,
-} from '../Assessment/AssessmentSummary/DomainHelper'
 import moment from 'moment'
 
 const isConfidential = item => item.confidential_by_default && item.confidential
@@ -170,12 +164,6 @@ class PrintAssessment extends PureComponent {
     </div>
   )
 
-  renderSummaryRecord = (title, value) => (
-    <div style={headerRecord}>
-      <strong>{title}</strong> <br /> {value && value.map(val => <div key={val}>{val}</div>)}
-    </div>
-  )
-
   renderHeaderRadioGroupRecord = (title, value, optionTrueCaption, optionFalseCaption) => (
     <div style={headerRecord}>
       <strong>{title}</strong>
@@ -222,39 +210,18 @@ class PrintAssessment extends PureComponent {
     )
   }
 
-  getCodes(domains, domainFilter, itemFilter) {
-    const items = itemsValue(domains, domainFilter, itemFilter)
-
-    const codes = items.map(item => {
-      const code = getI18nByCode(this.props.i18n, item.code)
-      return (code && code._title_) || ''
-    })
-
-    return codes
-  }
-
   render() {
     const { isAssessmentUnderSix } = this.state
     const { i18n } = this.props
-    const imaRating = 3
     const domains = this.props.assessment.state.domains
     const canDisplaySummary =
       validateAssessmentForSubmit(this.props.assessment) || this.props.assessment.status === 'COMPLETED'
-    const filteredDomains = domains.filter(
-      domain => (this.state.isAssessmentUnderSix ? domain.under_six : domain.above_six)
-    )
-    const summaryCodes = {
-      Strengths: this.getCodes(filteredDomains, isStrengthsDomain, item => item.rating === 0 || item.rating === 1),
-      'Action Required': this.getCodes(filteredDomains, isNeedsDomain, item => item.rating === 2),
-      'Immediate Action Required': this.getCodes(filteredDomains, isNeedsDomain, item => item.rating === imaRating),
-      Trauma: this.getCodes(domains, isTraumaDomain, item => item.rating === 1),
-    }
 
     return (
       <div>
         {this.renderHeader()}
         {canDisplaySummary ? (
-          <PrintSummary renderSummaryRecord={this.renderSummaryRecord} summaryCodes={summaryCodes} />
+          <PrintSummary domains={domains} i18n={this.props.i18n} isUnderSix={this.state.isAssessmentUnderSix} />
         ) : null}
         <h1 style={textAlignCenter}>CANS Scores</h1>
         {domains.map(domain => {

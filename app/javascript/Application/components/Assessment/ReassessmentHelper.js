@@ -1,6 +1,7 @@
 import { calculateDateDifferenceInYears, getCurrentIsoDate } from '../../util/dateHelper'
 import { clone } from '../../util/common'
 import { shouldDomainBeRendered, shouldItemBeRendered } from './AssessmentHelper'
+import { isNARating } from './Item/ItemHelper'
 
 export const prepareReassessment = (assessment, precedingAssessment, previousRatingsMap) => {
   const reassessment = clone(assessment)
@@ -38,11 +39,19 @@ export const prepareCaregiverDomains = (reassessment, precedingAssessment) => {
 }
 
 export const prepareItemForReassessment = (item, previousRatingAndConfidential) => {
+  if (!previousRatingAndConfidential) {
+    return
+  }
+  const itemRating =
+    item.has_na_option && isNARating(previousRatingAndConfidential.rating)
+      ? item.rating
+      : previousRatingAndConfidential.rating
+  const itemConfidential = item.confidential_by_default
+    ? item.confidential_by_default
+    : previousRatingAndConfidential.confidential
   if (previousRatingAndConfidential) {
-    item.rating = previousRatingAndConfidential.rating
-    item.confidential = item.confidential_by_default
-      ? item.confidential_by_default
-      : previousRatingAndConfidential.confidential
+    item.rating = itemRating
+    item.confidential = itemConfidential
   }
 }
 

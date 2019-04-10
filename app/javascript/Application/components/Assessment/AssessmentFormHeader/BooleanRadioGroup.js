@@ -27,6 +27,7 @@ const BooleanRadioGroup = ({ isDisabled, legend, name, onChange, onNoClicked, on
             control={
               <Radio
                 onClick={onYesClicked}
+                classes={{ checked: 'radio-checked' }}
                 color="default"
                 inputProps={{
                   id: `input-${id}-yes`,
@@ -43,6 +44,7 @@ const BooleanRadioGroup = ({ isDisabled, legend, name, onChange, onNoClicked, on
             control={
               <Radio
                 onClick={onNoClicked}
+                classes={{ checked: 'radio-checked' }}
                 color="default"
                 inputProps={{
                   id: `input-${id}-no`,

@@ -237,7 +237,7 @@ describe('activeSwitchDetector', () => {
 
 describe('viewNameSwitch', () => {
   it('returns correct values', () => {
-    expect(viewNameSwitch(true)).toBe('Assessment History Over Time')
+    expect(viewNameSwitch(true)).toBe('Assessment Comparison')
     expect(viewNameSwitch(false)).toBe('Assessment History')
   })
 })

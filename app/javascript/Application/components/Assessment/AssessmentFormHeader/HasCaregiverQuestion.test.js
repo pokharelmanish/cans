@@ -8,7 +8,7 @@ describe('<HasCaregiverQuestion />', () => {
 
   it('renderHasCaregiverQuestion() returns correct label text', () => {
     const wrapper = render(defaultProps)
-    expect(wrapper.props().legend).toBe('Child/Youth has Caregiver?')
+    expect(wrapper.props().legend).toBe('Child/Youth has Caregiver? *')
   })
 
   it('selects true when assessment has a caregiver', () => {

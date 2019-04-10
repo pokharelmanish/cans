@@ -77,6 +77,6 @@ describe('<ClientAssessmentStatisticsHeader/>', () => {
       { attachTo: div }
     )
     const target = comparisonWrapper.find(CardTitle)
-    expect(target.html()).toContain('Assessment History Over Time')
+    expect(target.html()).toContain('Assessment Comparison')
   })
 })

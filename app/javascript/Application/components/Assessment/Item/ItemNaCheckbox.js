@@ -18,6 +18,7 @@ const PrimCheckbox = withStyles({
 
 const ItemNaCheckbox = props => {
   const isNAChecked = isNARating(props.rating)
+  const className = isNARating(props.previousRating) ? 'previous-rating-label' : undefined
   return (
     <Typography variant="title" style={{ marginRight: 15 }}>
       <form autoComplete="off">
@@ -26,6 +27,7 @@ const ItemNaCheckbox = props => {
             onChange={props.handleRatingChange}
             label={'N/A'}
             value={props.naValue}
+            className={className}
             style={{ margin: 0 }}
             control={<PrimCheckbox checked={isNAChecked} disabled={props.disabled} />}
           />
@@ -39,11 +41,13 @@ ItemNaCheckbox.propTypes = {
   disabled: PropTypes.bool,
   handleRatingChange: PropTypes.func.isRequired,
   naValue: PropTypes.string.isRequired,
+  previousRating: PropTypes.number,
   rating: PropTypes.number.isRequired,
 }
 
 ItemNaCheckbox.defaultProps = {
   disabled: false,
+  previousRating: undefined,
 }
 
 export default ItemNaCheckbox

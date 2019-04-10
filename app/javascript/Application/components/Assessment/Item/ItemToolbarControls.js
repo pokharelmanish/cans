@@ -7,24 +7,22 @@ import CommentIcon from '../../common/CommentIcon'
 import ConfidentialCheckbox from './ConfidentialCheckbox'
 import Typography from '@material-ui/core/Typography'
 
-const ItemToolbarControls = props => {
-  const {
-    hasNaOption,
-    rating,
-    onRatingUpdate,
-    disabled,
-    isCompletedAssessment,
-    isConfidential,
-    isConfidentialByDefault,
-    code,
-    canReleaseConfidentialInfo,
-    handleConfidentialityChange,
-    handleNaValueSetting,
-    comment,
-    ratingType,
-    previousRating,
-  } = props
-
+const ItemToolbarControls = ({
+  hasNaOption,
+  rating,
+  onRatingUpdate,
+  disabled,
+  isCompletedAssessment,
+  isConfidential,
+  isConfidentialByDefault,
+  code,
+  canReleaseConfidentialInfo,
+  handleConfidentialityChange,
+  handleNaValueSetting,
+  comment,
+  ratingType,
+  previousRating,
+}) => {
   const ratingProps = {
     code,
     hasNaOption,
@@ -52,6 +50,7 @@ const ItemToolbarControls = props => {
           handleRatingChange={onRatingUpdate}
           naValue={handleNaValueSetting(rating)}
           disabled={disabled}
+          previousRating={previousRating}
         />
       ) : null}
       {comment ? <CommentIcon className={'item-toolbar-comment-icon'} /> : null}

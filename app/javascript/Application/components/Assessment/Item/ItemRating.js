@@ -19,7 +19,7 @@ const PrimRadio = withStyles({
 })(Radio)
 
 const getPreviousRatingClassName = (index, previousRating, isCompletedAssessment) =>
-  !isCompletedAssessment && index === previousRating ? 'previous-rating-radio-label' : undefined
+  !isCompletedAssessment && index === previousRating ? 'previous-rating-label' : undefined
 
 const getRatingClassName = (index, rating) => (index === rating ? 'rating-radio-label' : undefined)
 

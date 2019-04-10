@@ -77,7 +77,7 @@ describe('<ItemRating />', () => {
         const previousRating = 1
         const wrapper = render({ options, previousRating, isCompletedAssessment: false })
         const formControlLabel = wrapper.find('FormControlLabel').at(previousRating)
-        expect(formControlLabel.props().className).toEqual('previous-rating-radio-label')
+        expect(formControlLabel.props().className).toEqual('previous-rating-label')
       })
 
       it('does not add style to the other rating radio button blocks', () => {

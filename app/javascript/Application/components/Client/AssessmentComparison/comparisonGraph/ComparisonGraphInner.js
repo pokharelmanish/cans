@@ -20,9 +20,9 @@ const ComparisonGraphInner = ({ domainBarsData, dates }) => {
   return (
     <ResponsiveContainer>
       <BarChart data={domainBarsData} className={'comparison-graph-barchart'} cursor="pointer">
-        <CartesianGrid strokeDasharray="3 3" />
+        <CartesianGrid strokeDasharray="3 3" vertical={false} fill={'#f1f1f1'} />
         <XAxis dataKey="name" interval={0} />
-        <YAxis />
+        <YAxis padding={{ top: 20 }} />
         <Tooltip />
         <Legend verticalAlign="top" className={'comparison-graph-legend'} />
         {dates.map((date, index) => (

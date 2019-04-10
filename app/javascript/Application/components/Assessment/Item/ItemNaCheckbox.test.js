@@ -12,6 +12,7 @@ describe('<ItemNaCheckbox/>', () => {
     handleRatingChange: jest.fn(),
     naValue: '8',
     rating: -1,
+    previousRating: 8,
   }
 
   describe('ItemNacheckbox is checked', () => {
@@ -49,6 +50,12 @@ describe('<ItemNaCheckbox/>', () => {
     let wrapper
     beforeEach(() => {
       wrapper = mount(<ItemNaCheckbox {...fakeUnChecked} />)
+    })
+
+    it('will add Visual indicator to the N/A checkbox when has previous rating is 8', () => {
+      const wrapper = mount(<ItemNaCheckbox {...fakeUnChecked} />)
+      const formControlLabel = wrapper.find('FormControlLabel').at(0)
+      expect(formControlLabel.props().className).toEqual('previous-rating-label')
     })
 
     it('will render a checkbox NOT be checked', () => {

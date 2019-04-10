@@ -10,6 +10,7 @@ import {
   prepareItemForReassessment,
 } from './ReassessmentHelper'
 import { validAssessment } from './assessment.mocks.test'
+import { NA_RATING } from './Item/ItemHelper'
 
 describe('ReassessmentHelper', () => {
   describe('#prepareReassessment()', () => {
@@ -215,7 +216,19 @@ describe('ReassessmentHelper', () => {
       })
     })
 
-    describe('when has previous rating and confidential value', () => {
+    describe('when has previous rating and N/A option', () => {
+      describe('and has_na_option = true and rating === 8', () => {
+        it('changes rating to default -1', () => {
+          const item = { rating: -1, has_na_option: true }
+          const previousRatingAndConfidential = { rating: NA_RATING }
+          const expected = { rating: -1, has_na_option: true }
+          prepareItemForReassessment(item, previousRatingAndConfidential)
+          expect(item).toEqual(expected)
+        })
+      })
+    })
+
+    describe('when has previous rating and has confidential value', () => {
       describe('and confidential_by_default = true', () => {
         it('changes rating and defaults confidential to true', () => {
           const item = { rating: -1, confidential: false, confidential_by_default: true }

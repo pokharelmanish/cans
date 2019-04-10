@@ -1,7 +1,7 @@
 import { isoToLocalDate } from '../../../../util/dateHelper'
 import { getI18nByCode } from '../../../common/I18nHelper'
 
-export const graphColors = ['#7bb5ea', '#414146', '#93ed86', '#f7a564', '#808080']
+export const graphColors = ['#60A1C3', '#3C6E99', '#295B80', '#203F67', '#030C52']
 
 const dateInfoGenerator = originalDates => {
   return originalDates.reduce((result, date) => {

@@ -4,6 +4,7 @@ require 'page_objects/sections/app_globals'
 require 'page_objects/sections/breadcrumbs'
 
 class AssessmentGlobal < SitePrism::Section
+  element :page_header, 'h1'
   element :assessment_page_header, 'h1', text: 'CANS Assessment Form'
   element :reassessment_page_header, 'h1', text: 'CANS Reassessment Form'
   element :save_button, 'button', text: 'SAVE'
@@ -69,16 +70,28 @@ class AssessmentFormFooter < SitePrism::Section
 end
 
 class ReassessmentModal < SitePrism::Section
+  FADE_TIME = 0.3 # Reactstrap modal fade time. Don't try to click a moving button
+
   element :title, '.cans-modal-body > .info-modal-title'
   element :start_new_button, 'button.modal-regular-button', text: 'Start new'
   element :use_previous_button, 'button.modal-regular-button', text: 'Use previous rating'
 
   def start_empty_reassessment
+    sleep FADE_TIME
     start_new_button.click
   end
 
   def fill_reassessment_with_preceding_data
+    sleep FADE_TIME
     use_previous_button.click
+  end
+
+  def start(should_start_prefilled)
+    if should_start_prefilled
+      fill_reassessment_with_preceding_data
+    else
+      start_empty_reassessment
+    end
   end
 end
 
@@ -140,6 +153,11 @@ class AssessmentForm < SitePrism::Page
   element :caregiver_domain_warning_popup, 'div.warning-modal-body'
   element :caregiver_domain_warning_message, 'div.warning-modal-body div div'
   element :change_log_link, '.view-changelog-link'
+
+  def is_reassessment?
+    global.has_page_header?(text: 'CANS')
+    global.has_reassessment_page_header?(wait: 0)
+  end
 
   def review_all_domains_0_to_5
     targets = [

@@ -1,4 +1,7 @@
 @import "../../../styles/global/colors.sass"
+@import '../../../styles/global/card.sass'
+@import "../../../styles/global/typography.sass"
+
 .icon-margin
   margin-right: -0.96rem
 
@@ -50,11 +53,11 @@
   flex-direction: column
   justify-content: center
 
+.inner-table
+  font-size: 0.75rem
+
 .inner-item-name-content
   text-align: right
-  color: $gray
-.inner-item-rating
-  text-align: center
   color: $gray
 
 .comparison-graph-card
@@ -66,6 +69,9 @@
 .comparison-graph-barchart
   margin: 0.5rem 1rem 2rem 0
 
+.comparison-graph-barchart .recharts-cartesian-grid
+  background-color: #c8cbcf
+
 .comparison-graph-legend
   margin-bottom: 1rem
 
@@ -74,3 +80,11 @@
   margin: 0 auto 1rem 0.9rem
   h5
     color: $mid-gray
+
+.item-rating
+  text-align: center
+  color: $gray
+
+.item-trending-indicator
+  font-weight: bold
+  font-size: 0.85rem

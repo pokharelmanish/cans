@@ -1,9 +1,6 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 import PrintChangeLog from './PrintChangeLog'
-import ChangeLogDate from './ChangeLogDate'
-import ChangeLogStatus from './ChangeLogStatus'
-import ChangeLogName from './ChangeLogName'
 
 describe('<PrintChangeLog />', () => {
   const defaultProps = {
@@ -20,6 +17,7 @@ describe('<PrintChangeLog />', () => {
     history: [
       {
         id: 1,
+        event_date: '2018-11-01',
         user_id: 'RACFID',
         entity_id: 1,
         changed_at: '2018-11-01T17:07:10.043Z',
@@ -67,27 +65,11 @@ describe('<PrintChangeLog />', () => {
     })
 
     it('renders an assessment id header', () => {
-      expect(wrapper.find('h3.print-assessment-id').exists()).toBe(true)
+      expect(wrapper.find('th.print-assessment-id').exists()).toBe(true)
     })
 
-    it('renders the change log table', () => {
-      expect(wrapper.find('table.print-change-log-table').exists()).toBe(true)
-    })
-
-    it('renders the change log table header row', () => {
-      expect(wrapper.find('tr.print-change-table-header').exists()).toBe(true)
-    })
-
-    it('renders the change log table headers ', () => {
-      expect(wrapper.find('tr.print-change-table-header').find('th').length).toEqual(3)
-    })
-
-    it('renders the change log row', () => {
-      expect(wrapper.find('tr.print-change-log-row').length).toEqual(1)
-    })
-
-    it('renders the change log row data cells', () => {
-      expect(wrapper.find('tr.print-change-log-row').find('td').length).toEqual(3)
+    it('renders an assessment date', () => {
+      expect(wrapper.find('th.print-assessment-date').exists()).toBe(true)
     })
   })
 
@@ -107,72 +89,11 @@ describe('<PrintChangeLog />', () => {
     })
 
     it('renders the assessment id', () => {
-      expect(wrapper.find('h3.print-assessment-id').text()).toBe('Assessment ID: 1')
+      expect(wrapper.find('th.print-assessment-id').text()).toBe('Assessment ID: 1')
     })
 
-    it('renders a formatted date', () => {
-      expect(
-        wrapper
-          .find('tr.print-change-log-row')
-          .find('td')
-          .at(0)
-          .find(ChangeLogDate)
-          .dive()
-          .find('div')
-          .text()
-      ).toBe('11/01/2018 05:07:10 PM')
-    })
-
-    it('renders the change type', () => {
-      expect(
-        wrapper
-          .find('tr.print-change-log-row')
-          .find('td')
-          .at(2)
-          .find(ChangeLogStatus)
-          .dive()
-          .find('div')
-          .text()
-      ).toBe('Saved')
-    })
-
-    describe('name column', () => {
-      it('renders a user id if no first and last name', () => {
-        expect(
-          wrapper
-            .find('tr.print-change-log-row')
-            .find('td')
-            .at(1)
-            .find(ChangeLogName)
-            .dive()
-            .find('div')
-            .text()
-        ).toBe('RACFID')
-      })
-
-      it('renders the last and first name', () => {
-        const props = {
-          history: [
-            {
-              user_id: 'RACFID',
-              user_first_name: 'Casey',
-              user_last_name: 'Test',
-            },
-          ],
-          ...defaultProps,
-        }
-        const wrapper = shallow(<PrintChangeLog {...props} />)
-        expect(
-          wrapper
-            .find('tr.print-change-log-row')
-            .find('td')
-            .at(1)
-            .find(ChangeLogName)
-            .dive()
-            .find('div')
-            .text()
-        ).toBe('Test, Casey')
-      })
+    it('renders the assessment date', () => {
+      expect(wrapper.find('th.print-assessment-date').text()).toBe('Assessment Date: 11/01/2018')
     })
   })
 })

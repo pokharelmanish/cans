@@ -23,7 +23,7 @@ describe('CanReleaseInfoQuestion', () => {
   const selectNo = select('false')
 
   it('renders a legend', () => {
-    expect(render().props().legend).toBe('Authorization for release of information on file?')
+    expect(render().props().legend).toBe('Authorization for release of information on file? *')
   })
 
   it('passes a message through to the box', () => {

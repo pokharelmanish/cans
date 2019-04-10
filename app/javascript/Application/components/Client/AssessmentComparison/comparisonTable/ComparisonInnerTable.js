@@ -26,16 +26,17 @@ class ComparisonInnerTable extends React.PureComponent {
         id: `item-assessment-${index}`,
         accessor: item => {
           const itemRatings = item.item_ratings
-          const trendIcon = itemRatings[index].trend
-          const itemSymbolGenerator = trendIcon === 'UP' ? upIcon : '' || trendIcon === 'DOWN' ? downIcon : ''
+          const trend = itemRatings[index].trend
+          const itemSymbolGenerator = trend === 'UP' ? upIcon : '' || trend === 'DOWN' ? downIcon : ''
           const type = item.item_ratings[index].type
+          const itemClassName = itemSymbolGenerator !== '' ? 'item-trending-indicator' : ''
           return (
-            <span>
+            <span className={itemClassName}>
               {itemRatingSwitcher(itemRatings, index, type)} {itemSymbolGenerator}
             </span>
           )
         },
-        className: 'inner-item-rating',
+        className: 'item-rating',
         headerClassName: 'text-center',
       }
     })
@@ -66,6 +67,7 @@ class ComparisonInnerTable extends React.PureComponent {
         TheadComponent={TheadComponent}
         defaultPageSize={50}
         showPaginationBottom={false}
+        className={'inner-table'}
       />
     )
   }

@@ -45,6 +45,13 @@ describe('BooleanRadioGroup', () => {
     expect(radioGroup.props().value).toBe('false')
   })
 
+  it('adds radio-checked class to options when checked', () => {
+    const radios = render().find('Radio')
+    radios.forEach(radio => {
+      expect(radio.props().classes.checked).toBe('radio-checked')
+    })
+  })
+
   it('calls onChange when group selection changes', () => {
     const onChange = jest.fn()
     const wrapper = render({ onChange })

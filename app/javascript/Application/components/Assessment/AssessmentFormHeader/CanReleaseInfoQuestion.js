@@ -6,7 +6,7 @@ const CanReleaseInfoQuestion = ({ canReleaseConfidentialInfo, isDisabled, messag
   return (
     <RadioGroupMessageBox
       isDisabled={isDisabled}
-      legend="Authorization for release of information on file?"
+      legend="Authorization for release of information on file? *"
       message={message}
       name="can_release_confidential_info"
       onChange={onCanReleaseInfoChange}

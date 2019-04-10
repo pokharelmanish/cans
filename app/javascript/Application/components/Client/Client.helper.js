@@ -49,5 +49,5 @@ export const activeSwitchDetector = isComparisonShown => {
 }
 
 export const viewNameSwitch = isComparisonShown => {
-  return isComparisonShown ? 'Assessment History Over Time' : 'Assessment History'
+  return isComparisonShown ? 'Assessment Comparison' : 'Assessment History'
 }

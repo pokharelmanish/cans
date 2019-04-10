@@ -11,7 +11,11 @@ const ComparisonOuterTableExpander = ({ isExpanded }) => {
 }
 
 ComparisonOuterTableExpander.propTypes = {
-  isExpanded: PropTypes.bool.isRequired,
+  isExpanded: PropTypes.any,
+}
+
+ComparisonOuterTableExpander.defaultProps = {
+  isExpanded: false,
 }
 
 export default ComparisonOuterTableExpander
