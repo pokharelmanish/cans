@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import ExpansionPanel from '@material-ui/core/ExpansionPanel'
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
@@ -126,92 +126,86 @@ class Domain extends Component {
     const ROTATION_RIGHT = 270
 
     return shouldDomainBeRendered(isAssessmentUnderSix, domain) ? (
-      <Fragment>
-        <ExpansionPanel expanded={expanded} onChange={this.handleExpandedChange} elevation={0}>
-          <ExpansionPanelSummary
-            expandIcon={
-              isReviewed || expanded ? null : (
-                <Button
-                  id={`domain${index}-review`}
-                  color="primary"
-                  className={'review-regular-button no-uppercase'}
-                  onClick={this.handleOpenToReview}
-                >
-                  Open to review
-                </Button>
-              )
-            }
-          >
-            <Grid
-              container
-              direction="row"
-              justify="flex-end"
-              alignItems="flex-end"
-              spacing={0}
-              style={{ padding: 0, flexWrap: 'nowrap', flexDirection: 'row' }}
-            >
-              <Grid item xs={8}>
-                <Typography variant="title" style={{ color: '#0e6f89', fontSize: 16 }}>
-                  <Icon
-                    id={`domain${index}-expand`}
-                    className="domain-icon"
-                    icon="chevron-down"
-                    size="lg"
-                    rotation={expanded ? null : ROTATION_RIGHT}
-                  />
-                  <span className="domain-item-margin">{title}</span>
-                  <Icon className="domain-help-icon" icon="info-circle" id={`domain-${index}`} />
-                  {description ? (
-                    <UncontrolledTooltip style={{ minWidth: '20rem' }} target={`domain-${index}`} placement="top">
-                      {description}
-                    </UncontrolledTooltip>
-                  ) : null}{' '}
-                  {(isCaregiverDomain && caregiverName === '') ||
-                  (isCaregiverDomain && caregiverName && caregiverName.trim() === '')
-                    ? warningText
-                    : caregiverName && `- ${caregiverName}`}
-                </Typography>
-              </Grid>
-              <Grid item xs={4} className={isReviewed ? 'domain-metric' : 'domain-metric-with-review'}>
-                <div className="domain-toolbar-comment-icon-block">
-                  <DomainCommentIcon domain={domain} />
-                </div>
-                <DomainProgressBar isAssessmentUnderSix={isAssessmentUnderSix} domain={domain} />
-                <DomainScore totalScore={totalScore} key={index} />
-              </Grid>
-            </Grid>
-          </ExpansionPanelSummary>
-          {expanded && (
-            <div>
-              <ExpansionPanelDetails
-                style={{
-                  display: 'block',
-                  padding: '0',
-                  backgroundColor: 'white',
-                }}
+      <ExpansionPanel expanded={expanded} onChange={this.handleExpandedChange} elevation={0}>
+        <ExpansionPanelSummary
+          expandIcon={
+            isReviewed || expanded ? null : (
+              <Button
+                id={`domain${index}-review`}
+                color="primary"
+                className={'review-regular-button no-uppercase'}
+                onClick={this.handleOpenToReview}
               >
-                {isCaregiverDomain && this.renderCaregiverName()}
-                <DomainItemList {...itemListProps} />
-                <DomainComment
-                  id={`${domain.code}-${domain.caregiver_index}`}
-                  title={title}
-                  domain={domain}
-                  onDomainCommentUpdate={this.props.onDomainCommentUpdate}
-                  disabled={this.props.disabled}
-                  domainBottomCollapseClick={this.handleExpandedChange}
+                Open to review
+              </Button>
+            )
+          }
+        >
+          <Grid
+            container
+            direction="row"
+            justify="flex-end"
+            alignItems="flex-end"
+            spacing={0}
+            style={{ padding: 0, flexWrap: 'nowrap', flexDirection: 'row' }}
+          >
+            <Grid item xs={8}>
+              <Typography variant="title" style={{ color: '#0e6f89', fontSize: 16 }}>
+                <Icon
+                  id={`domain${index}-expand`}
+                  className="domain-icon"
+                  icon="chevron-down"
+                  size="lg"
+                  rotation={expanded ? null : ROTATION_RIGHT}
                 />
-                {isCaregiverDomain &&
-                  !this.props.disabled && (
-                    <DomainCaregiverControls
-                      onRemoveCaregiverDomain={this.handleRemoveCaregiverDomain}
-                      onAddCaregiverDomain={this.handleAddCaregiverDomain}
-                    />
-                  )}
-              </ExpansionPanelDetails>
-            </div>
-          )}
-        </ExpansionPanel>
-      </Fragment>
+                <span className="domain-item-margin">{title}</span>
+                <Icon className="domain-help-icon" icon="info-circle" id={`domain-${index}`} />
+                {description ? (
+                  <UncontrolledTooltip style={{ minWidth: '20rem' }} target={`domain-${index}`} placement="top">
+                    {description}
+                  </UncontrolledTooltip>
+                ) : null}{' '}
+                {(isCaregiverDomain && caregiverName === '') ||
+                (isCaregiverDomain && caregiverName && caregiverName.trim() === '')
+                  ? warningText
+                  : caregiverName && `- ${caregiverName}`}
+              </Typography>
+            </Grid>
+            <Grid item xs={4} className={isReviewed ? 'domain-metric' : 'domain-metric-with-review'}>
+              <div className="domain-toolbar-comment-icon-block">
+                <DomainCommentIcon domain={domain} />
+              </div>
+              <DomainProgressBar isAssessmentUnderSix={isAssessmentUnderSix} domain={domain} />
+              <DomainScore totalScore={totalScore} key={index} />
+            </Grid>
+          </Grid>
+        </ExpansionPanelSummary>
+        <ExpansionPanelDetails
+          style={{
+            display: 'block',
+            padding: '0',
+            backgroundColor: 'white',
+          }}
+        >
+          {isCaregiverDomain && this.renderCaregiverName()}
+          <DomainItemList {...itemListProps} />
+          <DomainComment
+            id={`${domain.code}-${domain.caregiver_index}`}
+            title={title}
+            domain={domain}
+            onDomainCommentUpdate={this.props.onDomainCommentUpdate}
+            disabled={this.props.disabled}
+            domainBottomCollapseClick={this.handleExpandedChange}
+          />
+          {isCaregiverDomain &&
+            !this.props.disabled && (
+              <DomainCaregiverControls
+                onRemoveCaregiverDomain={this.handleRemoveCaregiverDomain}
+                onAddCaregiverDomain={this.handleAddCaregiverDomain}
+              />
+            )}
+        </ExpansionPanelDetails>
+      </ExpansionPanel>
     ) : null
   }
 }
