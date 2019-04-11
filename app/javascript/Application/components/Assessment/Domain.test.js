@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Icon, UncontrolledInfotip, PopoverBody } from '@cwds/components'
+import { Button, Icon, UncontrolledInfotip } from '@cwds/components'
 import { shallow, mount } from 'enzyme'
 import Domain from './Domain'
 import { DomainProgressBar, DomainScore, DomainItemList, DomainCaregiverControls } from './'

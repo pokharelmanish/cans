@@ -1,6 +1,5 @@
 import React from 'react'
 import { shallow } from 'enzyme'
-import { Icon } from '@cwds/components'
 import { UncontrolledInfotip, PopoverBody } from '@cwds/components'
 import DataGridHeader from './DataGridHeader'
 

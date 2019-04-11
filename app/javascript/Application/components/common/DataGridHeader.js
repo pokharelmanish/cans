@@ -14,12 +14,14 @@ const DataGridHeader = ({ title, tooltip, index }) => (
 )
 
 DataGridHeader.propTypes = {
+  index: PropTypes.string,
   title: PropTypes.node.isRequired,
   tooltip: PropTypes.string,
 }
 
 DataGridHeader.defaultProps = {
   tooltip: null,
+  index: undefined,
 }
 
 export default DataGridHeader
