@@ -4,6 +4,7 @@ import { i18n } from './DomainHelper.test'
 import SummaryGrid from './SummaryGrid'
 import DataGridHeader from '../../common/DataGridHeader'
 import StrengthsSummary from './StrengthsSummary'
+import { BrowserRouter } from 'react-router-dom'
 
 describe('<StrengthsSummary />', () => {
   it('renders a data grid', () => {
@@ -18,6 +19,7 @@ describe('<StrengthsSummary />', () => {
     expect(shallow(<StrengthsSummary i18n={i18n} />).props().header).toEqual(
       <DataGridHeader
         title="Strengths"
+        index={'id2'}
         tooltip={'Ratings of 0 or 1 in the Strengths Domain. These are central or useful in planning.'}
       />
     )
@@ -32,6 +34,19 @@ describe('<StrengthsSummary />', () => {
   })
 
   describe('with some strengths', () => {
+    let wrapper
+    beforeEach(() => {
+      const div = document.createElement('div')
+      document.body.appendChild(div)
+      // special test setting for mounting the component with toolTip nested
+      wrapper = mount(
+        <BrowserRouter>
+          <StrengthsSummary domains={domains} i18n={i18n} />
+        </BrowserRouter>,
+        { attachTo: div }
+      )
+    })
+
     const domains = [
       {
         code: 'STR',
@@ -44,16 +59,15 @@ describe('<StrengthsSummary />', () => {
         ],
       },
     ]
-    const render = () => mount(<StrengthsSummary domains={domains} i18n={i18n} />)
 
     it('renders items with a rating of 0 or 1', () => {
-      const text = render().text()
+      const text = wrapper.text()
       expect(text).toContain('Surprise')
       expect(text).toContain('Fear')
     })
 
     it('does not render items with other ratings', () => {
-      const text = render().text()
+      const text = wrapper.text()
       expect(text).not.toContain('Ruthless Efficiency')
       expect(text).not.toContain('Nice Red Uniforms')
       expect(text).not.toContain('Fanatical Devotion')

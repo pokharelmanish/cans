@@ -4,6 +4,7 @@ import { i18n } from './DomainHelper.test'
 import SummaryGrid from './SummaryGrid'
 import DataGridHeader from '../../common/DataGridHeader'
 import ActionRequiredSummary from './ActionRequiredSummary'
+import { BrowserRouter } from 'react-router-dom'
 
 describe('<ActionRequiredSummary />', () => {
   it('renders a data grid', () => {
@@ -18,6 +19,7 @@ describe('<ActionRequiredSummary />', () => {
     expect(shallow(<ActionRequiredSummary i18n={i18n} />).props().header).toEqual(
       <DataGridHeader
         title="Action Required"
+        index={'id3'}
         tooltip={
           'Includes a rating of 1 from the Behavioral/Emotional domain and ratings of 2 from all needs domains. These ratings indicate that this need interferes with functioning.'
         }
@@ -34,6 +36,19 @@ describe('<ActionRequiredSummary />', () => {
   })
 
   describe('with some items in BEN domain', () => {
+    let wrapper
+    beforeEach(() => {
+      const div = document.createElement('div')
+      document.body.appendChild(div)
+      // special test setting for mounting the component with toolTip nested
+      wrapper = mount(
+        <BrowserRouter>
+          <ActionRequiredSummary domains={domains} i18n={i18n} />
+        </BrowserRouter>,
+        { attachTo: div }
+      )
+    })
+
     const domains = [
       {
         code: 'BEN',
@@ -46,17 +61,16 @@ describe('<ActionRequiredSummary />', () => {
         ],
       },
     ]
-    const render = () => mount(<ActionRequiredSummary domains={domains} i18n={i18n} />)
 
     it('renders all of the data with rating 1 and 2 in the domain', () => {
-      const text = render().text()
+      const text = wrapper.text()
       expect(text).toContain('Fear')
       expect(text).toContain('Ruthless Efficiency')
       expect(text).toContain('Surprise')
     })
 
     it('skips all items with ratings not 2 or 1', () => {
-      const text = render().text()
+      const text = wrapper.text()
       expect(text).not.toContain('Nice Red Uniforms')
       expect(text).not.toContain('Fanatical Devotion')
     })

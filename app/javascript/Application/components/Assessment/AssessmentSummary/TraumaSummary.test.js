@@ -4,6 +4,7 @@ import { i18n } from './DomainHelper.test'
 import SummaryGrid from './SummaryGrid'
 import DataGridHeader from '../../common/DataGridHeader'
 import TraumaSummary from './TraumaSummary'
+import { BrowserRouter } from 'react-router-dom'
 
 describe('<TraumaSummary />', () => {
   it('renders a summary grid', () => {
@@ -19,6 +20,7 @@ describe('<TraumaSummary />', () => {
       <DataGridHeader
         title="Trauma"
         tooltip={'Includes all "Yes" ratings from the Potentially Traumatic/Adverse Childhood Experiences module.'}
+        index={'id4'}
       />
     )
   })
@@ -32,6 +34,19 @@ describe('<TraumaSummary />', () => {
   })
 
   describe('with some trauma items', () => {
+    let wrapper
+    beforeEach(() => {
+      const div = document.createElement('div')
+      document.body.appendChild(div)
+      // special test setting for mounting the component with toolTip nested
+      wrapper = mount(
+        <BrowserRouter>
+          <TraumaSummary domains={domains} i18n={i18n} />
+        </BrowserRouter>,
+        { attachTo: div }
+      )
+    })
+
     const domains = [
       {
         code: 'TRM',
@@ -44,16 +59,15 @@ describe('<TraumaSummary />', () => {
         ],
       },
     ]
-    const render = () => mount(<TraumaSummary domains={domains} i18n={i18n} />)
 
     it('renders items with a rating of Yes/1', () => {
-      const text = render().text()
+      const text = wrapper.text()
       expect(text).toContain('Surprise')
       expect(text).toContain('Fear')
     })
 
     it('does not render items other ratings (No/Unset/NA)', () => {
-      const text = render().text()
+      const text = wrapper.text()
       expect(text).not.toContain('Ruthless Efficiency')
       expect(text).not.toContain('Nice Red Uniforms')
       expect(text).not.toContain('Fanatical Devotion')

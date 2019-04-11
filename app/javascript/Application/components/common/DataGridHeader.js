@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { UncontrolledInfotip, PopoverBody } from '@cwds/components'
-// import './style.sass'
 
 const DataGridHeader = ({ title, tooltip, index }) => (
   <div>
