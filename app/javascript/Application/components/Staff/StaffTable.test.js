@@ -89,6 +89,7 @@ describe('<StaffTable />', () => {
       assertColumnIsCentered(staffTable, 2)
       assertColumnIsCentered(staffTable, 3)
       assertColumnIsCentered(staffTable, 4)
+      assertColumnIsCentered(staffTable, 5)
     })
   })
 
@@ -96,7 +97,7 @@ describe('<StaffTable />', () => {
     const assertTitleAndTooltip = (columnIndex, title, tooltip) => {
       const staffTable = render(mockStaff)
       const header = staffTable.props().columns[columnIndex].Header
-      expect(header.props.title).toBe(title)
+      expect(header.props.title).toEqual(title)
       expect(header.props.tooltip).toBe(tooltip)
     }
     it('renders tooltip for respective columns', () => {
@@ -108,6 +109,13 @@ describe('<StaffTable />', () => {
       )
       assertTitleAndTooltip(3, 'In Progress', 'The count of clients who currently have an assessment in progress')
       assertTitleAndTooltip(4, 'Completed', 'The number of clients who are in completed status')
+      assertTitleAndTooltip(
+        5,
+        <span>
+          Reassessments<br />Needed
+        </span>,
+        'Orange indicates that a reassessment is coming due in 30 days or less. Red indicates that a reassessment is past due.'
+      )
     })
   })
 })

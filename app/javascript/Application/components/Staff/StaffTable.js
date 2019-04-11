@@ -6,6 +6,7 @@ import { PAGE_SIZES, gridMinRows } from '../../util/DataGridHelper'
 import DataGridHeader from '../common/DataGridHeader'
 import SessionDataGrid from '../common/SessionDataGrid'
 import { STAFF_LIST_PAGE_SIZE_KEY } from '../../util/sessionStorageUtil'
+import ReassessmentsNeededCell from './ReassessmentsNeededCell'
 
 const columns = [
   {
@@ -59,6 +60,25 @@ const columns = [
       />
     ),
     accessor: 'completed_count',
+    className: 'text-center',
+    headerClassName: 'text-center',
+  },
+  {
+    id: 'reminderDates',
+    Header: (
+      <DataGridHeader
+        title={
+          <span>
+            Reassessments<br />Needed
+          </span>
+        }
+        tooltip={
+          'Orange indicates that a reassessment is coming due in 30 days or less. Red indicates that a reassessment is past due.'
+        }
+      />
+    ),
+    accessor: staffInfo => staffInfo.reminder_dates,
+    Cell: ReassessmentsNeededCell,
     className: 'text-center',
     headerClassName: 'text-center',
   },

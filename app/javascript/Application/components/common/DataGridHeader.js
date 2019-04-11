@@ -14,7 +14,7 @@ const DataGridHeader = ({ title, tooltip, index }) => (
 )
 
 DataGridHeader.propTypes = {
-  title: PropTypes.string.isRequired,
+  title: PropTypes.node.isRequired,
   tooltip: PropTypes.string,
 }
 
