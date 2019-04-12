@@ -52,10 +52,10 @@ export class TimeoutWarning extends Component {
           Would you like to continue?
         </ModalBody>
         <div className="p-3 text-right">
-          <Button className="m-1 no-uppercase warning-modal-logout" onClick={this.logout}>
+          <Button className="m-1 warning-modal-logout" onClick={this.logout}>
             Logout
           </Button>{' '}
-          <Button className="m-1 no-uppercase warning-modal-stay-logged-in" color="primary" onClick={this.refresh}>
+          <Button className="m-1 warning-modal-stay-logged-in" primary onClick={this.refresh}>
             Stay Logged In
           </Button>
         </div>

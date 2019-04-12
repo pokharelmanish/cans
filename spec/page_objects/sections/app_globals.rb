@@ -4,9 +4,11 @@ class AppGlobals < SitePrism::Section
   element :warning_modal_heading, 'div.warning-modal-heading'
   element :delete_warning_modal, 'div.modal'
   element :complete_warning_modal,
-          'div.complete-modal-header', text: 'Completed CANS are unable to be edited.'
-  element :complete_warning_save_return_button, 'button.save-return-button'
-  element :complete_warning_confirm_button, 'button.complete-confirm-button'
+          'div.complete-modal-header', text: 'Confirm CANS completion'
+  element :complete_warning_cancel_button, 'button.cancel-confirm-button'
+  element :complete_warning_save_button, 'button.save-confirm-button'
+  element :complete_warning_save_radio, '#complete-assessment-save', visible: false
+  element :complete_warning_complete_radio, '#complete-assessment-complete', visible: false
   element :reason_select_drop_down, 'div.list__indicator'
   elements:reason_select_options, '.list__option'
   element :cancel_button_of_warning, 'button.warning-modal-logout'

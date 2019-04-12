@@ -353,14 +353,15 @@ describe('<AssessmentFormHeader />', () => {
       expect(wrapper.find('#conducted-by').length).toBe(1)
     })
 
-    it('disabled when assessment completed ', () => {
+    it('disabled when assessment is read-only ', () => {
       const completedAssessment = clone(assessment)
-      completedAssessment.status = 'COMPLETED'
+      completedAssessment.metadata.allowed_operations = ['read', 'create', 'complete', 'delete']
       const props = {
         assessment: completedAssessment,
         client,
         onAssessmentUpdate: mockFn,
         substanceUseItemsIds: defaultProps.substanceUseItemsIds,
+        disabled: true,
       }
       const wrapper = shallow(<AssessmentFormHeader {...props} />)
       expect(wrapper.find('#conducted-by').prop('disabled')).toBeTruthy()

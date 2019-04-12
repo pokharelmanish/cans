@@ -28,6 +28,7 @@ const AssessmentFormFooter = ({ assessment, isEditable, onCancelClick, isSubmiss
           isEditable={isEditable}
           onCancelClick={onCancelClick}
           isReviewNeeded={isReviewNeeded}
+          assessmentStatus={assessment.status}
         />
       )}
     </div>

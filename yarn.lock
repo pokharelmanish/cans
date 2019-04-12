@@ -133,15 +133,14 @@
     lodash "^4.17.11"
     to-fast-properties "^2.0.0"
 
-"@cwds/components@1.1.3":
-  version "1.1.3"
-  resolved "https://registry.yarnpkg.com/@cwds/components/-/components-1.1.3.tgz#4981ca235cc104429f00ecc1be12d503e4253323"
-  integrity sha512-sV+gf5pDTNxBiTGVtftDOfIvaxmJkoXbs5wNr+4cJQxdTZ5RmrcZ+ZPa2/oaVF6PD24sTKf0Ap+XjXRGlvxSdA==
+"@cwds/cares@1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@cwds/cares/-/cares-1.3.0.tgz#dd40b9a3d66397253f86e35bb08cfdaf803e7ee4"
+  integrity sha512-uOODrc5NHC2kBmLDi9A5xjpJOteIwDiZau6RtDuF1F6T/qvka95lUanpBne8cb873bmmSc3hTS6nPLec+dL1Jw==
   dependencies:
-    "@cwds/core" "1.1.3"
-    "@cwds/datagrid" "1.1.3"
-    "@cwds/icons" "1.1.3"
-    "@cwds/reactstrap" "1.1.3"
+    "@cwds/core" "1.3.0"
+    "@cwds/icons" "1.3.0"
+    "@cwds/reactstrap" "1.3.0"
     bootstrap "^4.1.3"
     classnames "^2.2.6"
     lodash.omit "^4.5.0"
@@ -149,46 +148,55 @@
     lodash.uniqueid "^4.0.1"
     react-input-mask "^2.0.4"
     react-select "^2.1.1"
-    react-table "^6.8.6"
 
-"@cwds/core@1.1.3":
-  version "1.1.3"
-  resolved "https://registry.yarnpkg.com/@cwds/core/-/core-1.1.3.tgz#a631742b95c184f53a642efd44636b24edb90d83"
-  integrity sha512-F1u7aZKcGrxqQUxK3U4p9ykPQqCL1/Bt0QOQTSDRRpGg9yyqMrH6ER18MxpYl3R12VV0ho2Kv+5wIShGk/5c1Q==
+"@cwds/components@1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@cwds/components/-/components-1.3.0.tgz#906a312c871797c38964b4650cfab5a4ca247e41"
+  integrity sha512-zE4jAi8Qy4G4VW58l4gNrx6HefLhyYiWg48t6uvhRchWJQBucn4cXa6XrV+mYqwsSXHZFc0DZIoT/A+BkFbrdA==
+  dependencies:
+    "@cwds/cares" "1.3.0"
+    "@cwds/core" "1.3.0"
+    "@cwds/datagrid" "1.3.0"
+    "@cwds/icons" "1.3.0"
+    "@cwds/reactstrap" "1.3.0"
+
+"@cwds/core@1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@cwds/core/-/core-1.3.0.tgz#390e266ef9a5e9ea3b6aad72d8f043cf8072e212"
+  integrity sha512-ng4ZnEgTkyMmPbz6tCSpRNGdVDrajXHpzcTCI8aQ9gVjjmZXD9rjuzmLuvhDmjTWQs1l8xzCAJEjVdHcg45Brw==
   dependencies:
     lodash.camelcase "^4.3.0"
     lodash.set "^4.3.2"
 
-"@cwds/datagrid@1.1.3":
-  version "1.1.3"
-  resolved "https://registry.yarnpkg.com/@cwds/datagrid/-/datagrid-1.1.3.tgz#40e503874d6291671b9a00b26f6b590e87ffd1c1"
-  integrity sha512-NMfa/gdc7Q5COvGn1LRt2mdHslfumcF/xvw0zKGeJ0TmeOC7iY2nnDvZgHxKHhjYVlvbijbXXmeEx9OQqOClGQ==
+"@cwds/datagrid@1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@cwds/datagrid/-/datagrid-1.3.0.tgz#934bc70577217b023c3a854717f7e0fa183faf2a"
+  integrity sha512-9iaUo8Vh8vcbmXVuST8X8SAf4o2NEebuSkU3LwYE/nLfLNPcUvhEgQjeIxz0QFyyXvn9iSVjZ7Y6EC8SAMez+Q==
   dependencies:
-    "@cwds/core" "1.1.3"
-    "@cwds/icons" "1.1.3"
-    "@cwds/reactstrap" "1.1.3"
+    "@cwds/core" "1.3.0"
+    "@cwds/icons" "1.3.0"
+    "@cwds/reactstrap" "1.3.0"
     bootstrap "^4.1.3"
     classnames "^2.2.6"
     lodash.omit "^4.5.0"
     lodash.uniqueid "^4.0.1"
     react-select "^2.1.1"
-    react-table "^6.8.6"
+    react-table "6.8.6"
 
-"@cwds/icons@1.1.3":
-  version "1.1.3"
-  resolved "https://registry.yarnpkg.com/@cwds/icons/-/icons-1.1.3.tgz#a5c4b12b70f00cd6f79e4e4658881bbec657a1fc"
-  integrity sha512-qhz9spZw4luQInEcctQuB/oQIN/0UjZdrZ9i2JQKF/4TbvFWfC47o2EoTNFyGnyO9cl+TtGtsOj/IvJ79cCy/A==
+"@cwds/icons@1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@cwds/icons/-/icons-1.3.0.tgz#c615519f8d49e9db6e6238f9eba850a6455e161b"
+  integrity sha512-F/Dbk+gd1BGzlXT/r3Li0APz5cM27tbXh06nYPONHzCELgkYj3oMmC5863koOu5FDlNAGQAETyQ7iBgXKdQ5cA==
   dependencies:
-    "@cwds/core" "1.1.3"
     "@fortawesome/fontawesome-svg-core" "^1.2.5"
     "@fortawesome/free-regular-svg-icons" "^5.5.0"
     "@fortawesome/free-solid-svg-icons" "^5.5.0"
     "@fortawesome/react-fontawesome" "^0.1.3"
 
-"@cwds/reactstrap@1.1.3":
-  version "1.1.3"
-  resolved "https://registry.yarnpkg.com/@cwds/reactstrap/-/reactstrap-1.1.3.tgz#21e10e5a85321b7a8918cc84ec641a0bad41ceec"
-  integrity sha512-MBE80jZRjyyyQouXCdhBfr9KiJSuiP3oSjKJ1ztBOyWOS6WnpOjAksfGzFz+zm5f1qOb34qhb5J8HWEVDkhQmQ==
+"@cwds/reactstrap@1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@cwds/reactstrap/-/reactstrap-1.3.0.tgz#e8cc5c56cc6789abbffc15a421c84f278b73530d"
+  integrity sha512-1A1fc2Nzw1AHJeZdIk9Hml2Wm7wtX/C7fiOR0FgL4oU+hc4hC5qvJ+TFr3UD8Cro+3nfY04F/GRpa73JMEaPWw==
   dependencies:
     reactstrap "^7.1.0"
 
@@ -7422,10 +7430,10 @@ react-stickyfill@^0.2.3:
     Stickyfill "git+https://github.com/seleckis/stickyfill.git"
     prop-types "^15.5.10"
 
-react-table@^6.8.6:
-  version "6.9.2"
-  resolved "https://registry.yarnpkg.com/react-table/-/react-table-6.9.2.tgz#6a59adfeb8d5deced288241ed1c7847035b5ec5f"
-  integrity sha512-sTbNHU8Um0xRtmCd1js873HXnXaMWeBwZoiljuj0l1d44eaqjKyYPK/3HCBbJg1yeE2O5pQJ3Km0tlm9niNL9w==
+react-table@6.8.6:
+  version "6.8.6"
+  resolved "https://registry.yarnpkg.com/react-table/-/react-table-6.8.6.tgz#a0ad8b4839319052d5befc012603fb161e52ede3"
+  integrity sha1-oK2LSDkxkFLVvvwBJgP7Fh5S7eM=
   dependencies:
     classnames "^2.2.5"
 

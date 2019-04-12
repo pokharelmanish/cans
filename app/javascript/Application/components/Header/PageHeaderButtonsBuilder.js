@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import './style.sass'
 
 export const buildButton = (caption, icon, callback, isEnabled = true) => (
-  <Button color={'primary'} className={'header-button'} onClick={callback} disabled={!isEnabled}>
+  <Button primary className={'header-button'} onClick={callback} disabled={!isEnabled}>
     {icon && <Icon className="header-button-icon" icon={icon} color="inherit" />}
     <span className={`header-button-caption ${icon ? 'header-button-icon-caption' : ''}`}>{caption}</span>
   </Button>

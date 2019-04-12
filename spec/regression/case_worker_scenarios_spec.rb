@@ -505,7 +505,8 @@ feature 'Case Worker Functionality' do
   def warning_and_summary_card_shown_after_complete_button_clicked(has_previous_values)
     @form.complete_assessment has_previous_values
     expect(@form.app_globals).to have_complete_warning_modal
-    @form.app_globals.complete_warning_save_return_button.click
+    @form.app_globals.complete_warning_save_radio.click
+    @form.app_globals.complete_warning_save_button.click
     sleep 2
     @form.footer.confirm_domains_review if has_previous_values
     click_complete_button_then_summary_card_shown has_previous_values
@@ -515,8 +516,9 @@ feature 'Case Worker Functionality' do
     expect(@form.footer).to have_complete_button
     @form.complete_assessment has_previous_values
     expect(@form.app_globals).to have_complete_warning_modal
-    @form.app_globals.complete_warning_confirm_button.click
-    expect(@form.global).to have_global_complete_message_box
+    @form.app_globals.complete_warning_complete_radio.click
+    @form.app_globals.complete_warning_save_button.click
+    expect(@form.global).to have_global_complete_rw_message_box
     expect(@form.app_globals).to have_no_complete_warning_modal
     expect(@form).to have_summary
   end

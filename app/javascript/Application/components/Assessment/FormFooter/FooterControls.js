@@ -4,6 +4,7 @@ import '../style.sass'
 import CompleteAssessmentButton from './CompleteAssessmentButton'
 import ReviewConfirmation from './ReviewConfirmation'
 import CancelAssessmentButton from './CancelAssessmentButton'
+import { AssessmentStatus } from '../AssessmentHelper'
 
 class FooterControls extends Component {
   state = { isReviewConfirmed: false }
@@ -29,13 +30,15 @@ class FooterControls extends Component {
         {isEditable &&
           !isSubmissionEnabled && (
             <span>
-              The Assessment Date and all assessment ratings must be completed before the Complete button becomes
-              active.
+              The Assessment Date and all assessment ratings must be completed before the{' '}
+              {this.props.assessmentStatus === AssessmentStatus.completed ? 'Save' : 'Complete'} button becomes active.
             </span>
           )}
         <div className="footer-controls-btn-group">
           <CancelAssessmentButton onCancelClick={onCancelClick} />
-          <CompleteAssessmentButton onSubmitAssessment={onSubmitAssessment} disabled={!isSubmitButtonEnabled} />
+          {this.props.assessmentStatus !== AssessmentStatus.completed && (
+            <CompleteAssessmentButton onSubmitAssessment={onSubmitAssessment} disabled={!isSubmitButtonEnabled} />
+          )}
         </div>
       </div>
     )
@@ -43,6 +46,7 @@ class FooterControls extends Component {
 }
 
 FooterControls.propTypes = {
+  assessmentStatus: PropTypes.string.isRequired,
   isEditable: PropTypes.bool.isRequired,
   isReviewNeeded: PropTypes.bool.isRequired,
   isSubmissionEnabled: PropTypes.bool.isRequired,

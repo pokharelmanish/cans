@@ -74,7 +74,7 @@ class UnsavedDataWarning extends Component {
         </ModalBody>
 
         <ModalFooter className="warning-modal-footer">
-          <Button className={'unsaved-warning-modal-discard no-uppercase'} onClick={this.close}>
+          <Button className={'unsaved-warning-modal-discard'} onClick={this.close}>
             {'Return to the assessment'}
           </Button>
           <Button
@@ -90,7 +90,7 @@ class UnsavedDataWarning extends Component {
         {!this.state.isDiscardDisabled ? (
           <ModalFooter className="warning-modal-footer">
             <Button
-              className={'unsaved-warning-modal-discard no-uppercase'}
+              className={'unsaved-warning-modal-discard'}
               onClick={() => {
                 this.onButtonClick(this.props.discardAndContinue)
               }}

@@ -1,6 +1,7 @@
 import React from 'react'
 import { formatClientName, formatClientStatus } from './Client.helper'
-import { renderDate, renderReminderDate, sortDOB, cellTempSwitcher } from './ClientSocialWorkerCardTemplateHelper'
+import { renderDate, sortDOB, cellTempSwitcher } from './ClientSocialWorkerCardTemplateHelper'
+import { ReminderDateCell } from './ReminderDateCell'
 import DataGridHeader from '../common/DataGridHeader'
 import './style.sass'
 
@@ -50,10 +51,8 @@ and meet the setting rules of reactTable at same time */
           }
         />
       ),
-      headerStyle: {
-        textAlign: 'center',
-      },
-      accessor: client => renderReminderDate(client.reminder_date),
+      headerStyle: { textAlign: 'center' },
+      Cell: ReminderDateCell,
       className: 'client-list-table-cell-center',
       sortable: true,
     },

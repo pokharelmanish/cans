@@ -9,7 +9,7 @@ const ShowMoreResultsButton = ({ isHighlighted, onClick, ...itemProps }) => (
         {...itemProps}
         onClick={onClick}
         className="show-more-results-button"
-        color="primary"
+        primary
         block={true}
         active={isHighlighted}
       >

@@ -1,5 +1,6 @@
 import React from 'react'
 import CompleteAssessmentButton from './CompleteAssessmentButton'
+
 import { shallow } from 'enzyme'
 
 describe('<CompleteAssessmentButton/>', () => {
@@ -14,11 +15,6 @@ describe('<CompleteAssessmentButton/>', () => {
 
   it('renders disabled button', () => {
     const wrapper = render({ onSubmitAssessment: onSubmitMock, disabled: true })
-    expect(
-      wrapper
-        .find('Button')
-        .dive()
-        .instance().props.disabled
-    ).toBe(true)
+    expect(wrapper.find('Button').props().disabled).toBe(true)
   })
 })

@@ -27,7 +27,6 @@ describe('<DomainCollapseButton />', () => {
 
   it('will render Icon with correct props', () => {
     const target = wrapper.find(Button)
-    expect(target.props().icon).toBe('chevron-down')
     expect(target.props().id).toBe('TRM-inner-collapse-icon')
     expect(typeof target.props().onClick).toBe('function')
     expect(typeof target.props().onKeyPress).toBe('function')

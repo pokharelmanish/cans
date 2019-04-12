@@ -1,22 +1,24 @@
 import moment from 'moment'
 
-const WARNING_PERIOD = 30
+export const WARNING_PERIOD = 30
+
+export const today = () => moment({ hours: 0 })
 
 export const countWarningsAndDues = reminderDates => {
-  const today = moment({ hours: 0 })
-  const warningsCount = reminderDates.filter(reminderDate => isWarningDate(reminderDate, today)).length
-  const duesCount = reminderDates.filter(reminderDate => isPastDueDate(reminderDate, today)).length
+  const todaysDate = today()
+  const warningsCount = reminderDates.filter(reminderDate => isWarningDate(reminderDate, todaysDate)).length
+  const duesCount = reminderDates.filter(reminderDate => isPastDueDate(reminderDate, todaysDate)).length
   return { warningsCount, duesCount }
 }
 
-const isWarningDate = (isoReminderDate, today) => {
-  const daysDiff = diffInDays(isoReminderDate, today)
+export const isWarningDate = (isoReminderDate, todaysDate) => {
+  const daysDiff = diffInDays(isoReminderDate, todaysDate)
   return daysDiff >= 0 && daysDiff <= WARNING_PERIOD
 }
 
-const isPastDueDate = (isoReminderDate, today) => {
-  const daysDiff = diffInDays(isoReminderDate, today)
+export const isPastDueDate = (isoReminderDate, todaysDate) => {
+  const daysDiff = diffInDays(isoReminderDate, todaysDate)
   return daysDiff < 0
 }
 
-const diffInDays = (isoReminderDate, today) => moment(isoReminderDate).diff(today, 'days')
+export const diffInDays = (isoReminderDate, todaysDate) => moment(isoReminderDate).diff(todaysDate, 'days')

@@ -3,31 +3,6 @@
 //***************************************
 //  @cwds/components Button overrides
 //***************************************
-button:not(.no-uppercase)
-  text-transform: uppercase !important
-
-%button-fix
-  font-size: 0.6875rem
-  font-weight: 600
-
-.button-fix-primary
-  @extend %button-fix
-  padding: 0.625rem 0.625rem
-  min-width: 7.5rem
-  background-color: $pine-green
-  border-color: $pine-green
-
-  &:hover, &.active
-    background-color: $dark-cyan
-    border-color: $dark-cyan
-
-  &:disabled
-    background-color: $zumthor
-    border-color: $zumthor
-
-.button-fix-secondary
-  @extend %button-fix
-
 .card-header-cans-action
   padding-right: 1.875rem
   padding-top: 0.625rem

@@ -131,12 +131,7 @@ class Domain extends Component {
           <ExpansionPanelSummary
             expandIcon={
               isReviewed || expanded ? null : (
-                <Button
-                  id={`domain${index}-review`}
-                  color="primary"
-                  className={'review-regular-button no-uppercase'}
-                  onClick={this.handleOpenToReview}
-                >
+                <Button id={`domain${index}-review`} onClick={this.handleOpenToReview}>
                   Open to review
                 </Button>
               )

@@ -1013,6 +1013,9 @@ describe('<AssessmentContainer />', () => {
             domains: [],
             under_six: undefined,
           },
+          person: {
+            dob: '2019-01-01',
+          },
           status: AHelper.AssessmentStatus.completed,
         },
         isEditable: false,

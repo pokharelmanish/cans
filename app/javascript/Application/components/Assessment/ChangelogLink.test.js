@@ -17,7 +17,7 @@ describe('ChangelogLink', () => {
   describe('layout', () => {
     let changeLogMenuItem
     beforeEach(() => {
-      changeLogMenuItem = getWrapper().find('.view-changelog-link')
+      changeLogMenuItem = getWrapper().find('#view-changelog-link')
     })
 
     describe('ChangeLog', () => {
@@ -40,7 +40,7 @@ describe('ChangelogLink', () => {
 
         beforeEach(() => {
           wrapper = getWrapper()
-          changeLogMenuItem = wrapper.find('.view-changelog-link')
+          changeLogMenuItem = wrapper.find('#view-changelog-link')
         })
 
         it('renders a Redirect component', () => {

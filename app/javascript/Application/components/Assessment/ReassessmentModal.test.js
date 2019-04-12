@@ -1,5 +1,6 @@
 import React from 'react'
 import { shallow } from 'enzyme'
+import { Button, ModalBody, CardTitle } from '@cwds/components'
 import ReassessmentModal from './ReassessmentModal'
 
 describe('ReassessmentModal', () => {
@@ -18,10 +19,15 @@ describe('ReassessmentModal', () => {
     expect(modal.props().isOpen).toBeFalsy()
   })
 
-  it('renders a body with title', () => {
-    const modalBody = render({}).find('.cans-modal-body')
-    expect(modalBody.text()).toBe(
-      'How would you like to begin this CANS Reassessment?Would you prefer to start with or without the most recently completed CANS ratings?'
+  it('renders a modal title', () => {
+    const modalTitle = render({}).find(CardTitle)
+    expect(modalTitle.props().children).toBe('How would you like to begin this CANS Reassessment?')
+  })
+
+  it('renders a modal body', () => {
+    const modalBody = render({}).find(ModalBody)
+    expect(modalBody.props().children).toBe(
+      'Would you prefer to start with or without the most recently completed CANS ratings?'
     )
   })
 
@@ -45,7 +51,7 @@ describe('ReassessmentModal', () => {
     })
 
     it('renders 2 buttons in the footer', () => {
-      const buttons = render({}).find('.cans-modal-footer > Button')
+      const buttons = render({}).find(Button)
       expect(buttons.length).toBe(2)
       expect(buttons.at(leftButtonIndex).props().children).toBe('Start new')
       expect(buttons.at(rightButtonIndex).props().children).toBe('Use previous ratings')

@@ -120,11 +120,13 @@ export default class AssessmentContainer extends Component {
   }
 
   initHeaderButtons(isSaveButtonEnabled) {
-    const { assessment, i18n, isEditable } = this.state
+    const { assessment, i18n } = this.state
     const node = (
       <PrintAssessment assessment={assessment} i18n={i18n} substanceUseItemsIds={this.state.substanceUseItemsIds} />
     )
-    const leftButton = isEditable ? buildSaveAssessmentButton(this.handleSaveAssessment, isSaveButtonEnabled) : null
+    const leftButton = this.isEditable(assessment)
+      ? buildSaveAssessmentButton(this.handleSaveAssessment, isSaveButtonEnabled)
+      : null
     const isPrintButtonEnabled = handlePrintButtonEnabled(this.state)
     const rightButton = <PrintButton node={node} isEnabled={isPrintButtonEnabled} assessmentId={assessment.id} />
     this.props.pageHeaderController.updateHeaderButtons(leftButton, rightButton)
@@ -140,14 +142,14 @@ export default class AssessmentContainer extends Component {
 
   shouldSaveButtonBeEnabled() {
     const { assessment, assessmentServiceStatus, isEditable, isValidDate, isEventDateBeforeDob } = this.state
-    return (
-      isValidDate &&
-      !isEventDateBeforeDob &&
-      isEditable &&
-      assessment.state.under_six !== undefined &&
-      Boolean(assessment.event_date) &&
-      isReadyForAction(assessmentServiceStatus)
-    )
+    return assessment.status === AssessmentStatus.completed
+      ? validateAssessmentForSubmit(assessment)
+      : isValidDate &&
+          !isEventDateBeforeDob &&
+          isEditable &&
+          assessment.state.under_six !== undefined &&
+          Boolean(assessment.event_date) &&
+          isReadyForAction(assessmentServiceStatus)
   }
 
   async fetchNewAssessment() {
