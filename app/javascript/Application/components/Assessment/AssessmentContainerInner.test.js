@@ -66,6 +66,15 @@ describe('AssessmentContainerInner />', () => {
     })
   })
 
+  it('changes the Assessment key when age template changes', () => {
+    // This is important for resetting the domain expansion state
+    const wrapper = shallow(<AssessmentContainerInner {...props} />)
+    const initialKey = wrapper.find(Assessment).key()
+    const newAssessment = { ...assessment, state: { ...assessment.state, under_six: !assessment.state.under_six } }
+    wrapper.setProps({ assessment: newAssessment })
+    expect(wrapper.find(Assessment).key()).not.toBe(initialKey)
+  })
+
   describe('renders a component which shows warning and sets the state', () => {
     it('verify the state is updated and sets isCaregiverWarningShown to false', () => {
       const wrapper = shallow(<AssessmentContainerInner {...props} />)

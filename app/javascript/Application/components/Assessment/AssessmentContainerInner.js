@@ -88,6 +88,8 @@ class AssessmentContainerInner extends Component {
       previousRatingsMap,
       substanceUseItemsIds,
     } = this.props
+
+    const isUnderSix = Boolean(assessment && assessment.state && assessment.state.under_six)
     return (
       <Fragment>
         <div rol="completeScrollLocator">
@@ -109,10 +111,11 @@ class AssessmentContainerInner extends Component {
           assessmentStatus={assessment.status}
           domains={assessment && assessment.state && assessment.state.domains}
           i18n={i18n}
-          isUnderSix={Boolean(assessment && assessment.state && assessment.state.under_six)}
+          isUnderSix={isUnderSix}
           disabled={!isEditable}
         />
         <Assessment
+          key={isUnderSix.toString()}
           assessment={assessment}
           i18n={i18n}
           onAssessmentUpdate={onAssessmentUpdate}
