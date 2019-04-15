@@ -3,13 +3,7 @@ import { Button } from '@cwds/components'
 import PropTypes from 'prop-types'
 
 const CompleteAssessmentButton = ({ onSubmitAssessment, disabled }) => (
-  <Button
-    id={'submit-assessment'}
-    className={'no-uppercase'}
-    color={'primary'}
-    onClick={onSubmitAssessment}
-    disabled={disabled}
-  >
+  <Button id={'submit-assessment'} primary onClick={onSubmitAssessment} disabled={disabled}>
     Complete
   </Button>
 )

@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
+import './style.sass'
 import { Alert, Button, CardTitle, Modal, ModalBody, ModalHeader } from '@cwds/components'
 import { TIMEOUT_EVENT } from './../../util/constants'
 import { eventBus } from './../../util/eventBus'
 import { SecurityService } from './Security.service'
-import { logoutUrl } from '../../util/navigationUtil'
-
-import './style.sass'
+import UserAccountService from '../common/UserAccountService'
 
 export class TimeoutWarning extends Component {
   constructor(context) {
@@ -14,7 +13,6 @@ export class TimeoutWarning extends Component {
       isOpened: false,
     }
     this.refresh = this.refresh.bind(this)
-    this.logout = this.logout.bind(this)
     this.onTimeoutEvent = this.onTimeoutEvent.bind(this)
   }
 
@@ -35,10 +33,6 @@ export class TimeoutWarning extends Component {
     })
   }
 
-  logout() {
-    window.location.href = logoutUrl()
-  }
-
   render() {
     return (
       <Modal className="warning-modal" isOpen={this.state.isOpened}>
@@ -52,10 +46,10 @@ export class TimeoutWarning extends Component {
           Would you like to continue?
         </ModalBody>
         <div className="p-3 text-right">
-          <Button className="m-1 no-uppercase warning-modal-logout" onClick={this.logout}>
+          <Button className="m-1 warning-modal-logout" onClick={UserAccountService.logout}>
             Logout
           </Button>{' '}
-          <Button className="m-1 no-uppercase warning-modal-stay-logged-in" color="primary" onClick={this.refresh}>
+          <Button className="m-1 warning-modal-stay-logged-in" primary onClick={this.refresh}>
             Stay Logged In
           </Button>
         </div>

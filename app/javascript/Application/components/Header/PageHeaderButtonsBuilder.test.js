@@ -7,7 +7,7 @@ import { buildSaveAssessmentButton, buildSearchClientsButton } from './PageHeade
 describe('<PageHeaderButtonsBuilder />', () => {
   it('#buildSaveAssessmentButton()', () => {
     const saveAssessmentButton = shallow(buildSaveAssessmentButton(jest.fn(), false))
-    const buttonProps = saveAssessmentButton.find('button').props()
+    const buttonProps = saveAssessmentButton.find('Button').props()
     expect(buttonProps.disabled).toBeTruthy()
     expect(saveAssessmentButton.find('span').text()).toBe('Save')
   })

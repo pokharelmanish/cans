@@ -1,6 +1,6 @@
 import React, { PureComponent, Fragment } from 'react'
 import { Row, Col, Label } from 'reactstrap'
-import { resetConfidentialByDefaultItems, AssessmentStatus } from './AssessmentHelper'
+import { resetConfidentialByDefaultItems } from './AssessmentHelper'
 import { clientCaseReferralNumber, formatClientName } from '../Client/Client.helper'
 import PropTypes from 'prop-types'
 import { clone } from '../../util/common'
@@ -198,7 +198,7 @@ class AssessmentFormHeader extends PureComponent {
               id={'conducted-by'}
               value={assessment.conducted_by}
               onChange={this.handleConductedByChange}
-              disabled={assessment.status === AssessmentStatus.completed || this.props.disabled}
+              disabled={this.props.disabled}
             />
           </Col>
           <Col sm={3}>{this.renderCaseNumber()}</Col>

@@ -1,14 +1,15 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { headerBlock, headerRow, textAlignCenter } from './PrintAssessmentStyle'
+import { summaryContainer } from './PrintAssessmentStyle'
+import CategoryHeader from '../printUtil/CategoryHeader'
 import {
   isBehavioralNeedsDomain,
   isNeedsDomain,
   isStrengthsDomain,
   isTraumaDomain,
   itemsValue,
-} from '../Assessment/AssessmentSummary/DomainHelper'
-import { getI18nByCode } from '../common/I18nHelper'
+} from '../../Assessment/AssessmentSummary/DomainHelper'
+import { getI18nByCode } from '../../common/I18nHelper'
 import { PrintSummaryRecord } from './PrintSummaryRecord'
 
 const STRENGTHS = 'Strengths'
@@ -42,9 +43,9 @@ class PrintSummary extends PureComponent {
       domain => (this.props.isUnderSix ? domain.under_six : domain.above_six)
     )
     return (
-      <div style={headerBlock}>
-        <h1 style={textAlignCenter}>CANS Summary</h1>
-        <div style={headerRow}>
+      <div>
+        <CategoryHeader title="CANS Summary" />
+        <div style={summaryContainer}>
           <PrintSummaryRecord
             items={this.getCodes(filteredDomains, isStrengthsDomain, strengthItemsFilter)}
             title={STRENGTHS}

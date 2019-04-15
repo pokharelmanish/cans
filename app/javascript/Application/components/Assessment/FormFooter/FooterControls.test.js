@@ -20,6 +20,7 @@ describe('<FooterControls />', () => {
         isSubmissionEnabled={isSubmissionEnabled}
         onCancelClick={onCancelClick}
         onSubmitAssessment={onSubmitAssessment}
+        assessmentStatus={'IN_PROGRESS'}
       />
     )
 

@@ -13,6 +13,9 @@ class AssessmentGlobal < SitePrism::Section
                                             'CANS assessment has been saved'
   element :global_complete_message_box, 'div.global-alert', text: 'This assessment was completed '\
                                         'and is available for view only.'
+  element :global_complete_rw_message_box, 'div.global-alert', text: 'Success! CANS assessment '\
+                                           'has been completed. Click here to '\
+                                           'return to Child/Youth profile.'
 end
 
 class AssessmentFormHeader < SitePrism::Section
@@ -72,9 +75,9 @@ end
 class ReassessmentModal < SitePrism::Section
   FADE_TIME = 0.3 # Reactstrap modal fade time. Don't try to click a moving button
 
-  element :title, '.cans-modal-body > .info-modal-title'
-  element :start_new_button, 'button.modal-regular-button', text: 'Start new'
-  element :use_previous_button, 'button.modal-regular-button', text: 'Use previous rating'
+  element :title, '#reassessment-modal-title'
+  element :start_new_button, 'button', text: 'Start new'
+  element :use_previous_button, 'button', text: 'Use previous rating'
 
   def start_empty_reassessment
     sleep FADE_TIME
@@ -117,11 +120,11 @@ class AssessmentForm < SitePrism::Page
   element :challenges_domain, 'svg#domain5-expand'
   element :caregiver_domain, 'svg#domain11-expand'
   element :impulse_hyperactivity, '#IMPULSIVITY_HYPERACTIVITY-item-expand'
-  element :expand_all_button, 'button', text: 'EXPAND ALL'
-  element :collapse_all_button, 'button', text: 'COLLAPSE ALL'
+  element :expand_all_button, 'button', text: 'Expand All'
+  element :collapse_all_button, 'button', text: 'Collapse All'
   element :collapsed_chevron, 'div[aria-expanded="false"]'
   element :expanded_chevron, 'div[aria-expanded="true"]'
-  element :domain_collapse_button, 'button.modal-regular-button'
+  element :domain_collapse_button, 'button[aria-label="domain collapse button"]'
   elements :item_bottom_chevron, 'div.item-inner-collapse-icon-container svg'
   elements :domain_level_reg_rating, 'div.item-reg-rating label'
   elements :domain_reg_radios, 'div.item-reg-rating input', visible: false
@@ -152,7 +155,7 @@ class AssessmentForm < SitePrism::Page
           match: :first
   element :caregiver_domain_warning_popup, 'div.warning-modal-body'
   element :caregiver_domain_warning_message, 'div.warning-modal-body div div'
-  element :change_log_link, '.view-changelog-link'
+  element :change_log_link, '#view-changelog-link'
 
   def is_reassessment?
     global.has_page_header?(text: 'CANS')

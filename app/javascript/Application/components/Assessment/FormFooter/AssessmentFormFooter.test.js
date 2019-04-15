@@ -40,6 +40,7 @@ describe('AssessmentFormFooter', () => {
         isSubmissionEnabled={isSubmissionEnabled}
         onCancelClick={onCancelClick}
         onSubmitAssessment={onSubmitAssessment}
+        assessmentStatus={status}
       />
     )
 

@@ -259,15 +259,14 @@ feature 'Case Worker Functionality' do
   def delete_assessment_test(current_date, client_name)
     @client_profile.recent_assessment_ellipsis_icon.click
     @client_profile.delete_cans_button.click
-    expect(@client_profile.app_globals.delete_warning_modal['style']).to eq('display: block;')
-    @form.app_globals.cancel_button_of_warning.click
-    expect(@client_profile.app_globals).to have_no_warning_modal_heading
+    @form.app_globals.cancel_button_of_delete_modal.click
+    expect(@client_profile.app_globals).to have_no_delete_warning_modal
     @client_profile.recent_assessment_ellipsis_icon.click
     @client_profile.delete_cans_button.click
     @form.app_globals.reason_select_drop_down.click
     @form.app_globals.reason_select_options[0].click
-    @form.app_globals.agree_button_of_warning.click
-    expect(@client_profile.app_globals).to have_no_warning_modal_heading
+    @form.app_globals.delete_button_of_delete_modal.click
+    expect(@client_profile.app_globals).to have_no_delete_warning_modal
     view_cans_change_log_test(current_date, client_name)
     expect(@assessment_changelog).to have_change_log_delete_status
     expect(@assessment_changelog).to have_change_log_entered_in_error_comment
@@ -505,7 +504,8 @@ feature 'Case Worker Functionality' do
   def warning_and_summary_card_shown_after_complete_button_clicked(has_previous_values)
     @form.complete_assessment has_previous_values
     expect(@form.app_globals).to have_complete_warning_modal
-    @form.app_globals.complete_warning_save_return_button.click
+    @form.app_globals.complete_warning_save_radio.click
+    @form.app_globals.complete_warning_save_button.click
     sleep 2
     @form.footer.confirm_domains_review if has_previous_values
     click_complete_button_then_summary_card_shown has_previous_values
@@ -515,8 +515,9 @@ feature 'Case Worker Functionality' do
     expect(@form.footer).to have_complete_button
     @form.complete_assessment has_previous_values
     expect(@form.app_globals).to have_complete_warning_modal
-    @form.app_globals.complete_warning_confirm_button.click
-    expect(@form.global).to have_global_complete_message_box
+    @form.app_globals.complete_warning_complete_radio.click
+    @form.app_globals.complete_warning_save_button.click
+    expect(@form.global).to have_global_complete_rw_message_box
     expect(@form.app_globals).to have_no_complete_warning_modal
     expect(@form).to have_summary
   end

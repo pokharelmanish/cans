@@ -1,8 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import PageModal from '../common/PageModal'
 import { AssessmentService } from '../Assessment'
-import { Select, Label } from '@cwds/components'
+import { Select, Label, Modal, ModalBody, ModalHeader, CardTitle, Button } from '@cwds/components'
 import Comment from '../common/Comment'
 import '../../styles/global/modal-styles.sass'
 import { logPageAction } from '../../util/analytics'
@@ -78,10 +77,8 @@ class AssessmentDeleteModal extends React.Component {
     }
   }
 
-  render() {
-    const { date } = this.props
-    const warning = <div>{deleteWarningTitle}</div>
-    const otherReasonInput = (
+  renderOtherReasonInput = () => {
+    return (
       <div>
         <Label for={'other'} className={'delete-warning-label'}>
           {otherReasonLabel}
@@ -99,33 +96,51 @@ class AssessmentDeleteModal extends React.Component {
         </div>
       </div>
     )
+  }
+
+  render() {
+    const { date } = this.props
+    const warning = <div>{deleteWarningTitle}</div>
+    const otherReasonInput = this.renderOtherReasonInput()
     return (
-      <PageModal
-        isOpen={this.props.isShown}
-        title={`Delete CANS Assessment - ${date}`}
-        warningDescription={warning}
-        description={deleteWarningDescription}
-        nextStepButtonLabel={'Delete CANS'}
-        cancelButtonLabel={'Cancel'}
-        onCancel={this.handleWarningCancel}
-        onNextStep={this.handleWarningDelete}
-        isNextStepDisabled={this.state.isDeleteButtonDisabled}
-      >
-        <Label for={'reasonSelect'} className={'delete-warning-label'}>
-          {reasonSelectLabel}
-        </Label>
-        <div className="delete-reason-select">
-          <Select
-            id={'reasonSelect'}
-            classNamePrefix="list"
-            options={selectOptions}
-            value={this.state.selectedReason}
-            onChange={this.handleSelectChange}
-            isSearchable={false}
-          />
+      <Modal id="delete-assessment-modal" isOpen={this.props.isShown}>
+        <ModalHeader>
+          <CardTitle>{`Delete CANS Assessment - ${date}`}</CardTitle>
+        </ModalHeader>
+        <ModalBody>
+          <div>{warning}</div>
+          <div>{deleteWarningDescription}</div>
+          <Label for={'reasonSelect'} className={'delete-warning-label'}>
+            {reasonSelectLabel}
+          </Label>
+          <div className="delete-reason-select">
+            <Select
+              menuPortalTarget={document.body}
+              styles={{ menuPortal: base => ({ ...base, zIndex: 9999 }) }}
+              id={'reasonSelect'}
+              classNamePrefix="list"
+              options={selectOptions}
+              value={this.state.selectedReason}
+              onChange={this.handleSelectChange}
+              isSearchable={false}
+            />
+          </div>
+          {this.state.showOtherReasonInput ? otherReasonInput : null}
+        </ModalBody>
+        <div className="p-3 text-right">
+          <Button className="m-1" onClick={this.handleWarningCancel}>
+            Cancel
+          </Button>
+          <Button
+            className="m-1"
+            primary
+            onClick={this.handleWarningDelete}
+            disabled={this.state.isDeleteButtonDisabled}
+          >
+            Delete CANS
+          </Button>
         </div>
-        {this.state.showOtherReasonInput ? otherReasonInput : null}
-      </PageModal>
+      </Modal>
     )
   }
 }

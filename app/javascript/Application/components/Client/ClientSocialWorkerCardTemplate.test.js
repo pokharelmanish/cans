@@ -37,11 +37,9 @@ describe(' ClientSocialWorkerCardTempate ', () => {
     const accessorFullName = template()[0].accessor(client)
     const accessorDoB = template()[1].accessor(client)
     const accessorStatus = template()[2].accessor(client)
-    const accessorReminderDate = template()[3].accessor(client)
     expect(accessorFullName).toEqual('Green, Jim Alen, Mr.')
     expect(accessorDoB).toEqual('01/01/2000')
     expect(accessorStatus).toEqual('No prior CANS')
-    expect(accessorReminderDate).toEqual('10/26/2018')
   })
 
   describe('sort method', () => {

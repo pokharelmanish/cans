@@ -1,25 +1,21 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import './style.sass'
-import ReassessmentsNeededCellBadge from './ReassessmentsNeededCellBadge'
-import { countWarningsAndDues } from './ReassessmentsDueCalculator'
+import { Badge } from '@cwds/components'
 
-const ReassessmentsNeededCell = ({ value: reminderDates }) => {
-  const warningsAndDues = countWarningsAndDues(reminderDates)
-  return (
-    <div className="reassess-needed-cell">
-      <ReassessmentsNeededCellBadge color="warning" number={warningsAndDues.warningsCount} />
-      <ReassessmentsNeededCellBadge color="danger" number={warningsAndDues.duesCount} />
-    </div>
+const ReassessmentsNeededCell = ({ value }) =>
+  value.number ? (
+    <Badge pill color={value.color}>
+      {value.number}
+    </Badge>
+  ) : (
+    0
   )
-}
 
 ReassessmentsNeededCell.propTypes = {
-  value: PropTypes.array,
-}
-
-ReassessmentsNeededCell.defaultProps = {
-  value: [],
+  value: PropTypes.shape({
+    color: PropTypes.oneOf(['warning', 'danger']).isRequired,
+    number: PropTypes.number.isRequired,
+  }).isRequired,
 }
 
 export default ReassessmentsNeededCell

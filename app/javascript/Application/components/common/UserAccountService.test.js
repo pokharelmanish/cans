@@ -1,4 +1,6 @@
 import UserAccountService from './UserAccountService'
+import * as SessionStorageUtil from '../../util/sessionStorageUtil'
+import pageLockService from './PageLockService'
 
 describe('UserAccountService', () => {
   describe('#fetchCurrent', () => {
@@ -44,6 +46,19 @@ describe('UserAccountService', () => {
           expect(actualResult).toEqual({})
         })
       })
+    })
+  })
+
+  describe('#logout()', () => {
+    it('prepares app and redirects to logout url', () => {
+      SessionStorageUtil.clearStorage = jest.fn()
+      pageLockService.stop = jest.fn()
+      window.location.assign = jest.fn()
+      UserAccountService.logout()
+      expect(SessionStorageUtil.clearStorage).toHaveBeenCalledTimes(1)
+      expect(pageLockService.stop).toHaveBeenCalledTimes(1)
+      expect(window.location.assign).toHaveBeenCalledWith('/user/logout')
+      expect(window.location.assign).toHaveBeenCalledTimes(1)
     })
   })
 })

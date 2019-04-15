@@ -182,7 +182,10 @@ describe('<Domain />', () => {
           isCompletedAssessment={false}
         />
       )
-      wrapper.find('Button#domain1-review').simulate('click')
+      wrapper
+        .find('ExpansionPanelSummary')
+        .find(Button)
+        .simulate('click')
       expect(wrapper.find(Icon).exists()).toBe(true)
     })
   })

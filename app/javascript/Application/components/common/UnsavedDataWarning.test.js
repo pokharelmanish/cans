@@ -1,7 +1,7 @@
 import React from 'react'
 import UnsavedDataWarning from './UnsavedDataWarning'
 import { shallow } from 'enzyme'
-import { Button } from 'reactstrap'
+import { Button } from '@cwds/components'
 import pageLockService from './PageLockService'
 
 describe('<UnsavedDataWarning />', () => {

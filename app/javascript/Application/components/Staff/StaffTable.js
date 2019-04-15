@@ -7,8 +7,10 @@ import DataGridHeader from '../common/DataGridHeader'
 import SessionDataGrid from '../common/SessionDataGrid'
 import { STAFF_LIST_PAGE_SIZE_KEY } from '../../util/sessionStorageUtil'
 import ReassessmentsNeededCell from './ReassessmentsNeededCell'
+import { today } from '../../util/dateHelper'
+import { countDueDates, countPastDueDates } from './ReassessmentsDueCalculator'
 
-const columns = [
+const columns = todaysDate => [
   {
     Header: 'Staff Name',
     id: 'staffName',
@@ -52,20 +54,35 @@ const columns = [
     headerClassName: 'text-center',
   },
   {
-    id: 'reminderDates',
+    id: 'dueDatesCount',
     Header: (
       <DataGridHeader
         title={
           <span>
-            Reassessments<br />Needed
+            Reassessments<br />Due
           </span>
         }
-        tooltip={
-          'Orange indicates that a reassessment is coming due in 30 days or less. Red indicates that a reassessment is past due.'
-        }
+        tooltip={'The count of clients that have a reassessment coming due in 30 days or less'}
       />
     ),
-    accessor: staffInfo => staffInfo.reminder_dates,
+    accessor: staffInfo => ({ color: 'warning', number: countDueDates(staffInfo.reminder_dates, todaysDate) }),
+    Cell: ReassessmentsNeededCell,
+    className: 'text-center',
+    headerClassName: 'text-center',
+  },
+  {
+    id: 'pastDueDatesCount',
+    Header: (
+      <DataGridHeader
+        title={
+          <span>
+            Reassessments<br />Past Due
+          </span>
+        }
+        tooltip={'The count of clients that have a reassessment past due'}
+      />
+    ),
+    accessor: staffInfo => ({ color: 'danger', number: countPastDueDates(staffInfo.reminder_dates, todaysDate) }),
     Cell: ReassessmentsNeededCell,
     className: 'text-center',
     headerClassName: 'text-center',
@@ -75,7 +92,7 @@ const columns = [
 const StaffTable = ({ staff }) => (
   <SessionDataGrid
     data={staff}
-    columns={columns}
+    columns={columns(today())}
     pageSizeSessionKey={STAFF_LIST_PAGE_SIZE_KEY}
     pageSizeOptions={PAGE_SIZES}
     showPagination={true}

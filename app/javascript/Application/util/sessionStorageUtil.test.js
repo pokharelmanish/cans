@@ -1,4 +1,4 @@
-import { getIntItem, setItem } from './sessionStorageUtil'
+import { getIntItem, setItem, clearStorage } from './sessionStorageUtil'
 
 describe('sessionStorageUtil', () => {
   beforeAll(() => sessionStorage.clear())
@@ -15,6 +15,15 @@ describe('sessionStorageUtil', () => {
         setItem('a_key', 123)
         expect(getIntItem('a_key')).toBe(123)
       })
+    })
+  })
+
+  describe('#clearStorage()', () => {
+    it('clears session storage', () => {
+      setItem('a_key', 123)
+      expect(getIntItem('a_key')).toBe(123)
+      clearStorage()
+      expect(getIntItem('a_key')).toBe(null)
     })
   })
 })

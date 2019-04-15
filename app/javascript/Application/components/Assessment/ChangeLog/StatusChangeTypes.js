@@ -3,6 +3,7 @@ const STATUS_CHANGE_TYPES = Object.freeze({
   SAVED: 'Saved',
   DELETED: 'Deleted',
   COMPLETED: 'Completed',
+  UPDATED: 'Updated',
 })
 
 export default STATUS_CHANGE_TYPES

@@ -8,11 +8,14 @@ describe('<PrintSummaryRecord />', () => {
 
   it('renders assessment summary record header', () => {
     const wrapper = render()
-    expect(wrapper.find('#title').text()).toBe('Strengths')
+    expect(wrapper.find('#summary-header').text()).toBe('Strengths')
   })
 
-  it('renders assessment summary record with items', () => {
+  it('renders assessment summary record with correct amount and content', () => {
     const wrapper = render()
-    expect(wrapper.find('#item').length).toBe(2)
+    const target = wrapper.find('#item')
+    expect(target.length).toBe(2)
+    expect(target.at(0).text()).toContain('Family Strengths')
+    expect(target.at(1).text()).toContain('Interpersonal')
   })
 })

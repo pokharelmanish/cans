@@ -12,3 +12,7 @@ export function getIntItem(key) {
 export function setItem(key, value) {
   return sessionStorage.setItem(CANS_PREFIX + key, value)
 }
+
+export function clearStorage() {
+  sessionStorage.clear()
+}

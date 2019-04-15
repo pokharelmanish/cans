@@ -127,12 +127,7 @@ class Domain extends React.PureComponent {
         <ExpansionPanelSummary
           expandIcon={
             isReviewed || isExpanded ? null : (
-              <Button
-                id={`domain${index}-review`}
-                color="primary"
-                className={'review-regular-button no-uppercase'}
-                onClick={this.handleOpenToReview}
-              >
+              <Button id={`domain${index}-review`} onClick={this.handleOpenToReview}>
                 Open to review
               </Button>
             )

@@ -19,12 +19,9 @@ class BottomCollapseIcon extends React.Component {
     return (
       <Button
         key={`${this.props.code}-inner-collapse-icon`}
-        icon="chevron-down"
-        size="1x"
         id={`${this.props.code}-inner-collapse-icon`}
-        role="link"
+        aria-label="domain collapse button"
         tabIndex={0}
-        className="modal-regular-button no-uppercase"
         onClick={this.props.onClick}
         onKeyPress={this.handleKeyPress}
       >

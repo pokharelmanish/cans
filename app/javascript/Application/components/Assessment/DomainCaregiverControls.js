@@ -7,24 +7,24 @@ const DomainCaregiverControls = props => {
   return (
     <div className={'caregiver-domain-add-remove'}>
       <Button
-        color="link"
+        id={'caregiver-domain-remove'}
         onClick={props.onRemoveCaregiverDomain}
         onKeyPress={props.onRemoveCaregiverDomain}
-        className={'caregiver-domain-add-remove-links'}
+        className={'m-1'}
         aria-label="remove caregiver button"
         tabIndex={0}
       >
-        - REMOVE CAREGIVER
+        - Remove Caregiver
       </Button>
       <Button
-        color="link"
+        id={'caregiver-domain-add'}
         onClick={props.onAddCaregiverDomain}
         onKeyPress={props.onAddCaregiverDomain}
-        className={'caregiver-domain-add-remove-links'}
+        className={'m-1'}
         aria-label="add caregiver button"
         tabIndex={0}
       >
-        + ADD CAREGIVER
+        + Add Caregiver
       </Button>
     </div>
   )

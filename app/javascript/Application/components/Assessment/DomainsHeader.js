@@ -10,9 +10,7 @@ const DomainsHeader = props => {
       <CardTitle className="assessment-card-title">
         <span className={'domains-expand-collapse-age-range'}>{isUnderSix ? 'Age Range 0-5' : 'Age Range 6-21'}</span>
         {isDomainsReviewed ? (
-          <Button color="link" className={'domains-expand-collapse-button-right'} onClick={expandCollapse}>
-            {isUnifiedExpansion ? 'Collapse All' : 'Expand All'}
-          </Button>
+          <Button onClick={expandCollapse}>{isUnifiedExpansion ? 'Collapse All' : 'Expand All'}</Button>
         ) : null}
       </CardTitle>
     </CardHeader>

@@ -3,7 +3,7 @@ import { Button } from '@cwds/components'
 import PropTypes from 'prop-types'
 
 const CancelAssessmentButton = ({ onCancelClick }) => (
-  <Button id="cancel-assessment" color="secondary" className="no-uppercase footer-button-space" onClick={onCancelClick}>
+  <Button id="cancel-assessment" className="footer-button-space" onClick={onCancelClick}>
     Cancel
   </Button>
 )

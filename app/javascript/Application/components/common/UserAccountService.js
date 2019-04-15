@@ -1,5 +1,10 @@
 import axios from 'axios'
 import { handleError } from '../../util/ApiErrorHandler'
+import * as SessionStorageUtil from '../../util/sessionStorageUtil'
+import pageLockService from './PageLockService'
+import { createUrl } from '../../util/navigationUtil'
+
+const logoutUrl = createUrl('user/logout')
 
 class UserAccountService {
   static httpClient = axios.create({
@@ -18,6 +23,12 @@ class UserAccountService {
         .catch(handleError)
 
     return this.cachedUser
+  }
+
+  static logout = () => {
+    SessionStorageUtil.clearStorage()
+    pageLockService.stop()
+    window.location.assign(logoutUrl)
   }
 }
 
