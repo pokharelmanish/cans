@@ -35,11 +35,11 @@ export class TimeoutWarning extends Component {
 
   render() {
     return (
-      <Modal className="warning-modal" isOpen={this.state.isOpened}>
+      <Modal isOpen={this.state.isOpened} zIndex={10000}>
         <ModalHeader>
           <CardTitle>Session timeout!</CardTitle>
         </ModalHeader>
-        <ModalBody className="warning-modal-body">
+        <ModalBody>
           <Alert color="danger">
             Due to inactivity, your session is about to timeout. Any unsaved work will be lost.
           </Alert>
