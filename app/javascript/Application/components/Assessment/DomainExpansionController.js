@@ -24,7 +24,15 @@ class DomainExpansionController extends React.Component {
       }
     })
 
-    return { domains: nextProps.domains, domainsExpanded: newDomainsExpanded }
+    const didUnificationChange =
+      nextProps.domains.length > 0 &&
+      newDomainsExpanded.every(({ isExpanded }) => isExpanded !== state.isUnifiedExpansion)
+
+    return {
+      domains: nextProps.domains,
+      domainsExpanded: newDomainsExpanded,
+      isUnifiedExpansion: didUnificationChange ? !state.isUnifiedExpansion : state.isUnifiedExpansion,
+    }
   }
 
   handleExpandedChange = (index, isExpanded) => {

@@ -20,7 +20,7 @@ describe('DomainExpansionController', () => {
     ])
   })
 
-  it('initializes isUnifiedExpansion to true', () => {
+  it('initializes isUnifiedExpansion to false', () => {
     expect(render().state().isUnifiedExpansion).toBe(false)
   })
 
@@ -218,5 +218,28 @@ describe('DomainExpansionController', () => {
       onExpandCollapseAll()
       expect(wrapper.state().isUnifiedExpansion).toBe(true)
     })
+  })
+
+  it('updates unification state when a domains change', () => {
+    // This happens, for example, when a caregiver is added or removed.
+    const wrapper = render()
+    wrapper.setState({
+      domainsExpanded: [
+        { domain: DOMAINS[0], isExpanded: true },
+        { domain: DOMAINS[1], isExpanded: true },
+        { domain: DOMAINS[2], isExpanded: false },
+      ],
+      isUnifiedExpansion: false,
+    })
+    wrapper.setProps({ domains: [DOMAINS[0], DOMAINS[1]] }) // Remove collapsed domain
+    expect(wrapper.state().isUnifiedExpansion).toBe(true)
+  })
+
+  it('does not update unification state when it re-renders with no domains', () => {
+    // This sounds like it could cause weird flickering
+    const wrapper = render([])
+    wrapper.setState({ isUnifiedExpansion: false })
+    wrapper.setProps({ domains: [] }) // Arrays are not strictly equal
+    expect(wrapper.state().isUnifiedExpansion).toBe(false)
   })
 })
