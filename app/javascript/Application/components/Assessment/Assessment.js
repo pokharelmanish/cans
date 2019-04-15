@@ -1,12 +1,10 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { getI18nByCode } from '../common/I18nHelper'
-import Domain from './Domain'
 import { clone } from '../../util/common'
-import DomainsHeader from './DomainsHeader'
-import { Card, CardBody, CardFooter } from '@cwds/components'
 import { AssessmentStatus } from './AssessmentHelper'
 import { containsNotReviewedDomains } from './ReassessmentHelper'
+import AssessmentCard from './AssessmentCard'
+import DomainExpansionController from './DomainExpansionController'
 
 const INDICES = 'abcdefghijklmnopqrstuvwxyz'
 
@@ -143,85 +141,70 @@ class Assessment extends Component {
 
   updateDomainIsReviewed = (code, caregiverIndex) => {
     const assessment = clone(this.props.assessment)
+    let isChanged = false
     assessment.state.domains.map(domain => {
       if (domain.caregiver_index === caregiverIndex && domain.code === code) {
-        domain.is_reviewed = true
+        if (domain.is_reviewed !== true) {
+          isChanged = true
+          domain.is_reviewed = true
+        }
       }
     })
-    this.props.onAssessmentUpdate(assessment)
+    if (isChanged) {
+      this.props.onAssessmentUpdate(assessment)
+    }
   }
 
   render() {
-    const { assessment, i18n, footer, isDefaultExpanded, expandCollapse } = this.props
+    const { assessment, disabled, i18n, footer, previousRatingsMap } = this.props
     const { under_six: isUnderSix, domains } = assessment.state
     const isDomainsReviewed = !assessment.preceding_assessment_id || !containsNotReviewedDomains(domains, isUnderSix)
     const isCompletedAssessment = AssessmentStatus.completed === assessment.status
-    return (
-      <Fragment>
-        {!(isUnderSix === null || isUnderSix === undefined) ? (
-          <Card className="card assessment-card">
-            <DomainsHeader
-              isUnderSix={isUnderSix}
-              isDefaultExpanded={isDefaultExpanded}
-              isDomainsReviewed={isDomainsReviewed}
-              expandCollapse={expandCollapse}
-            />
-            <CardBody>
-              {domains.map((domain, index) => {
-                const { id, code, caregiver_index: caregiverIndex } = domain
-                const domainI18n = getI18nByCode(i18n, code)
-                return (
-                  <Domain
-                    index={index}
-                    key={code + caregiverIndex + isDefaultExpanded + id + isUnderSix}
-                    domain={domain}
-                    i18n={domainI18n}
-                    i18nAll={i18n}
-                    isAssessmentUnderSix={isUnderSix}
-                    isCompletedAssessment={isCompletedAssessment}
-                    isDefaultExpanded={isDefaultExpanded}
-                    canReleaseConfidentialInfo={assessment.can_release_confidential_info}
-                    onRatingUpdate={this.handleUpdateItemRating}
-                    onItemCommentUpdate={this.handleUpdateItemComment}
-                    onConfidentialityUpdate={this.handleUpdateItemConfidentiality}
-                    onAddCaregiverDomain={this.addCaregiverDomainAfter}
-                    onRemoveCaregiverDomain={this.removeCaregiverDomain}
-                    onCaregiverNameUpdate={this.updateCaregiverName}
-                    onDomainCommentUpdate={this.updateDomainComment}
-                    onDomainReviewed={this.updateDomainIsReviewed}
-                    handleWarningShow={this.props.handleWarningShow}
-                    isUsingPriorRatings={Boolean(assessment.preceding_assessment_id)}
-                    disabled={this.props.disabled}
-                    previousRatingsMap={this.props.previousRatingsMap}
-                  />
-                )
-              })}
-            </CardBody>
-            <CardFooter>{footer}</CardFooter>
-          </Card>
-        ) : null}
-      </Fragment>
-    )
+
+    const actions = {
+      onRatingUpdate: this.handleUpdateItemRating,
+      onItemCommentUpdate: this.handleUpdateItemComment,
+      onConfidentialityUpdate: this.handleUpdateItemConfidentiality,
+      onAddCaregiverDomain: this.addCaregiverDomainAfter,
+      onRemoveCaregiverDomain: this.removeCaregiverDomain,
+      onCaregiverNameUpdate: this.updateCaregiverName,
+      onDomainCommentUpdate: this.updateDomainComment,
+      onDomainReviewed: this.updateDomainIsReviewed,
+      handleWarningShow: this.props.handleWarningShow,
+    }
+
+    return !(isUnderSix === null || isUnderSix === undefined) ? (
+      <DomainExpansionController domains={domains}>
+        <AssessmentCard
+          actions={actions}
+          canReleaseConfidentialInfo={Boolean(assessment.can_release_confidential_info)}
+          disabled={disabled}
+          footer={footer}
+          i18n={i18n}
+          isCompletedAssessment={isCompletedAssessment}
+          isDomainsReviewed={isDomainsReviewed}
+          isUnderSix={isUnderSix}
+          isUsingPriorRatings={Boolean(assessment.preceding_assessment_id)}
+          previousRatingsMap={previousRatingsMap}
+        />
+      </DomainExpansionController>
+    ) : null
   }
 }
 
 Assessment.propTypes = {
   assessment: PropTypes.object.isRequired,
   disabled: PropTypes.bool,
-  expandCollapse: PropTypes.func,
   footer: PropTypes.node.isRequired,
   handleWarningShow: PropTypes.func,
   i18n: PropTypes.object.isRequired,
-  isDefaultExpanded: PropTypes.bool,
   onAssessmentUpdate: PropTypes.func.isRequired,
   previousRatingsMap: PropTypes.object,
 }
 
 Assessment.defaultProps = {
   disabled: false,
-  expandCollapse: () => {},
   handleWarningShow: () => {},
-  isDefaultExpanded: false,
   previousRatingsMap: undefined,
 }
 

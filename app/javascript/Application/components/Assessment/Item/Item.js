@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { UNSET_RATING, NA_RATING, isNARating } from './ItemHelper'
 import { getI18nValuesByPrefix } from '../../common/I18nHelper'
@@ -16,7 +16,7 @@ const initI18nValue = i18n => ({
 })
 
 /* eslint-disable camelcase */
-class Item extends Component {
+class Item extends React.PureComponent {
   constructor(props) {
     super(props)
     const i18nValues = initI18nValue(props.i18n)

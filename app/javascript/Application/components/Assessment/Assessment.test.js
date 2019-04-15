@@ -1,9 +1,10 @@
 import React from 'react'
-import { Assessment, Domain } from './'
 import { shallow } from 'enzyme'
+import { Assessment } from './'
 import { clone } from '../../util/common'
 import { assessment as assessmentMock, i18n as i18nMock } from './assessment.mocks.test'
 import * as ReassessmentHelper from './ReassessmentHelper'
+import AssessmentCard from './AssessmentCard'
 
 const enhanceDomainToCaregiver = domain => ({ ...domain, is_caregiver_domain: true, caregiver_index: 'a' })
 
@@ -28,20 +29,13 @@ describe('<Assessment />', () => {
     )
 
   it('renders footer', () => {
-    const cardFooter = shallowAssessment({}).find('CardFooter')
-    expect(cardFooter.find('div#footer-impl-mock').exists()).toBeTruthy()
+    const card = shallowAssessment({}).find('AssessmentCard')
+    expect(card.props().footer.props.id).toBe('footer-impl-mock')
   })
 
-  describe('assessment form with data', () => {
-    it('renders with 1 <Domain /> component', () => {
-      const wrapper = shallowAssessment({})
-      expect(wrapper.find(Domain).length).toBe(1)
-    })
-
-    it('propagates disabled props to <Domain/> component', () => {
-      const wrapper = shallowAssessment({ disabled: true })
-      expect(wrapper.find(Domain).prop('disabled')).toBe(true)
-    })
+  it('propagates disabled prop to <AssessmentCard/> component', () => {
+    const wrapper = shallowAssessment({ disabled: true })
+    expect(wrapper.find(AssessmentCard).props().disabled).toBe(true)
   })
 
   describe('componentDidUpdate', () => {
@@ -153,22 +147,22 @@ describe('<Assessment />', () => {
   })
 
   describe('#handleUpdateItemComment()', () => {
-    it('should be propagated as a onItemCommentUpdate prop for Domain', () => {
+    it('should be propagated as an onItemCommentUpdate action prop for the card', () => {
       const onAssessmentUpdateMock = jest.fn()
       const wrapper = shallowAssessment({ onAssessmentUpdate: onAssessmentUpdateMock })
-      const domains = wrapper.find(Domain)
-      domains.forEach(domain => domain.props().onItemCommentUpdate())
-      expect(onAssessmentUpdateMock).toHaveBeenCalledTimes(domains.length)
+      const card = wrapper.find(AssessmentCard)
+      card.props().actions.onItemCommentUpdate()
+      expect(onAssessmentUpdateMock).toHaveBeenCalledTimes(1)
     })
   })
 
   describe('#updateDomainComment()', () => {
-    it('should be propagated as a onDomainCommentUpdate prop for Domain', () => {
+    it('should be propagated as an onDomainCommentUpdate action prop for the card', () => {
       const onAssessmentUpdateMock = jest.fn()
       const wrapper = shallowAssessment({ onAssessmentUpdate: onAssessmentUpdateMock })
-      const domains = wrapper.find(Domain)
-      domains.forEach(domain => domain.props().onDomainCommentUpdate())
-      expect(onAssessmentUpdateMock).toHaveBeenCalledTimes(domains.length)
+      const card = wrapper.find(AssessmentCard)
+      card.props().actions.onDomainCommentUpdate()
+      expect(onAssessmentUpdateMock).toHaveBeenCalledTimes(1)
     })
 
     it('updates the domain comment when invoked', () => {
@@ -205,25 +199,25 @@ describe('<Assessment />', () => {
       const initialAssessment = clone(assessmentMock)
       initialAssessment.preceding_assessment_id = '123'
       const wrapper = shallowAssessment({ onAssessmentUpdate: onAssessmentUpdateMock, assessment: initialAssessment })
-      const domain = wrapper.find(Domain)
-      expect(domain.prop('isUsingPriorRatings')).toBe(true)
+      const card = wrapper.find(AssessmentCard)
+      expect(card.prop('isUsingPriorRatings')).toBe(true)
     })
 
     it('sets using prior ratings to false if assessment does not have a preceding_assessment_id', () => {
       const onAssessmentUpdateMock = jest.fn()
       const initialAssessment = clone(assessmentMock)
       const wrapper = shallowAssessment({ onAssessmentUpdate: onAssessmentUpdateMock, assessment: initialAssessment })
-      const domain = wrapper.find(Domain)
+      const card = wrapper.find(AssessmentCard)
       expect(initialAssessment.preceding_assessment_id).toBeUndefined()
-      expect(domain.prop('isUsingPriorRatings')).toBe(false)
+      expect(card.prop('isUsingPriorRatings')).toBe(false)
     })
 
-    it('propogates onDomainReviewed prop for Domain', () => {
+    it('propogates onDomainReviewed prop for card', () => {
       const onAssessmentUpdateMock = jest.fn()
       const wrapper = shallowAssessment({ onAssessmentUpdate: onAssessmentUpdateMock })
-      const domains = wrapper.find(Domain)
-      domains.forEach(domain => domain.props().onDomainReviewed())
-      expect(onAssessmentUpdateMock).toHaveBeenCalledTimes(domains.length)
+      const card = wrapper.find(AssessmentCard)
+      card.props().actions.onDomainReviewed('123')
+      expect(onAssessmentUpdateMock).toHaveBeenCalledTimes(1)
     })
 
     it('updates the domain is_reviewed when invoked', () => {
@@ -378,68 +372,27 @@ describe('<Assessment />', () => {
     })
   })
 
-  describe('DomainsHeader', () => {
-    it('renders with 1 <DomainsHeader /> component', () => {
-      const wrapper = shallowAssessment({})
-      expect(wrapper.find('DomainsHeader').length).toBe(1)
-    })
-
-    it('sets isDomainsReviewed to true if not using prior assessment ratings', () => {
-      const wrapper = shallowAssessment({})
-      const domain = wrapper.find('DomainsHeader')
-      expect(domain.prop('isDomainsReviewed')).toBe(true)
-    })
-
-    it('calls isAllDomainsReviewed if using prior assessment ratings', () => {
-      const initialAssessment = { ...assessmentMock, preceding_assessment_id: '123' }
-      const domainsReviewedSpy = jest.spyOn(ReassessmentHelper, 'containsNotReviewedDomains')
-      shallowAssessment({ assessment: initialAssessment })
-      expect(domainsReviewedSpy).toHaveBeenCalledWith(
-        initialAssessment.state.domains,
-        initialAssessment.state.under_six
-      )
-    })
-
-    it('sets isDomainsReviewed prop to isAllDomainsReviewed if using prior assessment ratings', () => {
-      const initialAssessment = { ...assessmentMock, preceding_assessment_id: '123' }
-      const hasAllDomainsBeenReviewed = !ReassessmentHelper.containsNotReviewedDomains(
-        initialAssessment.state.domains,
-        initialAssessment.state.under_six
-      )
-      const wrapper = shallowAssessment({ assessment: initialAssessment })
-      const domain = wrapper.find('DomainsHeader')
-      expect(domain.prop('isDomainsReviewed')).toBe(hasAllDomainsBeenReviewed)
-    })
-
-    it('passes isDefaultExpanded prop to DomainsHeader', () => {
-      const mockFn = jest.fn()
-      const assessmentWrapper = shallowAssessment({ onAssessmentUpdate: mockFn, isDefaultExpanded: false })
-      const domainHeader = assessmentWrapper.find('DomainsHeader')
-      expect(domainHeader.prop('isDefaultExpanded')).toEqual(false)
-    })
+  it('sets isDomainsReviewed to true if not using prior assessment ratings', () => {
+    const wrapper = shallowAssessment({})
+    const card = wrapper.find(AssessmentCard)
+    expect(card.prop('isDomainsReviewed')).toBe(true)
   })
 
-  describe('Each Domain Key value', () => {
-    it('verifies the key value for each domain is false when isDefaultExpanded prop is false', () => {
-      const mockFn = jest.fn()
-      const assessmentWrapper = shallowAssessment({ onAssessmentUpdate: mockFn, isDefaultExpanded: false })
-      const domains = assessmentWrapper.find(Domain)
-      domains.forEach(domain => expect(domain.key()).toContain('false'))
-    })
+  it('calls isAllDomainsReviewed if using prior assessment ratings', () => {
+    const initialAssessment = { ...assessmentMock, preceding_assessment_id: '123' }
+    const domainsReviewedSpy = jest.spyOn(ReassessmentHelper, 'containsNotReviewedDomains')
+    shallowAssessment({ assessment: initialAssessment })
+    expect(domainsReviewedSpy).toHaveBeenCalledWith(initialAssessment.state.domains, initialAssessment.state.under_six)
+  })
 
-    it('verifies the key value for each domain is true when isDefaultExpanded prop is true', () => {
-      const mockFn = jest.fn()
-      const assessmentWrapper = shallowAssessment({ onAssessmentUpdate: mockFn, isDefaultExpanded: true })
-      const domains = assessmentWrapper.find(Domain)
-      domains.forEach(domain => expect(domain.key()).toContain('true'))
-    })
-
-    it('verifies key value for each domain has isUnderSix of the Assessment', () => {
-      const mockFn = jest.fn()
-      const assessmentWrapper = shallowAssessment({ onAssessmentUpdate: mockFn, isDefaultExpanded: true })
-      const isUnderSix = assessmentMock.state.under_six
-      const domains = assessmentWrapper.find(Domain)
-      domains.forEach(domain => expect(domain.key()).toContain(isUnderSix))
-    })
+  it('sets isDomainsReviewed prop to isAllDomainsReviewed if using prior assessment ratings', () => {
+    const initialAssessment = { ...assessmentMock, preceding_assessment_id: '123' }
+    const hasAllDomainsBeenReviewed = !ReassessmentHelper.containsNotReviewedDomains(
+      initialAssessment.state.domains,
+      initialAssessment.state.under_six
+    )
+    const wrapper = shallowAssessment({ assessment: initialAssessment })
+    const card = wrapper.find('AssessmentCard')
+    expect(card.prop('isDomainsReviewed')).toBe(hasAllDomainsBeenReviewed)
   })
 })

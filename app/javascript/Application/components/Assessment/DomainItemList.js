@@ -6,33 +6,35 @@ import { buildItemUniqueKey } from './ReassessmentHelper'
 import Divider from '@material-ui/core/Divider'
 import PropTypes from 'prop-types'
 
-const DomainItemList = props => {
-  return props.items.map((item, index) => {
-    const code = item.code
-    const itemI18n = getI18nByCode(props.i18nAll, code)
-    const isAssessmentUnderSix = props.isAssessmentUnderSix
-    const itemUniqueKey = buildItemUniqueKey(code, props.caregiverIndex)
-    const previousRating = (props.previousRatingsMap[itemUniqueKey] || {}).rating
-    return shouldItemBeRendered(isAssessmentUnderSix, item) ? (
-      <div key={`${code}`}>
-        <Item
-          key={`${index}-${code}`}
-          item={item}
-          caregiverIndex={props.caregiverIndex}
-          i18n={itemI18n}
-          onRatingUpdate={props.onRatingUpdate}
-          onCommentUpdate={props.onItemCommentUpdate}
-          onConfidentialityUpdate={props.onConfidentialityUpdate}
-          isAssessmentUnderSix={isAssessmentUnderSix}
-          isCompletedAssessment={props.isCompletedAssessment}
-          canReleaseConfidentialInfo={props.canReleaseConfidentialInfo}
-          disabled={props.disabled}
-          previousRating={previousRating}
-        />
-        <Divider />
-      </div>
-    ) : null
-  })
+class DomainItemList extends React.PureComponent {
+  render() {
+    return this.props.items.map((item, index) => {
+      const code = item.code
+      const itemI18n = getI18nByCode(this.props.i18nAll, code)
+      const isAssessmentUnderSix = this.props.isAssessmentUnderSix
+      const itemUniqueKey = buildItemUniqueKey(code, this.props.caregiverIndex)
+      const previousRating = (this.props.previousRatingsMap[itemUniqueKey] || {}).rating
+      return shouldItemBeRendered(isAssessmentUnderSix, item) ? (
+        <div key={`${code}`}>
+          <Item
+            key={`${index}-${code}`}
+            item={item}
+            caregiverIndex={this.props.caregiverIndex}
+            i18n={itemI18n}
+            onRatingUpdate={this.props.onRatingUpdate}
+            onCommentUpdate={this.props.onItemCommentUpdate}
+            onConfidentialityUpdate={this.props.onConfidentialityUpdate}
+            isAssessmentUnderSix={isAssessmentUnderSix}
+            isCompletedAssessment={this.props.isCompletedAssessment}
+            canReleaseConfidentialInfo={this.props.canReleaseConfidentialInfo}
+            disabled={this.props.disabled}
+            previousRating={previousRating}
+          />
+          <Divider />
+        </div>
+      ) : null
+    })
+  }
 }
 
 DomainItemList.propTypes = {

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import ExpansionPanel from '@material-ui/core/ExpansionPanel'
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
@@ -23,12 +23,10 @@ const mapI18nToState = props => ({
   caregiverName: props.domain.caregiver_name || '',
 })
 
-class Domain extends Component {
+class Domain extends React.PureComponent {
   constructor(props) {
     super(props)
-    this.state = {
-      expanded: props.isDefaultExpanded,
-    }
+    this.state = {}
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -46,9 +44,7 @@ class Domain extends Component {
 
   handleExpandedChange = event => {
     this.handleOpenToReview(event)
-    this.setState({
-      expanded: !this.state.expanded,
-    })
+    this.props.onExpandedChange(this.props.index, !this.props.isExpanded)
     expandingThenScroll(event, this.state.expanded, this.props.domain.items.length, this.props.disabled)
   }
 
@@ -94,6 +90,7 @@ class Domain extends Component {
     const {
       isAssessmentUnderSix,
       isCompletedAssessment,
+      isExpanded,
       domain,
       onRatingUpdate,
       onItemCommentUpdate,
@@ -106,7 +103,7 @@ class Domain extends Component {
     } = this.props
     const isReviewed = isUsingPriorRatings ? domain.is_reviewed : true
     const { items, is_caregiver_domain: isCaregiverDomain } = domain
-    const { title, description, caregiverName, expanded } = this.state
+    const { title, description, caregiverName } = this.state
     const itemListProps = {
       items,
       caregiverIndex: domain.caregiver_index,
@@ -126,10 +123,10 @@ class Domain extends Component {
     const ROTATION_RIGHT = 270
 
     return shouldDomainBeRendered(isAssessmentUnderSix, domain) ? (
-      <ExpansionPanel expanded={expanded} onChange={this.handleExpandedChange} elevation={0}>
+      <ExpansionPanel expanded={isExpanded} onChange={this.handleExpandedChange} elevation={0}>
         <ExpansionPanelSummary
           expandIcon={
-            isReviewed || expanded ? null : (
+            isReviewed || isExpanded ? null : (
               <Button
                 id={`domain${index}-review`}
                 color="primary"
@@ -156,7 +153,7 @@ class Domain extends Component {
                   className="domain-icon"
                   icon="chevron-down"
                   size="lg"
-                  rotation={expanded ? null : ROTATION_RIGHT}
+                  rotation={isExpanded ? null : ROTATION_RIGHT}
                 />
                 <span className="domain-item-margin">{title}</span>
                 <Icon className="domain-help-icon" icon="info-circle" id={`domain-${index}`} />
@@ -220,13 +217,14 @@ Domain.propTypes = {
   index: PropTypes.number.isRequired,
   isAssessmentUnderSix: PropTypes.bool,
   isCompletedAssessment: PropTypes.bool.isRequired,
-  isDefaultExpanded: PropTypes.bool,
+  isExpanded: PropTypes.bool,
   isUsingPriorRatings: PropTypes.bool,
   onAddCaregiverDomain: PropTypes.func.isRequired,
   onCaregiverNameUpdate: PropTypes.func.isRequired,
   onConfidentialityUpdate: PropTypes.func.isRequired,
   onDomainCommentUpdate: PropTypes.func.isRequired,
   onDomainReviewed: PropTypes.func,
+  onExpandedChange: PropTypes.func.isRequired,
   onItemCommentUpdate: PropTypes.func.isRequired,
   onRatingUpdate: PropTypes.func.isRequired,
   previousRatingsMap: PropTypes.object,
@@ -236,7 +234,7 @@ Domain.defaultProps = {
   disabled: false,
   handleWarningShow: () => {},
   isAssessmentUnderSix: null,
-  isDefaultExpanded: false,
+  isExpanded: false,
   isUsingPriorRatings: false,
   onDomainReviewed: () => {},
   previousRatingsMap: undefined,

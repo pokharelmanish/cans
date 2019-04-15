@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import Typography from '@material-ui/core/Typography'
 import Paper from '@material-ui/core/Paper'
@@ -8,7 +8,7 @@ import DomainCollapseButton from './DomainCollapseButton'
 
 const maxCommentLength = 2500
 
-class DomainComment extends Component {
+class DomainComment extends React.PureComponent {
   handleDomainCommentChange = comment => {
     const code = this.props.domain.code
     const caregiverIndex = this.props.domain.caregiver_index

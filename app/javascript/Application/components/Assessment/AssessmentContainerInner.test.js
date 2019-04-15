@@ -173,25 +173,6 @@ describe('AssessmentContainerInner />', () => {
         .handleCompleteWarning(true)
       expect(wrapper.state().isCompleteModalShown).toEqual(true)
     })
-
-    describe('#handleExpandAllDomains()', () => {
-      const wrapper = shallow(<AssessmentContainerInner {...props} />)
-      it('toggles isDefaultExpanded state when called with no parameter', () => {
-        wrapper.instance().setState({
-          isDefaultExpanded: false,
-        })
-        wrapper.instance().handleExpandAllDomains()
-        expect(wrapper.state().isDefaultExpanded).toEqual(true)
-      })
-
-      it('updates isDefaultExpanded state to false when called with false', () => {
-        wrapper.instance().setState({
-          isDefaultExpanded: true,
-        })
-        wrapper.instance().handleExpandAllDomains(false)
-        expect(wrapper.state().isDefaultExpanded).toEqual(false)
-      })
-    })
   })
 
   describe('<AssessmentFormHeader />', () => {
