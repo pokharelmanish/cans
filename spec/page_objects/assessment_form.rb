@@ -117,8 +117,7 @@ class AssessmentForm < SitePrism::Page
   elements :process_counts, 'span.progress-value'
   elements :fully_filled_progress_bars, 'div[aria-valuenow="100"][role="progressbar"]'
   elements :domain_score_badges, 'span.domain-score-badge'
-  element :challenges_domain, 'svg#domain5-expand'
-  element :caregiver_domain, 'svg#domain11-expand'
+  element :caregiver_domain, 'svg#domain6-expand'
   element :impulse_hyperactivity, '#IMPULSIVITY_HYPERACTIVITY-item-expand'
   element :expand_all_button, 'button', text: 'Expand All'
   element :collapse_all_button, 'button', text: 'Collapse All'
@@ -164,14 +163,14 @@ class AssessmentForm < SitePrism::Page
 
   def review_all_domains_0_to_5
     targets = [
+      'button#domain0-review',
+      'button#domain1-review',
+      'button#domain2-review',
+      'button#domain3-review',
+      'button#domain4-review',
       'button#domain5-review',
       'button#domain6-review',
-      'button#domain7-review',
-      'button#domain8-review',
-      'button#domain9-review',
-      'button#domain10-review',
-      'button#domain11-review',
-      'button#domain12-review'
+      'button#domain7-review'
     ]
     targets.each do |element|
       find(element).click
@@ -186,8 +185,8 @@ class AssessmentForm < SitePrism::Page
       'button#domain2-review',
       'button#domain3-review',
       'button#domain4-review',
-      'button#domain11-review',
-      'button#domain12-review'
+      'button#domain5-review',
+      'button#domain6-review'
     ]
     targets.each do |element|
       find(element).click

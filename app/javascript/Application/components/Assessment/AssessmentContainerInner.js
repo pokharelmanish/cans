@@ -106,7 +106,7 @@ class AssessmentContainerInner extends Component {
           disabled={!isEditable}
         />
         <Assessment
-          key={isUnderSix.toString()}
+          key={`Assessment-${isUnderSix}`}
           assessment={assessment}
           i18n={i18n}
           onAssessmentUpdate={onAssessmentUpdate}

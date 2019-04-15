@@ -1,6 +1,6 @@
 import React from 'react'
 import { shallow } from 'enzyme'
-import { Assessment } from './'
+import Assessment from './Assessment'
 import { clone } from '../../util/common'
 import { assessment as assessmentMock, i18n as i18nMock } from './assessment.mocks.test'
 import * as ReassessmentHelper from './ReassessmentHelper'
