@@ -4,7 +4,9 @@ import { Assessment } from './'
 import { clone } from '../../util/common'
 import { assessment as assessmentMock, i18n as i18nMock } from './assessment.mocks.test'
 import * as ReassessmentHelper from './ReassessmentHelper'
+import * as AssessmentHelper from './AssessmentHelper'
 import AssessmentCard from './AssessmentCard'
+import DomainExpansionController from './DomainExpansionController'
 
 const enhanceDomainToCaregiver = domain => ({ ...domain, is_caregiver_domain: true, caregiver_index: 'a' })
 
@@ -29,13 +31,31 @@ describe('<Assessment />', () => {
     )
 
   it('renders footer', () => {
-    const card = shallowAssessment({}).find('AssessmentCard')
+    const card = shallowAssessment({}).find(AssessmentCard)
     expect(card.props().footer.props.id).toBe('footer-impl-mock')
   })
 
   it('propagates disabled prop to <AssessmentCard/> component', () => {
     const wrapper = shallowAssessment({ disabled: true })
     expect(wrapper.find(AssessmentCard).props().disabled).toBe(true)
+  })
+
+  it('renders the card within an expansion controller', () => {
+    const wrapper = shallowAssessment({})
+    const card = wrapper.find(AssessmentCard)
+    expect(card.parent().type()).toBe(DomainExpansionController)
+  })
+
+  it('passes domains to the expansion controller', () => {
+    const wrapper = shallowAssessment({})
+    expect(wrapper.find(DomainExpansionController).props().domains).toEqual(assessmentMock.state.domains)
+  })
+
+  it('passes only rendered domains to expansion controller', () => {
+    jest.spyOn(AssessmentHelper, 'shouldDomainBeRendered').mockReturnValue(false)
+    const wrapper = shallowAssessment({})
+    expect(wrapper.find(DomainExpansionController).props().domains.length).toEqual(0)
+    AssessmentHelper.shouldDomainBeRendered.mockRestore()
   })
 
   describe('componentDidUpdate', () => {

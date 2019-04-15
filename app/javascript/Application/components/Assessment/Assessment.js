@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { clone } from '../../util/common'
-import { AssessmentStatus } from './AssessmentHelper'
+import { AssessmentStatus, shouldDomainBeRendered } from './AssessmentHelper'
 import { containsNotReviewedDomains } from './ReassessmentHelper'
 import AssessmentCard from './AssessmentCard'
 import DomainExpansionController from './DomainExpansionController'
@@ -161,6 +161,8 @@ class Assessment extends Component {
     const isDomainsReviewed = !assessment.preceding_assessment_id || !containsNotReviewedDomains(domains, isUnderSix)
     const isCompletedAssessment = AssessmentStatus.completed === assessment.status
 
+    const renderedDomains = domains.filter(domain => shouldDomainBeRendered(isUnderSix, domain))
+
     const actions = {
       onRatingUpdate: this.handleUpdateItemRating,
       onItemCommentUpdate: this.handleUpdateItemComment,
@@ -174,7 +176,7 @@ class Assessment extends Component {
     }
 
     return !(isUnderSix === null || isUnderSix === undefined) ? (
-      <DomainExpansionController domains={domains}>
+      <DomainExpansionController domains={renderedDomains}>
         <AssessmentCard
           actions={actions}
           canReleaseConfidentialInfo={Boolean(assessment.can_release_confidential_info)}

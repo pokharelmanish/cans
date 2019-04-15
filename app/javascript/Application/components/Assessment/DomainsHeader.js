@@ -4,14 +4,14 @@ import { Button, CardHeader, CardTitle } from '@cwds/components'
 import './style.sass'
 
 const DomainsHeader = props => {
-  const { isUnderSix, isDefaultExpanded, expandCollapse, isDomainsReviewed } = props
+  const { isUnderSix, isUnifiedExpansion, expandCollapse, isDomainsReviewed } = props
   return (
     <CardHeader className="domains-expand-collapse-header">
       <CardTitle className="assessment-card-title">
         <span className={'domains-expand-collapse-age-range'}>{isUnderSix ? 'Age Range 0-5' : 'Age Range 6-21'}</span>
         {isDomainsReviewed ? (
           <Button color="link" className={'domains-expand-collapse-button-right'} onClick={expandCollapse}>
-            {isDefaultExpanded ? 'Collapse All' : 'Expand All'}
+            {isUnifiedExpansion ? 'Collapse All' : 'Expand All'}
           </Button>
         ) : null}
       </CardTitle>
@@ -20,13 +20,13 @@ const DomainsHeader = props => {
 }
 DomainsHeader.propTypes = {
   expandCollapse: PropTypes.func,
-  isDefaultExpanded: PropTypes.bool,
   isDomainsReviewed: PropTypes.bool.isRequired,
   isUnderSix: PropTypes.bool.isRequired,
+  isUnifiedExpansion: PropTypes.bool,
 }
 DomainsHeader.defaultProps = {
   expandCollapse: () => {},
-  isDefaultExpanded: false,
+  isUnifiedExpansion: false,
 }
 
 export default DomainsHeader

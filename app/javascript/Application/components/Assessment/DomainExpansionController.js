@@ -7,6 +7,7 @@ class DomainExpansionController extends React.Component {
     this.state = {
       domains: [],
       domainsExpanded: [],
+      isUnifiedExpansion: false,
     }
   }
 
@@ -27,11 +28,23 @@ class DomainExpansionController extends React.Component {
   }
 
   handleExpandedChange = (index, isExpanded) => {
+    const domainsExpanded = this.state.domainsExpanded.map((prevValue, i) => ({
+      domain: prevValue.domain,
+      isExpanded: i === index ? isExpanded : prevValue.isExpanded,
+    }))
+    this.setState({ domainsExpanded })
+
+    const isUnified = domainsExpanded.every(({ isExpanded: isDomainExpanded }) => isDomainExpanded === isExpanded)
+    if (isUnified) {
+      this.setState({ isUnifiedExpansion: isExpanded })
+    }
+  }
+
+  handleExpandCollapseAll = () => {
+    const isExpandOperation = !this.state.isUnifiedExpansion
     this.setState({
-      domainsExpanded: this.state.domainsExpanded.map((prevValue, i) => ({
-        domain: prevValue.domain,
-        isExpanded: i === index ? isExpanded : prevValue.isExpanded,
-      })),
+      domainsExpanded: this.state.domainsExpanded.map(({ domain }) => ({ domain, isExpanded: isExpandOperation })),
+      isUnifiedExpansion: isExpandOperation,
     })
   }
 
@@ -39,6 +52,8 @@ class DomainExpansionController extends React.Component {
     return React.cloneElement(this.props.children, {
       domainsExpanded: this.state.domainsExpanded,
       onExpandedChange: this.handleExpandedChange,
+      onExpandCollapseAll: this.handleExpandCollapseAll,
+      isUnifiedExpansion: this.state.isUnifiedExpansion,
     })
   }
 }

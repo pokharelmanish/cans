@@ -15,12 +15,19 @@ const AssessmentCard = ({
   isCompletedAssessment,
   isDomainsReviewed,
   isUnderSix,
+  isUnifiedExpansion,
   isUsingPriorRatings,
   onExpandedChange,
+  onExpandCollapseAll,
   previousRatingsMap,
 }) => (
   <Card className="card assessment-card">
-    <DomainsHeader isUnderSix={isUnderSix} isDomainsReviewed={isDomainsReviewed} expandCollapse={() => {}} />
+    <DomainsHeader
+      isUnderSix={isUnderSix}
+      isDomainsReviewed={isDomainsReviewed}
+      isUnifiedExpansion={isUnifiedExpansion}
+      expandCollapse={onExpandCollapseAll}
+    />
     <CardBody>
       {domainsExpanded.map(({ domain, isExpanded }, index) => {
         const { id, code, caregiver_index: caregiverIndex } = domain
@@ -82,14 +89,18 @@ AssessmentCard.propTypes = {
   isCompletedAssessment: PropTypes.bool.isRequired,
   isDomainsReviewed: PropTypes.bool.isRequired,
   isUnderSix: PropTypes.bool.isRequired,
+  isUnifiedExpansion: PropTypes.bool,
   isUsingPriorRatings: PropTypes.bool.isRequired,
+  onExpandCollapseAll: PropTypes.func,
   onExpandedChange: PropTypes.func,
   previousRatingsMap: PropTypes.object,
 }
 
 AssessmentCard.defaultProps = {
   domainsExpanded: [],
+  isUnifiedExpansion: false,
   onExpandedChange: () => {},
+  onExpandCollapseAll: () => {},
   previousRatingsMap: undefined,
 }
 

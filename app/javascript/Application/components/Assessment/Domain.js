@@ -122,7 +122,7 @@ class Domain extends React.PureComponent {
     const warningText = <span className={'caregiver-warning-text'}> Caregiver Name is required</span>
     const ROTATION_RIGHT = 270
 
-    return shouldDomainBeRendered(isAssessmentUnderSix, domain) ? (
+    return title && shouldDomainBeRendered(isAssessmentUnderSix, domain) ? (
       <ExpansionPanel expanded={isExpanded} onChange={this.handleExpandedChange} elevation={0}>
         <ExpansionPanelSummary
           expandIcon={

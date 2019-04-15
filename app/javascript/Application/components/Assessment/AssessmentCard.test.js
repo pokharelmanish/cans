@@ -25,7 +25,9 @@ describe('AssessmentCard', () => {
     isCompletedAssessment = false,
     isDomainsReviewed = false,
     isUnderSix = false,
+    isUnifiedExpansion,
     footer = <div />,
+    onExpandCollapseAll,
   } = {}) =>
     shallow(
       <AssessmentCard
@@ -39,6 +41,8 @@ describe('AssessmentCard', () => {
         isUnderSix={isUnderSix}
         isUsingPriorRatings={false}
         footer={footer}
+        onExpandCollapseAll={onExpandCollapseAll}
+        isUnifiedExpansion={isUnifiedExpansion}
       />
     )
 
@@ -62,13 +66,25 @@ describe('AssessmentCard', () => {
     expect(wrapper.find(Domain).length).toBe(1)
   })
 
-  it('propagates disabled prop to <Domain/> component when false', () => {
+  it('propagates disabled prop to <Domain/> component', () => {
     const wrapper = render({ disabled: false })
     expect(wrapper.find(Domain).props().disabled).toBe(false)
+    wrapper.setProps({ disabled: true })
+    expect(wrapper.find(Domain).props().disabled).toBe(true)
   })
 
-  it('propagates disabled prop to <Domain/> component when true', () => {
-    const wrapper = render({ disabled: true })
-    expect(wrapper.find(Domain).props().disabled).toBe(true)
+  it('propagates isUnifiedExpansion to DomainsHeader', () => {
+    const wrapper = render({ isUnifiedExpansion: false })
+    expect(wrapper.find(DomainsHeader).props().isUnifiedExpansion).toBe(false)
+    wrapper.setProps({ isUnifiedExpansion: true })
+    expect(wrapper.find(DomainsHeader).props().isUnifiedExpansion).toBe(true)
+  })
+
+  it('toggles expand/collapse when DomainsHeader toggles expand/collapse', () => {
+    const onExpandCollapseAll = jest.fn()
+    const wrapper = render({ onExpandCollapseAll })
+    const expandCollapse = wrapper.find(DomainsHeader).props().expandCollapse
+    expandCollapse()
+    expect(onExpandCollapseAll).toHaveBeenCalledTimes(1)
   })
 })

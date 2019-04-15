@@ -5,7 +5,7 @@ import DomainsHeader from './DomainsHeader'
 
 describe('DomainsHeader Card', () => {
   describe('when loading', () => {
-    const props = { isUnderSix: false, isDefaultExpanded: false, isDomainsReviewed: true }
+    const props = { isUnderSix: false, isUnifiedExpansion: false, isDomainsReviewed: true }
     const domainsHeaderWrapper = shallow(<DomainsHeader {...props} />)
     it('has a card header', () => {
       expect(domainsHeaderWrapper.find(CardHeader).exists()).toBe(true)
@@ -13,21 +13,21 @@ describe('DomainsHeader Card', () => {
   })
 })
 
-describe('Expand and Collapse Domains based on isDefaultExpanded logic', () => {
-  it('Collapse all domains when isDefaultExpanded is false ', () => {
+describe('Expand and Collapse Domains based on isUnifiedExpansion logic', () => {
+  it('Collapse all domains when isUnifiedExpansion is false ', () => {
     const props = {
       isUnderSix: false,
-      isDefaultExpanded: false,
+      isUnifiedExpansion: false,
       isDomainsReviewed: true,
     }
     const domainsHeaderWrapper = shallow(<DomainsHeader {...props} />)
     expect(domainsHeaderWrapper.find(Button).props().children).toEqual('Expand All')
   })
 
-  it('Expands all domains when isDefaultExpanded is true ', () => {
+  it('Expands all domains when isUnifiedExpansion is true ', () => {
     const props = {
       isUnderSix: true,
-      isDefaultExpanded: true,
+      isUnifiedExpansion: true,
       isDomainsReviewed: true,
     }
     const domainsHeaderWrapper = shallow(<DomainsHeader {...props} />)
@@ -39,7 +39,7 @@ describe('#isDomainsReviewed', () => {
   it('hides Expand All/Collapse All button if isDomainsReviewed is false', () => {
     const props = {
       isUnderSix: true,
-      isDefaultExpanded: true,
+      isUnifiedExpansion: true,
       isDomainsReviewed: false,
     }
     const domainsHeaderWrapper = shallow(<DomainsHeader {...props} />)
@@ -49,7 +49,7 @@ describe('#isDomainsReviewed', () => {
   it('shows Expand All/Collapse All button if isDomainsReviewed is true', () => {
     const props = {
       isUnderSix: true,
-      isDefaultExpanded: true,
+      isUnifiedExpansion: true,
       isDomainsReviewed: true,
     }
     const domainsHeaderWrapper = shallow(<DomainsHeader {...props} />)
