@@ -1,5 +1,5 @@
 import React from 'react'
-import { shallow } from 'enzyme'
+import { mount } from 'enzyme'
 import PrintSummary from './PrintSummary'
 import PrintSummaryRecord from './PrintSummaryRecord'
 
@@ -40,9 +40,49 @@ describe('<PrintSummary />', () => {
         },
       ],
     },
+    {
+      code: 'TRM',
+      under_six: false,
+      above_six: true,
+      items: [
+        {
+          under_six_id: '',
+          above_six_id: '7',
+          code: 'ANGER_CONTROL',
+          required: true,
+          confidential: false,
+          confidential_by_default: false,
+          rating_type: 'REGULAR',
+          has_na_option: false,
+          rating: 1,
+        },
+      ],
+    },
   ]
+
+  const domainsWithWrongItemCode = [...domains]
+  domainsWithWrongItemCode[2].items = [
+    {
+      under_six_id: '',
+      above_six_id: '7',
+      code: 'ANGER_CONTROL',
+      required: true,
+      confidential: false,
+      confidential_by_default: false,
+      rating_type: 'REGULAR',
+      has_na_option: false,
+      rating: 1,
+    },
+  ]
+
   const render = ({ domains = [], isUnderSix = false } = {}) =>
-    shallow(<PrintSummary domains={domains} i18n={i18n} isUnderSix={isUnderSix} />)
+    mount(<PrintSummary domains={domains} i18n={i18n} isUnderSix={isUnderSix} />)
+
+  it('will not render item when item.code is wrong', () => {
+    const wrapper = render({ domainsWithWrongItemCode })
+    const items = wrapper.find('ul>li')
+    expect(items.length).toBe(0)
+  })
 
   it('renders assessment summary header', () => {
     const wrapper = render({ domains })
@@ -77,7 +117,7 @@ describe('<PrintSummary />', () => {
     })
 
     it('with one item', () => {
-      const items = wrapper.shallow().find('div > div')
+      const items = wrapper.find('ul>li')
       expect(items.length).toBe(1)
       expect(items.text()).toBe('Anger Control')
     })
@@ -93,13 +133,10 @@ describe('<PrintSummary />', () => {
     ).toBe('Immediate Action Required')
   })
 
-  it('renders assessment summary Trauma column', () => {
+  it('renders assessment summary Trauma column with correct content', () => {
     const wrapper = render({ domains })
-    expect(
-      wrapper
-        .find(PrintSummaryRecord)
-        .at(3)
-        .props().title
-    ).toBe('Trauma')
+    const target = wrapper.find(PrintSummaryRecord).at(3)
+    expect(target.props().title).toBe('Trauma')
+    expect(target.props().items).toContain('Anger Control')
   })
 })

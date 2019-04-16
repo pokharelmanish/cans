@@ -2,6 +2,12 @@ import moment from 'moment'
 import { ISO_DATE_FORMAT, LOCAL_DATE_FORMAT } from './constants'
 
 /**
+ * Returns moment object with today's date (no hours, minutes, seconds, milliseconds)
+ * @returns {moment.Moment}
+ */
+export const today = () => moment({ hours: 0 })
+
+/**
  * Returns a formatted local datetime
  * @param {string} datetime ISO8601 datetime
  * @returns {string}

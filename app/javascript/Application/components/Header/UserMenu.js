@@ -2,15 +2,18 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { MenuItem, UncontrolledUserMenu } from '@cwds/components'
 import { formatUserName } from '../../util/formatters'
-import { logoutUrl } from '../../util/navigationUtil'
+import pageLockService from '../common/PageLockService'
+import UserAccountService from '../common/UserAccountService'
 
-const logoutPath = logoutUrl()
+const onLogout = () => {
+  pageLockService.confirm(UserAccountService.logout)
+}
 
 const UserMenu = ({ user }) => {
   const name = user ? formatUserName(user) : 'Not Available'
   return (
     <UncontrolledUserMenu label={name}>
-      <MenuItem tag={'a'} href={logoutPath}>
+      <MenuItem tag={'span'} onClick={onLogout}>
         Logout
       </MenuItem>
     </UncontrolledUserMenu>

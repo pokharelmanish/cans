@@ -1,7 +1,9 @@
-import { print } from './PrintHelper'
-import * as Common from '../../util/common'
+import { print, printViewPreparation, printContainerPreCss, printLayoutCss, stripeGenerator } from './PrintHelper'
+import * as Common from '../../../util/common'
+import React from 'react'
+import HeaderSvgBg from './HeaderSvgBg'
 
-jest.mock('../../util/common')
+jest.mock('../../../util/common')
 
 describe('PrintHelper', () => {
   describe('print', () => {
@@ -72,6 +74,43 @@ describe('PrintHelper', () => {
         expect(doc.write).toHaveBeenCalledWith('My Content String')
         expect(doc.close).toHaveBeenCalledTimes(1)
         expect(contentWindow.print).toHaveBeenCalledTimes(1)
+      })
+    })
+
+    describe('printViewPreparation', () => {
+      const node = <div>it is a special div</div>
+      it('will return html code which contain passed-in node string', () => {
+        expect(printViewPreparation(node)).toContain('<div>it is a special div</div>')
+      })
+
+      it('will return html code which contain <html lang="en">', () => {
+        expect(printViewPreparation(node)).toContain('html lang="en"')
+      })
+
+      it('will return html code which contain printContainerPreCss', () => {
+        expect(printViewPreparation(node)).toContain(printContainerPreCss)
+      })
+
+      it('will return html code which contain printLayoutCss', () => {
+        expect(printViewPreparation(node)).toContain(printLayoutCss)
+      })
+    })
+
+    describe('stripeGenerator', () => {
+      it('will return a stripe styling object when index is odd', () => {
+        expect(stripeGenerator(1)).toEqual({
+          containerStyle: 'stripe-gray',
+          headerBg: (
+            <div>
+              <HeaderSvgBg height={'40px'} />
+            </div>
+          ),
+          contentStyle: 'stripe-header-with-svg-bg',
+        })
+      })
+
+      it('will return unvalid styling object when index is even', () => {
+        expect(stripeGenerator(2)).toEqual({ containerStyle: '', headerBg: null, contentStyle: '' })
       })
     })
   })

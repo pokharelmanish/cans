@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Card, CardHeader, CardBody, CardTitle } from '@cwds/components'
+import { CardHeader, CardBody, CardTitle } from '@cwds/components'
+import Card from '@material-ui/core/Card/Card'
 import { PAGE_SIZES, gridMinRows } from '../../util/DataGridHelper'
 import SessionDataGrid from '../common/SessionDataGrid'
 import { CLIENT_LIST_PAGE_SIZE_KEY } from '../../util/sessionStorageUtil'

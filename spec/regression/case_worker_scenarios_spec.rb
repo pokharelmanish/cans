@@ -259,15 +259,14 @@ feature 'Case Worker Functionality' do
   def delete_assessment_test(current_date, client_name)
     @client_profile.recent_assessment_ellipsis_icon.click
     @client_profile.delete_cans_button.click
-    expect(@client_profile.app_globals.delete_warning_modal['style']).to eq('display: block;')
-    @form.app_globals.cancel_button_of_warning.click
-    expect(@client_profile.app_globals).to have_no_warning_modal_heading
+    @form.app_globals.cancel_button_of_delete_modal.click
+    expect(@client_profile.app_globals).to have_no_delete_warning_modal
     @client_profile.recent_assessment_ellipsis_icon.click
     @client_profile.delete_cans_button.click
     @form.app_globals.reason_select_drop_down.click
     @form.app_globals.reason_select_options[0].click
-    @form.app_globals.agree_button_of_warning.click
-    expect(@client_profile.app_globals).to have_no_warning_modal_heading
+    @form.app_globals.delete_button_of_delete_modal.click
+    expect(@client_profile.app_globals).to have_no_delete_warning_modal
     view_cans_change_log_test(current_date, client_name)
     expect(@assessment_changelog).to have_change_log_delete_status
     expect(@assessment_changelog).to have_change_log_entered_in_error_comment

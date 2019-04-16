@@ -58,7 +58,7 @@ export default class CompleteModal extends Component {
   render() {
     const { isCompleteModalShown } = this.props
     return (
-      <Modal isOpen={isCompleteModalShown} size="lg">
+      <Modal isOpen={isCompleteModalShown}>
         <ModalHeader toggle={this.close}>
           <CardTitle className="complete-modal-header">Confirm CANS completion</CardTitle>
         </ModalHeader>

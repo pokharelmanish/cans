@@ -1,10 +1,9 @@
 import React from 'react'
 import { mount } from 'enzyme'
-import { renderToString } from 'react-dom/server'
 import Print from './Print'
-import { print } from './PrintHelper'
+import { print, printViewPreparation } from './printUtil/PrintHelper'
 
-jest.mock('./PrintHelper')
+jest.mock('./printUtil/PrintHelper')
 
 describe('<Print />', () => {
   const innerNode = <div id="internal" />
@@ -18,7 +17,7 @@ describe('<Print />', () => {
   it('should print and invoke onClose callback', () => {
     const onCloseMock = jest.fn()
     mountPrintComponent(onCloseMock)
-    expect(print).toHaveBeenCalledWith('print-frame', renderToString(innerNode))
+    expect(print).toHaveBeenCalledWith('print-frame', printViewPreparation(innerNode))
     expect(onCloseMock).toHaveBeenCalledTimes(1)
   })
 })

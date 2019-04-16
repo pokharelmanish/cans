@@ -1,4 +1,4 @@
-import { cansBasePath, createUrl, logoutUrl } from './navigationUtil'
+import { cansBasePath, createUrl } from './navigationUtil'
 
 describe('navigationUtil', () => {
   const cansBasePathTmp = process.env.CANS_BASE_PATH
@@ -21,13 +21,6 @@ describe('navigationUtil', () => {
       process.env.CANS_BASE_PATH = '/cans'
       expect(createUrl('page-url')).toBe('/cans/page-url')
       expect(createUrl('/page-url')).toBe('/cans/page-url')
-    })
-  })
-
-  describe('#logoutUrl()', () => {
-    it('should return logout url for current environment', () => {
-      process.env.CANS_BASE_PATH = '/cans'
-      expect(logoutUrl('page-url')).toBe('/cans/user/logout')
     })
   })
 })

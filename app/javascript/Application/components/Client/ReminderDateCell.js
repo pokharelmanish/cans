@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Badge } from '@cwds/components'
-import { isoToLocalDate } from '../../util/dateHelper'
-import { today, isWarningDate, diffInDays, WARNING_PERIOD } from '../Staff/ReassessmentsDueCalculator'
+import { isoToLocalDate, today } from '../../util/dateHelper'
+import { isWarningDate, diffInDays, WARNING_PERIOD } from '../Staff/ReassessmentsDueCalculator'
 
 const dueText = days => {
   let dueText = ''

@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Card, CardHeader, CardBody, CardTitle } from '@cwds/components'
+import { CardHeader, CardBody, CardTitle } from '@cwds/components'
+import Card from '@material-ui/core/Card/Card'
 import StaffTable from '../StaffTable'
 import { LoadingState } from '../../../util/loadingHelper'
 import { staffPropType } from '../StaffHelper'
@@ -8,7 +9,7 @@ import { staffPropType } from '../StaffHelper'
 const SubordinateCard = ({ loadingState, staff }) => {
   const loadingProp = loadingState === LoadingState.updating ? 'true' : undefined
   return (
-    <Card className={'card'} loading={loadingProp}>
+    <Card loading={loadingProp}>
       <CardHeader>
         <CardTitle>Assigned Staff</CardTitle>
       </CardHeader>

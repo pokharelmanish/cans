@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { renderToString } from 'react-dom/server'
-import { print } from './PrintHelper'
+import { print, printViewPreparation } from './printUtil/PrintHelper'
 
 import './style.sass'
 
@@ -9,7 +8,7 @@ const printFrameId = 'print-frame'
 
 class Print extends React.Component {
   componentDidMount() {
-    print(printFrameId, renderToString(this.props.node))
+    print(printFrameId, printViewPreparation(this.props.node))
     this.props.onClose()
   }
 

@@ -1,9 +1,8 @@
 import React from 'react'
 import { shallow, mount } from 'enzyme'
-import { PageModal } from '../common/'
+import { Select, Modal, ModalBody, CardTitle, Button } from '@cwds/components'
 import AssessmentDeleteModal from './AssessmentDeleteModal'
 import AssessmentService from './Assessment.service'
-import { Select } from '@cwds/components'
 import Comment from '../common/Comment'
 import { blankPlaceHolder } from './AssessmentHelper'
 import * as Analytics from '../../util/analytics'
@@ -58,7 +57,7 @@ describe('AssessmentDeleteModal', () => {
     describe('isShown prop is true', () => {
       it('renders a PageModal', () => {
         const wrapper = getWrapper(true)
-        expect(wrapper.find(PageModal).exists()).toBe(true)
+        expect(wrapper.find(Modal).exists()).toBe(true)
       })
 
       it('renders a Select', () => {
@@ -107,55 +106,82 @@ describe('AssessmentDeleteModal', () => {
   })
 
   describe('Delete Modal props', () => {
-    let modalProps
+    let modal
+    let wrapper
     beforeEach(() => {
-      const modal = getWrapper(true).find(PageModal)
-      modalProps = modal.props()
+      wrapper = getWrapper(true)
+      modal = wrapper.find(Modal)
     })
 
     it('sets the correct isOpen value', () => {
-      const isOpen = modalProps.isOpen
+      const isOpen = modal.props().isOpen
       expect(isOpen).toBe(true)
     })
 
     it('sets the correct title', () => {
-      const title = modalProps.title
+      const title = modal
+        .find(CardTitle)
+        .render()
+        .text()
       expect(title).toBe('Delete CANS Assessment - 01/01/2019')
     })
 
     it('sets the correct warningDescription', () => {
-      const warningDescription = modalProps.warningDescription
-      expect(warningDescription).toEqual(<div>Choose or enter the reason for deleting this CANS.</div>)
+      const warningDescription = modal
+        .find(ModalBody)
+        .find('div')
+        .at(1)
+        .render()
+        .text()
+      expect(warningDescription).toBe('Choose or enter the reason for deleting this CANS.')
     })
 
     it('sets the correct description', () => {
-      const description = modalProps.description
+      const description = modal
+        .find(ModalBody)
+        .find('div')
+        .at(2)
+        .render()
+        .text()
       expect(description).toBe('This cannot be undone.')
     })
 
     it('sets the correct cancel label', () => {
-      const cancelLabel = modalProps.cancelButtonLabel
+      const cancelLabel = modal
+        .find(Button)
+        .at(0)
+        .render()
+        .text()
       expect(cancelLabel).toBe('Cancel')
     })
 
     it('sets the correct remove button label', () => {
-      const nextStepButtonLabel = modalProps.nextStepButtonLabel
-      expect(nextStepButtonLabel).toBe('Delete CANS')
+      const deleteLabel = modal
+        .find(Button)
+        .at(1)
+        .render()
+        .text()
+      expect(deleteLabel).toBe('Delete CANS')
     })
 
     it('sets a function to onCancel', () => {
-      const onCancel = modalProps.onCancel
-      expect(typeof onCancel).toBe('function')
+      const onClick = modal
+        .find(Button)
+        .at(0)
+        .props().onClick
+      expect(typeof onClick).toBe('function')
     })
 
     it('sets a function to onRemove', () => {
-      const onNextStep = modalProps.onNextStep
-      expect(typeof onNextStep).toBe('function')
+      const onClick = modal
+        .find(Button)
+        .at(1)
+        .props().onClick
+      expect(typeof onClick).toBe('function')
     })
 
-    it('sets true to isNextStepDisabled', () => {
-      const isNextStepDisabled = modalProps.isNextStepDisabled
-      expect(isNextStepDisabled).toBe(true)
+    it('sets true to isDeleteButtonDisabled', () => {
+      expect(wrapper.state().isDeleteButtonDisabled).toBe(true)
     })
   })
 
@@ -165,7 +191,7 @@ describe('AssessmentDeleteModal', () => {
       let deleteButton
       beforeEach(() => {
         wrapper = mountWrapper(true, toggleModalSpy, assessmentHistoryCallbackSpy)
-        deleteButton = wrapper.find('button.warning-modal-stay-logged-in')
+        deleteButton = wrapper.find(Button).at(1)
       })
 
       it('renders disabled delete button at beginning', () => {
@@ -200,10 +226,7 @@ describe('AssessmentDeleteModal', () => {
     describe('when the cancel button is clicked', () => {
       it('calls toggleModal', () => {
         const wrapper = getWrapper(true, toggleModalSpy)
-        const cancelButton = wrapper
-          .find(PageModal)
-          .dive()
-          .find('.warning-modal-logout')
+        const cancelButton = wrapper.find(Button).at(1)
         cancelButton.simulate('click')
         expect(toggleModalSpy).toHaveBeenCalledTimes(1)
         jest.clearAllMocks()
@@ -217,10 +240,7 @@ describe('AssessmentDeleteModal', () => {
           isDeleteButtonDisabled: true,
         }
         const wrapper = getWrapper(true, toggleModalSpy)
-        const cancelButton = wrapper
-          .find(PageModal)
-          .dive()
-          .find('.warning-modal-logout')
+        const cancelButton = wrapper.find(Button).at(1)
         cancelButton.simulate('click')
         expect(wrapper.state()).toEqual(initialState)
       })
@@ -231,14 +251,11 @@ describe('AssessmentDeleteModal', () => {
 
       beforeEach(() => {
         analyticsSpy.mockReset()
+        jest.clearAllMocks()
         const wrapper = mountWrapper(true, toggleModalSpy, assessmentHistoryCallbackSpy)
         simulateSelect(wrapper, 1)
-        const deleteButton = wrapper.find('button.warning-modal-stay-logged-in')
+        const deleteButton = wrapper.find(Button).at(1)
         deleteButton.simulate('click')
-      })
-
-      afterEach(() => {
-        jest.clearAllMocks()
       })
 
       it('calls the assessment delete service', () => {

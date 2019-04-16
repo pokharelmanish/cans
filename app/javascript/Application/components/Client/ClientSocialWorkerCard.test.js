@@ -1,6 +1,7 @@
 import React from 'react'
 import { shallow } from 'enzyme'
-import { Card, CardHeader, CardBody, CardTitle } from '@cwds/components'
+import { CardHeader, CardBody, CardTitle } from '@cwds/components'
+import Card from '@material-ui/core/Card/Card'
 import ClientSocialWorkerCard from './ClientSocialWorkerCard'
 import { SocialWorkerCardTemplate } from './ClientSocialWorkerCardTemplate'
 import { socialWorkerClientsJson } from './Client.helper.test'

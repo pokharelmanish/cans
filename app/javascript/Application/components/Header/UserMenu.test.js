@@ -1,7 +1,9 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 import UserMenu from './UserMenu'
-import { UncontrolledUserMenu, MenuItem } from '@cwds/components'
+import { MenuItem, UncontrolledUserMenu } from '@cwds/components'
+import pageLockService from '../common/PageLockService'
+import UserAccountService from '../common/UserAccountService'
 
 describe('<UserMenu />', () => {
   const render = user => shallow(<UserMenu user={user} />)
@@ -18,5 +20,14 @@ describe('<UserMenu />', () => {
   it('renders a logout item', () => {
     const item = render().find(MenuItem)
     expect(item.props().children).toBe('Logout')
+  })
+
+  it('confirms pageLockService service to log out on logout item click', () => {
+    pageLockService.confirm = jest.fn()
+    render()
+      .find(MenuItem)
+      .simulate('click')
+    expect(pageLockService.confirm).toHaveBeenCalledTimes(1)
+    expect(pageLockService.confirm).toHaveBeenCalledWith(UserAccountService.logout)
   })
 })

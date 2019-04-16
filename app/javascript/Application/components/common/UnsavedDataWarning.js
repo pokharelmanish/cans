@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Button, Modal, ModalBody, ModalFooter } from 'reactstrap'
-import { Icon } from '@cwds/components'
+import { Button, Modal, ModalBody, ModalHeader, CardTitle, Alert } from '@cwds/components'
 import pageLockService from './PageLockService'
 
 class UnsavedDataWarning extends Component {
@@ -59,46 +58,39 @@ class UnsavedDataWarning extends Component {
 
   render() {
     return (
-      <Modal className="warning-modal" isOpen={this.state.isOpened}>
-        <ModalBody className="unsaved-warning-modal-body">
-          <div className={'unsaved-warning-modal-icon'}>
-            <Icon size={'2x'} name={'exclamation-triangle'} color={'danger'} />
-          </div>
-          <div className={'unsaved-warning-modal-info'}>
-            <div className="unsaved-warning-modal-heading">{'Navigation Warning'}</div>
-            <div className={'unsaved-warning-modal-body-message'}>
-              {'You have unsaved changes that will be lost if you leave this page now.'}
-            </div>
-            <div className={'unsaved-modal-body-message'}>{'What would you like to do?'}</div>
-          </div>
+      <Modal isOpen={this.state.isOpened} size={'lg'}>
+        <ModalHeader>
+          <CardTitle>Navigation Warning</CardTitle>
+        </ModalHeader>
+        <ModalBody>
+          <Alert color="warning">You have unsaved changes that will be lost if you leave this page now.</Alert>
+          What would you like to do?
         </ModalBody>
-
-        <ModalFooter className="warning-modal-footer">
-          <Button className={'unsaved-warning-modal-discard'} onClick={this.close}>
-            {'Return to the assessment'}
+        <div className="p-3 text-right">
+          <Button className="m-1" onClick={this.close}>
+            Return to the Assessment
           </Button>
           <Button
             disabled={!this.props.isSavable}
-            className={'unsaved-warning-modal-save'}
+            className={'m-1'}
+            primary
             onClick={() => {
               this.onButtonClick(this.props.saveAndContinue)
             }}
           >
-            {'SAVE CHANGES AND CONTINUE'}
+            Save Changes and Continue
           </Button>
-        </ModalFooter>
-        {!this.state.isDiscardDisabled ? (
-          <ModalFooter className="warning-modal-footer">
+          {!this.state.isDiscardDisabled ? (
             <Button
-              className={'unsaved-warning-modal-discard'}
+              className={'m-1'}
               onClick={() => {
                 this.onButtonClick(this.props.discardAndContinue)
               }}
             >
-              {'Discard changes and continue'}
+              Discard Changes and Continue
             </Button>
-          </ModalFooter>
-        ) : null}
+          ) : null}
+        </div>
       </Modal>
     )
   }

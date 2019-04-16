@@ -5,6 +5,7 @@ import { eventBus } from './../../util/eventBus'
 import { TIMEOUT_EVENT } from './../../util/constants'
 import { Button } from '@cwds/components'
 import { SecurityService } from './Security.service'
+import UserAccountService from '../common/UserAccountService'
 
 describe('<TimeoutWarning />', () => {
   const props = {}
@@ -23,14 +24,22 @@ describe('<TimeoutWarning />', () => {
   })
 
   describe('timeout buttons', () => {
-    it('"Logout" button does logout on click', () => {
-      TimeoutWarning.prototype.logout = jest.fn()
+    const logoutImpl = TimeoutWarning.prototype.logout
+    const refreshImpl = SecurityService.refresh
+
+    afterEach(() => {
+      TimeoutWarning.prototype.logout = logoutImpl
+      SecurityService.refresh = refreshImpl
+    })
+
+    it('logs out when "Logout" button clicked', () => {
+      UserAccountService.logout = jest.fn()
       const wrapper = shallow(<TimeoutWarning {...props} />)
       wrapper
         .find(Button)
         .at(0)
         .simulate('click')
-      expect(TimeoutWarning.prototype.logout).toBeCalled()
+      expect(UserAccountService.logout).toBeCalled()
     })
 
     it('"Refresh" button calls refresh endpoint on click', () => {

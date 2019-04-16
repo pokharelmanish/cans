@@ -112,9 +112,16 @@ describe('<StaffTable />', () => {
       assertTitleAndTooltip(
         5,
         <span>
-          Reassessments<br />Needed
+          Reassessments<br />Due
         </span>,
-        'Orange indicates that a reassessment is coming due in 30 days or less. Red indicates that a reassessment is past due.'
+        'The count of clients that have a reassessment coming due in 30 days or less'
+      )
+      assertTitleAndTooltip(
+        6,
+        <span>
+          Reassessments<br />Past Due
+        </span>,
+        'The count of clients that have a reassessment past due'
       )
     })
   })

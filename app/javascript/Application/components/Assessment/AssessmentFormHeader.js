@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react'
+import React, { PureComponent } from 'react'
 import { Row, Col, Label } from 'reactstrap'
 import { resetConfidentialByDefaultItems } from './AssessmentHelper'
 import { clientCaseReferralNumber, formatClientName } from '../Client/Client.helper'
@@ -62,7 +62,7 @@ class AssessmentFormHeader extends PureComponent {
       <div>
         {firstName && lastName ? (
           <div>
-            <div className={'child-name-block'}>
+            <div className={'card-title-block'}>
               <span id={'child-name'}>{formatClientName(this.props.client)}</span>
             </div>
             <div className={'helper-text'}>
@@ -73,7 +73,7 @@ class AssessmentFormHeader extends PureComponent {
             </div>
           </div>
         ) : (
-          <div className={'child-name-block'}>
+          <div className={'card-title-block'}>
             <span id={'no-data'}>Client Info</span>
           </div>
         )}
@@ -93,15 +93,27 @@ class AssessmentFormHeader extends PureComponent {
     return isValidDate(dob) ? `DOB: ${isoToLocalDate(dob)}${estimatedDob ? ' (approx.)' : ''}` : ''
   }
 
-  renderCounty() {
+  renderCountyAndCaseInfo() {
     const county = this.props.assessment.county || {}
     const countyName = county.name ? `${county.name} County` : ''
     return (
-      countyName && (
-        <div id={'county-name'} className={'county-name-block'}>
-          {countyName}
+      <div>
+        {countyName && (
+          <div className={'card-title-block'}>
+            <span id={'county-name'}>{countyName}</span>
+          </div>
+        )}
+        <div>
+          <div className={'case-referral-text'}>
+            <span id={'case-or-referral-number-label'}>
+              {clientCaseReferralNumber(this.props.assessment.service_source)}
+            </span>
+          </div>
+          <div id={'case-or-referral-number'} className={'helper-text'}>
+            <span>{this.renderCaseNumber()}</span>
+          </div>
         </div>
-      )
+      </div>
     )
   }
 
@@ -123,13 +135,7 @@ class AssessmentFormHeader extends PureComponent {
   }
 
   renderCaseNumber() {
-    return (
-      <Fragment>
-        <div id={'case-or-referral-number'} className={'assessment-form-header-case-or-referral-number'}>
-          {this.props.assessment.service_source_ui_id}
-        </div>
-      </Fragment>
-    )
+    return this.props.assessment.service_source_ui_id || 'No case/referral number exists'
   }
 
   renderCardHeader() {
@@ -137,7 +143,7 @@ class AssessmentFormHeader extends PureComponent {
       <CardHeader>
         <CardTitle className={'assessment-header-title'}>
           {this.renderClientName()}
-          {this.renderCounty()}
+          {this.renderCountyAndCaseInfo()}
         </CardTitle>
       </CardHeader>
     )
@@ -162,15 +168,6 @@ class AssessmentFormHeader extends PureComponent {
         <Col sm={4}>
           <Label for={'conducted-by'} className={'assessment-form-header-label'}>
             Assessment Conducted by
-          </Label>
-        </Col>
-        <Col sm={3}>
-          <Label
-            id={'case-or-referral-number-label'}
-            htmlFor={'case-or-referral-number'}
-            className={'assessment-form-header-label'}
-          >
-            {clientCaseReferralNumber(this.props.assessment.service_source)}
           </Label>
         </Col>
       </Row>
@@ -201,7 +198,6 @@ class AssessmentFormHeader extends PureComponent {
               disabled={this.props.disabled}
             />
           </Col>
-          <Col sm={3}>{this.renderCaseNumber()}</Col>
         </Row>
 
         <AssessmentOptions
