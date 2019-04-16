@@ -1,10 +1,10 @@
 import React from 'react'
 import { formatClientName, formatClientStatus } from './Client.helper'
-import { renderDate, sortDOB, cellTempSwitcher } from './ClientSocialWorkerCardTemplateHelper'
+import { renderDate, cellTempSwitcher } from './ClientSocialWorkerCardTemplateHelper'
 import { ReminderDateCell } from './ReminderDateCell'
 import DataGridHeader from '../common/DataGridHeader'
 import './style.sass'
-import { isoToLocalDate } from '../../util/dateHelper'
+import { isoToLocalDate, sortDate } from '../../util/dateHelper'
 
 export function SocialWorkerCardTemplate(navFrom, staffId) {
   return [
@@ -27,7 +27,7 @@ and meet the setting rules of reactTable at same time */
       },
       accessor: client => renderDate(client.dob),
       className: 'client-list-table-cell-center',
-      sortMethod: sortDOB,
+      sortMethod: sortDate,
     },
     {
       id: 'CANS Status',
@@ -53,6 +53,7 @@ and meet the setting rules of reactTable at same time */
       ),
       headerStyle: { textAlign: 'center' },
       accessor: client => isoToLocalDate(client.reminder_date),
+      sortMethod: sortDate,
       Cell: ReminderDateCell,
       sortable: true,
     },

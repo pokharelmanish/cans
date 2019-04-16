@@ -59,63 +59,6 @@ describe('<AssessmentFormHeader />', () => {
     expect(wrapper.find(AgeRangeSwitch).props().isUnderSix).toBe(true)
   })
 
-  describe('case number', () => {
-    it('renders with case number and Case Number label', () => {
-      const assessmentWithCaseNumber = {
-        ...assessment,
-        service_source_ui_id: '0687-9473-7673-8000672',
-        service_source: 'CASE',
-      }
-      const props = {
-        assessment: assessmentWithCaseNumber,
-        client,
-        onAssessmentUpdate: jest.fn(),
-        onEventDateFieldKeyUp: jest.fn(),
-        substanceUseItemsIds: defaultProps.substanceUseItemsIds,
-      }
-      const caseWrapper = shallow(<AssessmentFormHeader {...props} />)
-      const caseNumber = caseWrapper.find('#case-or-referral-number')
-      const caseNumberLabel = caseWrapper.find('#case-or-referral-number-label')
-      expect(caseNumber.text()).toBe('0687-9473-7673-8000672')
-      expect(caseNumberLabel.children().text()).toBe('Case Number')
-    })
-
-    it('renders with referral number and Referral Number label', () => {
-      const assessmentWithReferralNumber = {
-        ...assessment,
-        service_source_ui_id: '4704-9166-3831-2001287',
-        service_source: 'REFERRAL',
-      }
-      const props = {
-        assessment: assessmentWithReferralNumber,
-        client,
-        onAssessmentUpdate: jest.fn(),
-        onEventDateFieldKeyUp: jest.fn(),
-        substanceUseItemsIds: defaultProps.substanceUseItemsIds,
-      }
-      const referralWrapper = shallow(<AssessmentFormHeader {...props} />)
-      const referralNumber = referralWrapper.find('#case-or-referral-number')
-      const referralNumberLabel = referralWrapper.find('#case-or-referral-number-label')
-      expect(referralNumber.text()).toBe('4704-9166-3831-2001287')
-      expect(referralNumberLabel.children().text()).toBe('Referral Number')
-    })
-
-    it('renders without case/referral number when not exists and Case/Referral Number label', () => {
-      const props = {
-        assessment,
-        client,
-        onAssessmentUpdate: jest.fn(),
-        onEventDateFieldKeyUp: jest.fn(),
-        substanceUseItemsIds: defaultProps.substanceUseItemsIds,
-      }
-      const caseReferralWrapper = shallow(<AssessmentFormHeader {...props} />)
-      const caseNumber = caseReferralWrapper.find('#case-or-referral-number')
-      const referralNumberLabel = caseReferralWrapper.find('#case-or-referral-number-label')
-      expect(caseNumber.text()).toBe('')
-      expect(referralNumberLabel.children().text()).toBe('Case/Referral Number')
-    })
-  })
-
   describe('date field', () => {
     it('should be invalid when the event date is before person.dob', () => {
       const props = { ...defaultProps, isEventDateBeforeDob: true }
@@ -130,14 +73,9 @@ describe('<AssessmentFormHeader />', () => {
       wrapped = shallow(<AssessmentFormHeader {...defaultProps} />)
     })
 
-    it('renders top 4 labels', () => {
+    it('renders top 3 labels', () => {
       const labels = wrapped.find('.assessment-form-header-label').map(label => label.children().text())
-      expect(labels).toEqual([
-        'Assessment Date *',
-        'Select CANS Template *',
-        'Assessment Conducted by',
-        'Case/Referral Number',
-      ])
+      expect(labels).toEqual(['Assessment Date *', 'Select CANS Template *', 'Assessment Conducted by'])
     })
   })
 
@@ -331,12 +269,67 @@ describe('<AssessmentFormHeader />', () => {
     })
   })
 
-  describe('with county', () => {
+  describe('with county name and case/Referal number', () => {
     it('displays correct county name', () => {
       const title = shallow(<AssessmentFormHeader {...defaultProps} />)
         .find(CardTitle)
         .dive()
       expect(title.find('#county-name').text()).toBe('Calaveras County')
+    })
+
+    it('renders with case number label and Case Number', () => {
+      const assessmentWithCaseNumber = {
+        ...assessment,
+        service_source_ui_id: '0687-9473-7673-8000672',
+        service_source: 'CASE',
+      }
+      const props = {
+        assessment: assessmentWithCaseNumber,
+        client,
+        onAssessmentUpdate: jest.fn(),
+        onEventDateFieldKeyUp: jest.fn(),
+        substanceUseItemsIds: defaultProps.substanceUseItemsIds,
+      }
+      const caseWrapper = shallow(<AssessmentFormHeader {...props} />)
+      const caseNumberLabel = caseWrapper.find('#case-or-referral-number-label')
+      const caseNumber = caseWrapper.find('#case-or-referral-number')
+      expect(caseNumberLabel.children().text()).toBe('Case Number')
+      expect(caseNumber.text()).toBe('0687-9473-7673-8000672')
+    })
+
+    it('renders with referral number label and Referral Number', () => {
+      const assessmentWithReferralNumber = {
+        ...assessment,
+        service_source_ui_id: '4704-9166-3831-2001287',
+        service_source: 'REFERRAL',
+      }
+      const props = {
+        assessment: assessmentWithReferralNumber,
+        client,
+        onAssessmentUpdate: jest.fn(),
+        onEventDateFieldKeyUp: jest.fn(),
+        substanceUseItemsIds: defaultProps.substanceUseItemsIds,
+      }
+      const referralWrapper = shallow(<AssessmentFormHeader {...props} />)
+      const referralNumberLabel = referralWrapper.find('#case-or-referral-number-label')
+      const referralNumber = referralWrapper.find('#case-or-referral-number')
+      expect(referralNumberLabel.children().text()).toBe('Referral Number')
+      expect(referralNumber.text()).toBe('4704-9166-3831-2001287')
+    })
+
+    it('renders without case/referral number when not exists and Case/Referral Number label', () => {
+      const props = {
+        assessment,
+        client,
+        onAssessmentUpdate: jest.fn(),
+        onEventDateFieldKeyUp: jest.fn(),
+        substanceUseItemsIds: defaultProps.substanceUseItemsIds,
+      }
+      const caseReferralWrapper = shallow(<AssessmentFormHeader {...props} />)
+      const referralNumberLabel = caseReferralWrapper.find('#case-or-referral-number-label')
+      const caseNumber = caseReferralWrapper.find('#case-or-referral-number')
+      expect(referralNumberLabel.children().text()).toBe('Case/Referral Number')
+      expect(caseNumber.text()).toBe('No case/referral number exists')
     })
   })
 
