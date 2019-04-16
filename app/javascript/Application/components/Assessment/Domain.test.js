@@ -82,31 +82,37 @@ describe('<Domain />', () => {
 
   describe('Open to review', () => {
     const onDomainReviewed = jest.fn()
-    const div = document.createElement('div')
-    document.body.appendChild(div)
-    const wrapper = mount(
-      <Domain
-        key={'1'}
-        canReleaseConfidentialInfo={true}
-        domain={{ ...domainDefault }}
-        isAssessmentUnderSix={true}
-        i18n={{ ...i18nDefault }}
-        i18nAll={{ a: 'b' }}
-        index={1}
-        onItemCommentUpdate={() => {}}
-        onDomainCommentUpdate={() => {}}
-        onRatingUpdate={() => {}}
-        onConfidentialityUpdate={() => {}}
-        onAddCaregiverDomain={() => {}}
-        onExpandedChange={() => {}}
-        handleWarningShow={() => {}}
-        onCaregiverNameUpdate={() => {}}
-        onDomainReviewed={onDomainReviewed}
-        isUsingPriorRatings={false}
-        isCompletedAssessment={false}
-      />,
-      { attachTo: div }
-    )
+    let div
+    let wrapper
+
+    beforeEach(() => {
+      onDomainReviewed.mockReset()
+      div = document.createElement('div')
+      document.body.appendChild(div)
+      wrapper = mount(
+        <Domain
+          key={'1'}
+          canReleaseConfidentialInfo={true}
+          domain={{ ...domainDefault }}
+          isAssessmentUnderSix={true}
+          i18n={{ ...i18nDefault }}
+          i18nAll={{ a: 'b' }}
+          index={1}
+          onItemCommentUpdate={() => {}}
+          onDomainCommentUpdate={() => {}}
+          onRatingUpdate={() => {}}
+          onConfidentialityUpdate={() => {}}
+          onAddCaregiverDomain={() => {}}
+          onExpandedChange={() => {}}
+          handleWarningShow={() => {}}
+          onCaregiverNameUpdate={() => {}}
+          onDomainReviewed={onDomainReviewed}
+          isUsingPriorRatings={true}
+          isCompletedAssessment={false}
+        />,
+        { attachTo: div }
+      )
+    })
 
     it('renders chevron icon', () => {
       expect(wrapper.find(Icon).exists()).toBe(true)
@@ -124,9 +130,23 @@ describe('<Domain />', () => {
       expect(target.length).toBe(1)
     })
 
-    it('calls onDomainReviewed when expanded', () => {
+    it('calls onDomainReviewed when expanded if not already reviewed', () => {
       wrapper.instance().handleExpandedChange(testExpandingEvent)
       expect(onDomainReviewed.mock.calls.length).toBe(1)
+    })
+
+    it('does not call onDomainReviewed when expanded if already reviewed', () => {
+      const originalDomain = wrapper.instance().props.domain
+      wrapper.setProps({ domain: { ...originalDomain, is_reviewed: true } })
+      wrapper.instance().handleExpandedChange(testExpandingEvent)
+      expect(onDomainReviewed).not.toHaveBeenCalled()
+    })
+
+    it('does not call onDomainReviewed when expanded if not using previous ratings', () => {
+      onDomainReviewed.mockReset()
+      wrapper.setProps({ isUsingPriorRatings: false })
+      wrapper.instance().handleExpandedChange(testExpandingEvent)
+      expect(onDomainReviewed).not.toHaveBeenCalled()
     })
 
     it('calls onExpandedChange callback when expand is toggled', () => {

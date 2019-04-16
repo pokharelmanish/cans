@@ -37,6 +37,9 @@ class Domain extends React.PureComponent {
   }
 
   handleOpenToReview = event => {
+    if (this.props.domain.is_reviewed || !this.props.isUsingPriorRatings) {
+      return
+    }
     const code = this.props.domain.code
     const caregiverIndex = this.props.domain.caregiver_index
     this.props.onDomainReviewed(code, caregiverIndex)
