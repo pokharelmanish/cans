@@ -17,7 +17,6 @@ describe('<Assessment />', () => {
     i18n = i18nMock,
     footer = <div id="footer-impl-mock" />,
     disabled = false,
-    isDefaultExpanded = false,
   }) =>
     shallow(
       <Assessment
@@ -26,7 +25,6 @@ describe('<Assessment />', () => {
         i18n={i18n}
         footer={footer}
         disabled={disabled}
-        isDefaultExpanded={isDefaultExpanded}
       />
     )
 
