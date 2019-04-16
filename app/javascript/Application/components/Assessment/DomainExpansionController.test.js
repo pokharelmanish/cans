@@ -34,10 +34,15 @@ describe('DomainExpansionController', () => {
     ])
   })
 
-  it('adds new domains in a default collapsed state', () => {
+  it('adds new domains in a default state matching isUnifiedExpansion', () => {
     const wrapper = render()
+    wrapper.setState({ isUnifiedExpansion: false })
     wrapper.setProps({ domains: [...DOMAINS, { id: 1000 }] })
     expect(wrapper.state().domainsExpanded.find(({ domain }) => domain.id === 1000).isExpanded).toBe(false)
+
+    wrapper.setState({ isUnifiedExpansion: true })
+    wrapper.setProps({ domains: [...DOMAINS, { id: 1001 }] })
+    expect(wrapper.state().domainsExpanded.find(({ domain }) => domain.id === 1001).isExpanded).toBe(true)
   })
 
   it('passes the domainsExpanded state to child', () => {

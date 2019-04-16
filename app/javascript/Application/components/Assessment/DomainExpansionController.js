@@ -20,7 +20,7 @@ class DomainExpansionController extends React.Component {
       const existingDomain = state.domainsExpanded.find(domainIsExpanded => domainIsExpanded.domain.id === domain.id)
       return {
         domain,
-        isExpanded: existingDomain ? existingDomain.isExpanded : false,
+        isExpanded: existingDomain ? existingDomain.isExpanded : state.isUnifiedExpansion,
       }
     })
 
