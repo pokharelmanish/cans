@@ -140,28 +140,13 @@ class Assessment extends Component {
   }
 
   updateDomainIsReviewed = (code, caregiverIndex) => {
-    let isChanged = false
-
-    const assessment = this.props.assessment
-    const domains = assessment.state.domains
-
-    const newAssessment = {
-      ...assessment,
-      state: {
-        ...assessment.state,
-        domains: domains.map(domain => {
-          if (domain.caregiver_index === caregiverIndex && domain.code === code && domain.is_reviewed !== true) {
-            isChanged = true
-            return { ...domain, is_reviewed: true }
-          }
-          return domain
-        }),
-      },
-    }
-
-    if (isChanged) {
-      this.props.onAssessmentUpdate(newAssessment)
-    }
+    const assessment = clone(this.props.assessment)
+    assessment.state.domains.map(domain => {
+      if (domain.caregiver_index === caregiverIndex && domain.code === code) {
+        domain.is_reviewed = true
+      }
+    })
+    this.props.onAssessmentUpdate(assessment)
   }
 
   render() {
