@@ -10,6 +10,7 @@ import {
   isValidLocalDate,
   localToIsoDateOrNull,
   calculateDateDifferenceInYears,
+  sortDate,
 } from './dateHelper'
 import moment from 'moment'
 
@@ -23,7 +24,7 @@ describe('#isoToLocalDate()', () => {
   })
 
   it('returns Invalid Date when input is undefined', () => {
-    expect(isoToLocalDate(undefined)).toEqual('Invalid date')
+    expect(isoToLocalDate(undefined)).toEqual(undefined)
   })
 
   it('returns Invalid Date when input is invalid JS Date', () => {
@@ -215,5 +216,58 @@ describe('#calculateDateDifferenceInYears()', () => {
     expect(calculateDateDifferenceInYears('2007-07-14', '2019-02-08')).toEqual(11)
     expect(calculateDateDifferenceInYears('1981-12-26', '2019-02-08')).toEqual(37)
     expect(calculateDateDifferenceInYears('2012-02-29', '2019-02-08')).toEqual(6)
+  })
+
+  describe('sortDate', () => {
+    it('sorts by month', () => {
+      const dates = ['10/02/2018', '08/02/2018', '11/02/2018']
+      expect(dates.sort(sortDate)).toEqual(['08/02/2018', '10/02/2018', '11/02/2018'])
+    })
+
+    it('sorts by day', () => {
+      const dates = ['10/18/2018', '10/07/2018', '10/09/2018']
+      expect(dates.sort(sortDate)).toEqual(['10/07/2018', '10/09/2018', '10/18/2018'])
+    })
+
+    it('sorts by year', () => {
+      const dates = ['10/18/2020', '10/18/2019', '10/18/2018']
+      expect(dates.sort(sortDate)).toEqual(['10/18/2018', '10/18/2019', '10/18/2020'])
+    })
+
+    it('sorts by all criteria', () => {
+      const dates = ['10/11/2021', '03/01/2021', '05/21/2051', '10/18/2020']
+      expect(dates.sort(sortDate)).toEqual(['10/18/2020', '03/01/2021', '10/11/2021', '05/21/2051'])
+    })
+
+    it('sorts with undefined values', () => {
+      const dates = [
+        null,
+        '10/11/2021',
+        undefined,
+        null,
+        '03/01/2021',
+        null,
+        '05/21/2051',
+        undefined,
+        undefined,
+        '10/18/2020',
+        undefined,
+        null,
+      ]
+      expect(dates.sort(sortDate)).toEqual([
+        '10/18/2020',
+        '03/01/2021',
+        '10/11/2021',
+        '05/21/2051',
+        null,
+        null,
+        null,
+        null,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+      ])
+    })
   })
 })
