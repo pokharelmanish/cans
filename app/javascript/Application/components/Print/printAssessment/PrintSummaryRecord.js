@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { summaryInnerContainer, summaryTitle, summaryContent } from './PrintAssessmentStyle'
+import { summaryInnerContainer, summaryTitle, summaryContent, summaryItem } from './PrintAssessmentStyle'
 
 export const PrintSummaryRecord = ({ title, items }) => {
   return (
@@ -11,7 +11,7 @@ export const PrintSummaryRecord = ({ title, items }) => {
       <ul style={summaryContent}>
         {items &&
           items.map(val => (
-            <li id="item" key={val}>
+            <li style={summaryItem} id="item" key={val}>
               {val}
             </li>
           ))}

@@ -29,11 +29,7 @@ const nonFirefoxPrint = (frame, contentString) => {
   frameContentWindow.document.write(contentString)
   frameContentWindow.document.close()
   if (isIE) {
-    try {
-      frameContentWindow.document.execCommand('print', false, null)
-    } catch (e) {
-      frameContentWindow.print()
-    }
+    frameContentWindow.document.execCommand('print', false, null)
   } else {
     frameContentWindow.print()
   }

@@ -151,7 +151,6 @@ export const domainContainer = {
   marginTop: '2rem',
   borderBottom: 'thin solid black',
   borderTop: 'thin solid black',
-  paddingBottom: '2rem',
 }
 
 export const domainComment = {
@@ -254,11 +253,19 @@ export const summaryTitle = {
   fontSize: '1rem',
   padding: '0.5rem',
   borderBottom: 'thin solid #ccc',
-  margin: '0 0.2rem 0 0.2rem',
+  margin: '0 0.2rem 0.2rem 0.2rem',
+  pageBreakInside: 'avoid',
+  pageBreakBefore: 'avoid',
 }
 
 export const summaryContent = {
   fontWeight: '400',
   fontSize: '0.9rem',
   padding: '0.2rem 0 0.2rem 1.5rem',
+}
+
+export const summaryItem = {
+  pageBreakInside: 'avoid',
+  pageBreakBefore: 'avoid',
+  marginBottom: '0.25rem',
 }

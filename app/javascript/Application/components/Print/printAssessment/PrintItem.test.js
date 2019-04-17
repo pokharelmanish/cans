@@ -1,12 +1,18 @@
 import React from 'react'
 import { mount } from 'enzyme'
-import { assessmentPrint, assessmentWithConfidentialItem, i18nPrint } from '../../Assessment/assessment.mocks.test'
+import {
+  assessmentPrint,
+  assessmentWithConfidentialItem,
+  assessmentWithNoConfidentialItem,
+  i18nPrint,
+} from '../../Assessment/assessment.mocks.test'
 import { getI18nByCode } from '../../common/I18nHelper'
 import PrintItem from './PrintItem'
 import PrintOptions from './PrintOptions'
+import { redactLevels } from './PrintAssessmentHelper'
 
 const fakePropsWithNoConfidentialItem = {
-  item: { ...assessmentPrint.state.domains[0].items[2] },
+  item: { ...assessmentWithNoConfidentialItem.state.domains[0].items[0] },
   itemI18n: getI18nByCode(i18nPrint, 'PSYCHOSIS'),
   index: 0,
   caregiverIndex: 'some',
@@ -44,6 +50,42 @@ describe('<PrintItem />', () => {
     const target = wrapper.find(PrintOptions)
     expect(fakePropsWithNoConfidentialItem.item.confidential).toBe(false)
     expect(fakePropsWithNoConfidentialItem.item.confidential_by_default).toBe(false)
+    expect(target.length).toBe(1)
+  })
+
+  it('will render a PrintOptions when redactLevel = doNotRedact and item is confidential', () => {
+    getWrapper({ ...fakePropsWithConfidentialItem, redactLevel: redactLevels.doNotRedact })
+    const target = wrapper.find(PrintOptions)
+    expect(target.length).toBe(1)
+  })
+
+  it('will render a PrintOptions when redactLevel = doNotRedact and item is discretion', () => {
+    getWrapper({ ...fakePropsWithDiscretionItem, redactLevel: redactLevels.doNotRedact })
+    const target = wrapper.find(PrintOptions)
+    expect(target.length).toBe(1)
+  })
+
+  it('will not render a PrintOptions when redactLevel = confidential and item is confidential', () => {
+    getWrapper({ ...fakePropsWithConfidentialItem, redactLevel: redactLevels.confidential })
+    const target = wrapper.find(PrintOptions)
+    expect(target.length).toBe(0)
+  })
+
+  it('will not render a PrintOptions when redactLevel = discretionNeeded and item is discretion', () => {
+    getWrapper({ ...fakePropsWithDiscretionItem, redactLevel: redactLevels.discrationNeeded })
+    const target = wrapper.find(PrintOptions)
+    expect(target.length).toBe(0)
+  })
+
+  it('will render a PrintOptions when redactLevel = confidential and item is discretion', () => {
+    getWrapper({ ...fakePropsWithDiscretionItem, redactLevel: redactLevels.confidential })
+    const target = wrapper.find(PrintOptions)
+    expect(target.length).toBe(1)
+  })
+
+  it('will render a PrintOptions when redactLevel = discretionNeeded and item is confidential', () => {
+    getWrapper({ ...fakePropsWithConfidentialItem, redactLevel: redactLevels.discrationNeeded })
+    const target = wrapper.find(PrintOptions)
     expect(target.length).toBe(1)
   })
 
