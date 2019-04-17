@@ -54,15 +54,10 @@ describe('<AssessmentContainer />', () => {
         assessment: {},
       }
 
-      beforeEach(() => {
-        jest.spyOn(ClientService, 'fetch').mockReturnValue(Promise.resolve(childInfoJson))
-        jest.spyOn(AssessmentService, 'fetch').mockReturnValue(Promise.resolve(assessment))
-      })
-
       const getLength = (wrapper, component) => wrapper.find(component).length
 
       it('renders with 1 <AssessmentContainerInner/> component', async () => {
-        const wrapper = await mount(<AssessmentContainer {...props} />)
+        const wrapper = await shallow(<AssessmentContainer {...props} />)
         expect(getLength(wrapper, AssessmentContainerInner)).toBe(1)
       })
     })
@@ -486,17 +481,6 @@ describe('<AssessmentContainer />', () => {
         it('returns canDisplaySummaryOnSave true', async () => {
           await wrapper.instance().handleSaveAssessment()
           expect(wrapper.state('canDisplaySummaryOnSave')).toEqual(true)
-        })
-
-        it('displays summary card and calls completeAutoScroll with right parameters on save', async () => {
-          jest.spyOn(AssessmentService, 'postAssessment').mockReturnValue(Promise.resolve(assessment))
-          const wrapper = mount(<AssessmentContainer {...defaultProps} />)
-          const completeAutoScrollSpy = jest.spyOn(AssessmentAutoScroll, 'completeAutoScroll')
-          const tuner = 15
-          await wrapper.instance().handleSaveAssessment()
-          wrapper.update()
-          expect(wrapper.find('AssessmentSummaryCard').prop('isSummaryAvailableOnSave')).toEqual(true)
-          expect(completeAutoScrollSpy).toHaveBeenCalledWith(0, tuner)
         })
       })
     })
