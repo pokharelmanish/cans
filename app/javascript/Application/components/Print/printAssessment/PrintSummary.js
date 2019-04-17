@@ -44,6 +44,7 @@ class PrintSummary extends PureComponent {
     )
     return (
       <div>
+        {this.props.header}
         <CategoryHeader title="CANS Summary" />
         <div style={summaryContainer}>
           <PrintSummaryRecord
@@ -63,6 +64,7 @@ class PrintSummary extends PureComponent {
             title={TRAUMA}
           />
         </div>
+        {this.props.footer}
       </div>
     )
   }
@@ -70,8 +72,15 @@ class PrintSummary extends PureComponent {
 
 PrintSummary.propTypes = {
   domains: PropTypes.array.isRequired,
+  footer: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+  header: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   i18n: PropTypes.object.isRequired,
   isUnderSix: PropTypes.bool.isRequired,
+}
+
+PrintSummary.defaultProps = {
+  header: '',
+  footer: '',
 }
 
 export default PrintSummary

@@ -6,8 +6,13 @@ import pageLockService from './../../common/PageLockService'
 
 describe('PrintButton', () => {
   let wrapper
-  const printButton = enabled => (
-    <PrintButton node={<div>{'change log'}</div>} isEnabled={enabled} isAssessmentRendered={true} />
+  const printButton = (enabled, onPrintClick = undefined) => (
+    <PrintButton
+      node={<div>{'change log'}</div>}
+      isEnabled={enabled}
+      isAssessmentRendered={true}
+      onPrintClick={onPrintClick}
+    />
   )
 
   describe('isEnabled is true', () => {
@@ -84,7 +89,7 @@ describe('PrintButton', () => {
         preventDefault: () => {},
       })
       expect(wrapper.find(Print).length).toBe(1)
-      expect(confirm).toHaveBeenCalledWith(wrapper.instance().togglePrintNow, {
+      expect(confirm).toHaveBeenCalledWith(wrapper.instance().callBeforePrint, {
         isDiscardDisabled: true,
       })
     })
@@ -106,6 +111,22 @@ describe('PrintButton', () => {
       expect(adder).toHaveBeenCalledTimes(1)
       wrapper.unmount()
       expect(remover).toHaveBeenCalledTimes(1)
+    })
+  })
+
+  describe('#callBeforePrint', () => {
+    it('should call #onPrintClick if assigned', () => {
+      const onPrintClick = jest.fn()
+      const wrapper = shallow(printButton(true, onPrintClick))
+      wrapper.instance().callBeforePrint()
+      expect(onPrintClick).toHaveBeenCalledTimes(1)
+    })
+
+    it('should call #togglePrintNow in no onPrintClick assigned', () => {
+      const wrapper = shallow(printButton(true))
+      wrapper.instance().togglePrintNow = jest.fn()
+      wrapper.instance().callBeforePrint()
+      expect(wrapper.instance().togglePrintNow).toHaveBeenCalledTimes(1)
     })
   })
 })

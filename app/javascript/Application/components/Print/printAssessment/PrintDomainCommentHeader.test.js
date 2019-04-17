@@ -4,6 +4,7 @@ import PrintDomainCommentHeader from './PrintDomainCommentHeader'
 
 const fakeProps = {
   text: 'some text',
+  remark: 'some remark',
 }
 
 describe('<PrintDomainCommentHeader />', () => {
@@ -26,7 +27,8 @@ describe('<PrintDomainCommentHeader />', () => {
 
   it('will render correct text', () => {
     wrapper = mount(<PrintDomainCommentHeader {...fakeProps} />)
-    const target = wrapper.find('tspan')
-    expect(target.text()).toContain(fakeProps.text)
+    const target = wrapper.find('text')
+    expect(target.at(0).text()).toContain(fakeProps.text)
+    expect(target.at(1).text()).toContain(fakeProps.remark)
   })
 })

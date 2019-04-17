@@ -253,3 +253,12 @@ export const getSubstanceUseItemsIds = assessment => {
   })
   return { underSix: underSix, aboveSix: aboveSix }
 }
+
+export const hasConfidentialItems = assessment => {
+  return assessment.state.domains.some(domain => {
+    return (
+      domain.items.find(item => shouldItemBeRendered(assessment.state.under_six, item) && item.confidential) !==
+      undefined
+    )
+  })
+}

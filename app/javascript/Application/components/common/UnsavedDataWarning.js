@@ -58,8 +58,8 @@ class UnsavedDataWarning extends Component {
 
   render() {
     return (
-      <Modal isOpen={this.state.isOpened} size={'lg'}>
-        <ModalHeader>
+      <Modal isOpen={this.state.isOpened}>
+        <ModalHeader toggle={this.close}>
           <CardTitle>Navigation Warning</CardTitle>
         </ModalHeader>
         <ModalBody>
@@ -67,9 +67,16 @@ class UnsavedDataWarning extends Component {
           What would you like to do?
         </ModalBody>
         <div className="p-3 text-right">
-          <Button className="m-1" onClick={this.close}>
-            Return to the Assessment
-          </Button>
+          {!this.state.isDiscardDisabled ? (
+            <Button
+              className={'m-1'}
+              onClick={() => {
+                this.onButtonClick(this.props.discardAndContinue)
+              }}
+            >
+              Ignore and continue
+            </Button>
+          ) : null}
           <Button
             disabled={!this.props.isSavable}
             className={'m-1'}
@@ -78,18 +85,8 @@ class UnsavedDataWarning extends Component {
               this.onButtonClick(this.props.saveAndContinue)
             }}
           >
-            Save Changes and Continue
+            Save and continue
           </Button>
-          {!this.state.isDiscardDisabled ? (
-            <Button
-              className={'m-1'}
-              onClick={() => {
-                this.onButtonClick(this.props.discardAndContinue)
-              }}
-            >
-              Discard Changes and Continue
-            </Button>
-          ) : null}
         </div>
       </Modal>
     )

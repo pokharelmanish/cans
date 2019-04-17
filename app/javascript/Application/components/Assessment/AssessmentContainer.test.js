@@ -1204,4 +1204,15 @@ describe('<AssessmentContainer />', () => {
       })
     })
   })
+
+  describe('print assessment', () => {
+    describe('#openPrintModal', () => {
+      it('should toggle AssessmentPrintModal', () => {
+        const wrapper = shallow(<AssessmentContainer {...defaultProps} />)
+        wrapper.instance().setState({ printModalOpen: true })
+        expect(wrapper.state().printModalOpen).toBeTruthy()
+        expect(wrapper.find('AssessmentPrintModal').props().isOpen).toBeTruthy()
+      })
+    })
+  })
 })

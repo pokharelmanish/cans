@@ -1,4 +1,4 @@
-import { isConfidential, isDiscretionNeeded } from './PrintAssessmentHelper'
+import { isConfidential, isDiscretionNeeded, redactLevels, shouldBeRedacted } from './PrintAssessmentHelper'
 const defaultTrue = {
   confidential_by_default: true,
   confidential: false,
@@ -40,5 +40,30 @@ describe('isDiscretionNeeded', () => {
     assert(defaultFalse, true)
     assert(bothTrue, false)
     assert(bothFalse, false)
+  })
+})
+
+describe('#shouldBeRedacted', () => {
+  it('should return false when redactLevel = DO_NOT_REDACT', () => {
+    expect(shouldBeRedacted(bothTrue, redactLevels.doNotRedact)).toBeFalsy()
+  })
+
+  it('should return false when item is not confidential', () => {
+    expect(shouldBeRedacted(bothFalse, redactLevels.all)).toBeFalsy()
+  })
+
+  it('should return true when redactLevel = ALL and item is confidential or discretion needed', () => {
+    expect(shouldBeRedacted(bothTrue, redactLevels.all)).toBeTruthy()
+    expect(shouldBeRedacted(defaultFalse, redactLevels.all)).toBeTruthy()
+  })
+
+  it('should return true when redactLevel = CONFIDENTIAL and item is confidential', () => {
+    expect(shouldBeRedacted(bothTrue, redactLevels.confidential)).toBeTruthy()
+    expect(shouldBeRedacted(defaultFalse, redactLevels.confidential)).toBeFalsy()
+  })
+
+  it('should return true when redactLevel = DISCRETION_NEEDED and item is discretion needed', () => {
+    expect(shouldBeRedacted(defaultFalse, redactLevels.discrationNeeded)).toBeTruthy()
+    expect(shouldBeRedacted(bothTrue, redactLevels.discrationNeeded)).toBeFalsy()
   })
 })

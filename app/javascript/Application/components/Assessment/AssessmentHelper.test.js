@@ -17,6 +17,7 @@ import {
   getSubstanceUseItemsIds,
   isSubsequentType,
   AssessmentType,
+  hasConfidentialItems,
 } from './AssessmentHelper'
 import { globalAlertService } from '../../util/GlobalAlertService'
 import { clone } from '../../util/common'
@@ -421,6 +422,34 @@ describe('AssessmentHelper', () => {
       assessment.state.domains[1].items.push(substanceUseItem48)
       const actual = getSubstanceUseItemsIds(assessment, true)
       expect(actual).toEqual({ underSix: ['1', '41'], aboveSix: ['8', '48'] })
+    })
+  })
+
+  describe('hasConfidentialItems', () => {
+    it('returns false if assessment does not contain confidential items', () => {
+      const assessment = clone(validAssessment)
+      const item = assessment.state.domains[0].items[0]
+      item.confidential = false
+      item.confidential_by_default = false
+      expect(hasConfidentialItems(assessment)).toBeFalsy()
+    })
+
+    it('returns true if assessment does contain confidential items', () => {
+      const assessment = clone(validAssessment)
+      assessment.state.under_six = true
+      const item = assessment.state.domains[0].items[0]
+      item.confidential = true
+      item.confidential_by_default = false
+      expect(hasConfidentialItems(assessment)).toBeTruthy()
+    })
+
+    it('returns false if assessment does contain confidential_by_default=true but confidential=false', () => {
+      const assessment = clone(validAssessment)
+      assessment.state.under_six = true
+      const item = assessment.state.domains[0].items[0]
+      item.confidential = false
+      item.confidential_by_default = true
+      expect(hasConfidentialItems(assessment)).toBeFalsy()
     })
   })
 })

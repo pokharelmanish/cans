@@ -6,10 +6,8 @@ const CategoryHeader = props => {
     <div className="cat-header-container">
       <svg height="50px" width="100%">
         <rect width="100%" height="50px" style={{ fill: '#dfdfdf' }} />
-        <text fontSize="19px" fill="black">
-          <tspan dy="33px" x="0" dx="10px">
-            {props.title}
-          </tspan>
+        <text fontSize="19" fontWeight="900" fill="#000000" x="1%" y="50%" dominantBaseline="middle" textAnchor="start">
+          {props.title}
         </text>
       </svg>
     </div>
