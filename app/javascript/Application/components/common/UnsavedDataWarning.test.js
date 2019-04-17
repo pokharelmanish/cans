@@ -117,7 +117,7 @@ describe('<UnsavedDataWarning />', () => {
       const wrapper = openWarning()
       wrapper
         .find(Button)
-        .at(0)
+        .at(2)
         .simulate('click')
       expect(wrapper.instance().props.discardAndContinue).toBeCalled()
       expect(wrapper.instance().state.isOpened).toBeFalsy()
