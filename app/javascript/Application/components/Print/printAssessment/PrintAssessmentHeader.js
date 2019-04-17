@@ -22,7 +22,7 @@ class PrintAssessmentHeader extends PureComponent {
         <div style={headerFourColsBox}>
           <div style={headerContentBox}>{this.props.eventDate}</div>
           <div style={headerDescriptionBox}>Date of Assessment</div>
-          <div style={headerSubDescriptionBox}>(mm/dd/yy)</div>
+          <div style={headerSubDescriptionBox} />
         </div>
         <div style={headerFourColsBox}>
           <div style={headerContentBox}>{this.props.caseReferralNumber}</div>
@@ -62,7 +62,7 @@ class PrintAssessmentHeader extends PureComponent {
         <div style={headerFourColsBox}>
           <div style={headerContentBox}>{this.props.clientDob}</div>
           <div style={headerDescriptionBox}>Date of Birth</div>
-          <div style={headerSubDescriptionBox}>(mm/dd/yy)</div>
+          <div style={headerSubDescriptionBox} />
         </div>
       </div>
     )
