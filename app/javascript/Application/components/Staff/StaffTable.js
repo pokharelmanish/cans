@@ -75,6 +75,7 @@ const columns = todaysDate => [
           </span>
         }
         tooltip={'The count of clients that have a reassessment coming due in 30 days or less'}
+        index={'reassessment'}
       />
     ),
     accessor: staffInfo => ({ color: 'warning', number: countDueDates(staffInfo.reminder_dates, todaysDate) }),
@@ -92,6 +93,7 @@ const columns = todaysDate => [
           </span>
         }
         tooltip={'The count of clients that have a reassessment past due'}
+        index={'reassessment-past-due'}
       />
     ),
     accessor: staffInfo => ({ color: 'danger', number: countPastDueDates(staffInfo.reminder_dates, todaysDate) }),
