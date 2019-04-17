@@ -37,7 +37,7 @@ class PrintButton extends Component {
   }
 
   onPrint = () => {
-    pageLockService.confirm(this.togglePrintNow, { isDiscardDisabled: this.props.assessmentId === undefined })
+    pageLockService.confirm(this.callBeforePrint, { isDiscardDisabled: this.props.assessmentId === undefined })
   }
 
   togglePrintNow() {
@@ -50,13 +50,25 @@ class PrintButton extends Component {
     return buildButton('Print', null, this.onPrint, isEnabled)
   }
 
+  print = node => {
+    return <Print node={node} onClose={this.togglePrintNow} />
+  }
+
+  callBeforePrint = () => {
+    if (this.props.onPrintClick) {
+      this.props.onPrintClick()
+    } else {
+      this.togglePrintNow()
+    }
+  }
+
   render() {
     const { shouldPrintNow } = this.state
     const { node } = this.props
 
     return (
       <Fragment>
-        {shouldPrintNow && <Print node={node} onClose={this.togglePrintNow} />}
+        {shouldPrintNow && node && this.print(node)}
         {this.renderPrintButton()}
       </Fragment>
     )
@@ -66,11 +78,14 @@ class PrintButton extends Component {
 PrintButton.propTypes = {
   assessmentId: PropTypes.number,
   isEnabled: PropTypes.bool.isRequired,
-  node: PropTypes.node.isRequired,
+  node: PropTypes.node,
+  onPrintClick: PropTypes.func,
 }
 
 PrintButton.defaultProps = {
   assessmentId: undefined,
+  node: undefined,
+  onPrintClick: undefined,
 }
 
 export default PrintButton

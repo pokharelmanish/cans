@@ -7,7 +7,6 @@ import { AssessmentService } from './'
 import { I18nService } from '../common/'
 import { isReadyForAction, LoadingState } from '../../util/loadingHelper'
 import AssessmentContainerInner from './AssessmentContainerInner'
-import { PrintAssessment } from '../Print'
 import {
   AssessmentStatus,
   defaultEmptyAssessment,
@@ -36,6 +35,7 @@ import UnsavedDataWarning from '../common/UnsavedDataWarning'
 import pageLockService from '../common/PageLockService'
 import ReassessmentModal from './ReassessmentModal'
 import { CloseableAlert } from '../common/CloseableAlert'
+import AssessmentPrintModal from './AssessmentPrintModal'
 
 const SCROLL_POSITION_ADJUST = 15 // for manually adjust scroll destination 15 means go down 15px more
 const readOnlyMessageId = 'readonlyMessage'
@@ -66,6 +66,7 @@ export default class AssessmentContainer extends Component {
       },
       previousRatingsMap: {},
       canDisplaySummaryOnSave: false,
+      printModalOpen: false,
     }
   }
 
@@ -120,15 +121,19 @@ export default class AssessmentContainer extends Component {
   }
 
   initHeaderButtons(isSaveButtonEnabled) {
-    const { assessment, i18n } = this.state
-    const node = (
-      <PrintAssessment assessment={assessment} i18n={i18n} substanceUseItemsIds={this.state.substanceUseItemsIds} />
-    )
+    const { assessment } = this.state
     const leftButton = this.isEditable(assessment)
       ? buildSaveAssessmentButton(this.handleSaveAssessment, isSaveButtonEnabled)
       : null
     const isPrintButtonEnabled = handlePrintButtonEnabled(this.state)
-    const rightButton = <PrintButton node={node} isEnabled={isPrintButtonEnabled} assessmentId={assessment.id} />
+    const rightButton = (
+      <PrintButton
+        node={null}
+        isEnabled={isPrintButtonEnabled}
+        assessmentId={assessment.id}
+        onPrintClick={() => this.setState({ printModalOpen: true })}
+      />
+    )
     this.props.pageHeaderController.updateHeaderButtons(leftButton, rightButton)
   }
 
@@ -408,6 +413,18 @@ export default class AssessmentContainer extends Component {
     <CloseableAlert type="info" isCloseable={true} message={reassessmentModalAlert} isOpen={true} />
   )
 
+  renderPrintModal = () => {
+    const { printModalOpen, assessment, i18n, substanceUseItemsIds } = this.state
+    const props = {
+      isOpen: printModalOpen,
+      assessment,
+      i18n,
+      substanceUseItemsIds,
+      onClose: () => this.setState({ printModalOpen: false }),
+    }
+    return <AssessmentPrintModal {...props} />
+  }
+
   render() {
     const {
       shouldRedirectToClientProfile,
@@ -456,6 +473,7 @@ export default class AssessmentContainer extends Component {
           substanceUseItemsIds={this.state.substanceUseItemsIds}
           previousRatingsMap={previousRatingsMap}
         />
+        {this.renderPrintModal()}
       </div>
     )
   }

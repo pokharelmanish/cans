@@ -13,7 +13,7 @@ export const today = () => moment({ hours: 0 })
  * @returns {string}
  */
 export function isoToLocalDate(datetime) {
-  if (datetime === null) {
+  if (!datetime) {
     return datetime
   }
   return moment(datetime, ISO_DATE_FORMAT).format(LOCAL_DATE_FORMAT)
@@ -134,4 +134,13 @@ export function calculateDateDifferenceInYears(startDate, endDate) {
   }
   const duration = moment.duration(moment(endDate).diff(moment(startDate)))
   return Math.floor(duration.asYears())
+}
+
+export function sortDate(a, b) {
+  if (a && b) {
+    return moment(a, LOCAL_DATE_FORMAT) - moment(b, LOCAL_DATE_FORMAT)
+  }
+  if (a) return -1
+  if (b) return 1
+  return 0
 }

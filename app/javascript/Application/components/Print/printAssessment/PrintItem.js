@@ -11,13 +11,9 @@ import {
   itemMainLine,
 } from './PrintAssessmentStyle'
 import { stripeGenerator } from '../printUtil/PrintHelper'
-import { isConfidential, isDiscretionNeeded } from './PrintAssessmentHelper'
+import { redactLevels, shouldBeRedacted } from './PrintAssessmentHelper'
 
 class PrintItem extends PureComponent {
-  isItemHidden = item => isConfidential(item) || isDiscretionNeeded(item)
-  renderPrintOptions = (item, isRegularType) => {
-    return !this.isItemHidden(item) ? <PrintOptions item={item} isRegularType={isRegularType} /> : null
-  }
   renderRedaction = item => {
     let result
     if (item.confidential_by_default) return 'Confidential'
@@ -28,12 +24,14 @@ class PrintItem extends PureComponent {
     }
     return result
   }
+
   render() {
-    const { item, index, caregiverIndex, itemI18n, isAssessmentUnderSix } = this.props
+    const { item, index, caregiverIndex, itemI18n, isAssessmentUnderSix, redactLevel } = this.props
     const title = itemI18n._title_ || ''
     const itemNumber = isAssessmentUnderSix ? item.under_six_id : item.above_six_id
     const isRegularType = item.rating_type === 'REGULAR'
     const stripe = stripeGenerator(index)
+    const redacted = shouldBeRedacted(item, redactLevel)
     return (
       <div
         id="item-container"
@@ -54,9 +52,9 @@ class PrintItem extends PureComponent {
               <div style={optionLabelStyle}>{this.renderRedaction(item)}</div>
             </div>
           </div>
-          {this.renderPrintOptions(item, isRegularType)}
+          {redacted ? null : <PrintOptions item={item} isRegularType={isRegularType} />}
         </div>
-        {item.comment && !this.isItemHidden(item) ? (
+        {item.comment && !shouldBeRedacted(item, redactLevel) ? (
           <div id="itemComment" style={itemComment}>
             {item.comment}
           </div>
@@ -72,10 +70,17 @@ PrintItem.propTypes = {
   isAssessmentUnderSix: PropTypes.bool.isRequired,
   item: PropTypes.object.isRequired,
   itemI18n: PropTypes.object.isRequired,
+  redactLevel: PropTypes.oneOf([
+    redactLevels.all,
+    redactLevels.discrationNeeded,
+    redactLevels.confidential,
+    redactLevels.doNotRedact,
+  ]),
 }
 
 PrintItem.defaultProps = {
   caregiverIndex: '',
+  redactLevel: redactLevels.all,
 }
 
 export default PrintItem

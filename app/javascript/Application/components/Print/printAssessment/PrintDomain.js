@@ -7,28 +7,31 @@ import PrintDomainHeader from './PrintDomainHeader'
 import PrintDomainCommentHeader from './PrintDomainCommentHeader'
 import { totalScoreCalculation } from '../../Assessment/DomainScoreHelper.js'
 import { shouldItemBeRendered } from '../../Assessment/AssessmentHelper'
-import { isConfidential, isDiscretionNeeded } from './PrintAssessmentHelper'
+import { isConfidential, isDiscretionNeeded, redactLevels } from './PrintAssessmentHelper'
 
 const hasConfidentialItems = domain => domain.items.filter(isConfidential).length > 0
 const hasDiscretionNeededItems = domain => domain.items.filter(isDiscretionNeeded).length > 0
-const getTotalScore = (domain, items) => {
-  let result
-  if (hasConfidentialItems(domain)) return 'Confidential'
-  if (hasDiscretionNeededItems(domain)) {
-    result = 'Discretion Needed'
-  } else {
-    result = totalScoreCalculation(items)
-  }
-  return result
+const shouldShowConfidentialLabel = (domain, redactLevel) =>
+  (redactLevel === redactLevels.all || redactLevel === redactLevels.confidential) && hasConfidentialItems(domain)
+const shouldShowDiscretionLabel = (domain, redactLevel) =>
+  (redactLevel === redactLevels.all || redactLevel === redactLevels.discrationNeeded) &&
+  hasDiscretionNeededItems(domain)
+const getTotalScore = (domain, items, redactLevel) => {
+  if (shouldShowConfidentialLabel(domain, redactLevel)) return 'Confidential'
+  if (shouldShowDiscretionLabel(domain, redactLevel)) return 'Discretion Needed'
+  return totalScoreCalculation(items)
+}
+const commentRemark = comment => {
+  return comment ? '' : 'None'
 }
 
 const PrintDomain = props => {
-  const { domain, domainI18n, i18n, isAssessmentUnderSix } = props
+  const { domain, domainI18n, i18n, isAssessmentUnderSix, redactLevel } = props
   const { code, caregiver_index: caregiverIndex, items, comment } = domain
   const title = domainI18n._title_ || ''
   const caregiverName = domain.caregiver_name || ''
   const displayCaregiverName = caregiverName && `- ${caregiverName}`
-  const totalScore = getTotalScore(domain, items)
+  const totalScore = getTotalScore(domain, items, redactLevel)
   return (
     <div key={code + caregiverIndex} style={domainContainer}>
       <div>
@@ -44,15 +47,16 @@ const PrintDomain = props => {
             caregiverIndex,
             itemI18n,
             isAssessmentUnderSix,
+            redactLevel,
           }
           return <PrintItem key={`item-${index}`} {...printItemProps} />
         })}
       </div>
       <div>
+        <PrintDomainCommentHeader text={`${title} ${displayCaregiverName}`} remark={commentRemark(comment)} />
         {comment &&
-          !hasConfidentialItems(domain) && (
+          (!hasConfidentialItems(domain) || redactLevel === redactLevels.doNotRedact) && (
             <div style={domainComment}>
-              <PrintDomainCommentHeader text={`${title} ${displayCaregiverName}`} />
               <div style={domainCommentContent}>{comment}</div>
             </div>
           )}
@@ -66,6 +70,16 @@ PrintDomain.propTypes = {
   domainI18n: PropTypes.object.isRequired,
   i18n: PropTypes.object.isRequired,
   isAssessmentUnderSix: PropTypes.bool.isRequired,
+  redactLevel: PropTypes.oneOf([
+    redactLevels.all,
+    redactLevels.discrationNeeded,
+    redactLevels.confidential,
+    redactLevels.doNotRedact,
+  ]),
+}
+
+PrintDomain.defaultProps = {
+  redactLevel: redactLevels.all,
 }
 
 export default PrintDomain

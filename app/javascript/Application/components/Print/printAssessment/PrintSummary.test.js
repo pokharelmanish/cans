@@ -76,7 +76,19 @@ describe('<PrintSummary />', () => {
   ]
 
   const render = ({ domains = [], isUnderSix = false } = {}) =>
-    mount(<PrintSummary domains={domains} i18n={i18n} isUnderSix={isUnderSix} />)
+    mount(
+      <PrintSummary domains={domains} i18n={i18n} isUnderSix={isUnderSix} header="some header" footer="some footer" />
+    )
+
+  it('will render header props', () => {
+    const wrapper = render({ domainsWithWrongItemCode })
+    expect(wrapper.text()).toContain('some header')
+  })
+
+  it('will render footer props', () => {
+    const wrapper = render({ domainsWithWrongItemCode })
+    expect(wrapper.text()).toContain('some footer')
+  })
 
   it('will not render item when item.code is wrong', () => {
     const wrapper = render({ domainsWithWrongItemCode })
