@@ -179,7 +179,7 @@ feature 'Case Worker Functionality' do
     expect(@form.header.conducted_by.value).to eq('1')
     go_back
     unsaved_warning_save_and_continue
-    # expect(@client_profile).to have_client_information_title # Flaky, disabling
+    expect(@client_profile).to have_client_information_title
     @client_profile.go_to_recently_updated_assessment(current_date)
     fill_conducted_by_field('2')
     go_back

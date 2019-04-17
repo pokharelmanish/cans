@@ -26,7 +26,6 @@ feature 'Supervisor functionality' do
     expect(@staff_dash).to have_client_list_card_title
     @staff_dash.client_link(CLIENT_NAME).text eq(CLIENT_NAME)
     @staff_dash.visit_client_profile(CLIENT_NAME)
-    expect(@client_profile).to have_client_information_title
     @client_profile.last_name.text eq(CLIENT_LAST_NAME)
     expect(@client_profile).to have_assessment_history_title
   end
