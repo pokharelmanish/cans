@@ -4,7 +4,7 @@ module.exports = {
   testURL: 'http://localhost/',
   rootDir: './app/javascript',
   restoreMocks: true,
-  setupTestFrameworkScriptFile: '<rootDir>/setupTests.js',
+  setupFilesAfterEnv: ['<rootDir>/setupTests.js'],
   coverageDirectory: path.resolve(__dirname, 'coverage', 'javascript'),
   moduleNameMapper: {
     '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$':
