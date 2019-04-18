@@ -4,7 +4,6 @@ require 'page_objects/sections/app_globals'
 
 class ClientProfile < SitePrism::Page
   section :app_globals, AppGlobals, 'body'
-  element :client_information_title, 'span', text: 'Client Information'
   element :last_name, 'div#client-data-Last_Name div'
   element :assessment_history_title, 'span', text: 'Assessment History'
   element :in_progress_record, 'span.assessment-in-progress', text: 'In Progress'

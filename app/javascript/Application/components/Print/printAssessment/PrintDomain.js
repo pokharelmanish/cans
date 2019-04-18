@@ -54,12 +54,11 @@ const PrintDomain = props => {
       </div>
       <div>
         <PrintDomainCommentHeader text={`${title} ${displayCaregiverName}`} remark={commentRemark(comment)} />
-        {comment &&
-          (!hasConfidentialItems(domain) || redactLevel === redactLevels.doNotRedact) && (
-            <div style={domainComment}>
-              <div style={domainCommentContent}>{comment}</div>
-            </div>
-          )}
+        {comment && (
+          <div style={domainComment}>
+            <div style={domainCommentContent}>{comment}</div>
+          </div>
+        )}
       </div>
     </div>
   )

@@ -10,6 +10,43 @@ import UserAccountService from '../common/UserAccountService'
 describe('<TimeoutWarning />', () => {
   const props = {}
 
+  describe('#changeCardZIndex', () => {
+    it('will changes card z-index', () => {
+      const wrapper = shallow(
+        <div className={'card-fix'}>
+          <TimeoutWarning {...props} />
+        </div>
+      )
+      const cards = []
+      jest.spyOn(document, 'querySelectorAll').mockReturnValue(cards)
+      wrapper
+        .find(TimeoutWarning)
+        .dive()
+        .instance()
+        .changeCardZIndex(-1)
+      expect(document.querySelectorAll).toHaveBeenCalledWith('.card-fix')
+      expect(document.querySelectorAll).toHaveBeenCalledTimes(1)
+    })
+
+    it('will be invoked on modal open', () => {
+      const wrapper = shallow(<TimeoutWarning {...props} />)
+      const spy = jest.spyOn(wrapper.instance(), 'changeCardZIndex')
+      wrapper.instance().onTimeoutEvent()
+      expect(wrapper.instance().state.isOpened).toBeTruthy()
+      expect(spy).toHaveBeenCalledWith(-1)
+      expect(spy).toHaveBeenCalledTimes(1)
+    })
+
+    it('will be invoked on refresh', () => {
+      const wrapper = shallow(<TimeoutWarning {...props} />)
+      const spy = jest.spyOn(wrapper.instance(), 'changeCardZIndex')
+      wrapper.instance().refresh()
+      expect(wrapper.instance().state.isOpened).toBeFalsy()
+      expect(spy).toHaveBeenCalledWith(0)
+      expect(spy).toHaveBeenCalledTimes(1)
+    })
+  })
+
   describe('timeout warning presence trigger', () => {
     it('<TimeoutWarning /> is present when session expiration event is received', () => {
       const wrapper = shallow(<TimeoutWarning {...props} />)
