@@ -165,7 +165,6 @@ feature 'Case Worker Functionality' do
     @assessment_helper.start_assessment_for CLIENT_NAME
     go_back
     unsaved_warning_discard_and_continue
-    expect(@client_profile).to have_client_information_title
     visit '/'
     @assessment_helper.start_assessment_for CLIENT_NAME
     click_0_to_5_button
@@ -179,12 +178,10 @@ feature 'Case Worker Functionality' do
     expect(@form.header.conducted_by.value).to eq('1')
     go_back
     unsaved_warning_save_and_continue
-    expect(@client_profile).to have_recently_updated_assessments_links
     @client_profile.go_to_recently_updated_assessment(current_date)
     fill_conducted_by_field('2')
     go_back
     unsaved_warning_discard_and_continue
-    expect(@client_profile).to have_recently_updated_assessments_links
     @client_profile.go_to_recently_updated_assessment(current_date)
     @form.change_log_link.click
     go_back
@@ -196,7 +193,6 @@ feature 'Case Worker Functionality' do
     @form.breadcrumbs.route_from_breadcrumbs(CLIENT_NAME)
     @client_profile.go_to_recently_updated_assessment(current_date)
     go_back
-    expect(@client_profile).to have_recently_updated_assessments_links
   end
 
   def validate_child_dob_and_age(dob)
