@@ -9,25 +9,27 @@ import './style.sass'
 
 const ClientSocialWorkerCard = props => {
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>
-          Client List <span>({props.title})</span>
-        </CardTitle>
-      </CardHeader>
-      <CardBody>
-        <SessionDataGrid
-          {...props}
-          sortable={true}
-          className="client-grid"
-          minRows={gridMinRows(props.data)}
-          noDataText={'No records found'}
-          pageSizeSessionKey={CLIENT_LIST_PAGE_SIZE_KEY}
-          pageSizeOptions={PAGE_SIZES}
-          showPaginationBottom={true}
-        />
-      </CardBody>
-    </Card>
+    <div className={'card-fix'}>
+      <Card className={'card'}>
+        <CardHeader>
+          <CardTitle>
+            Client List <span>({props.title})</span>
+          </CardTitle>
+        </CardHeader>
+        <CardBody>
+          <SessionDataGrid
+            {...props}
+            sortable={true}
+            className="client-grid"
+            minRows={gridMinRows(props.data)}
+            noDataText={'No records found'}
+            pageSizeSessionKey={CLIENT_LIST_PAGE_SIZE_KEY}
+            pageSizeOptions={PAGE_SIZES}
+            showPaginationBottom={true}
+          />
+        </CardBody>
+      </Card>
+    </div>
   )
 }
 

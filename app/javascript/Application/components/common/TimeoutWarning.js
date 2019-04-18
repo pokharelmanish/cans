@@ -21,6 +21,7 @@ export class TimeoutWarning extends Component {
   }
 
   onTimeoutEvent() {
+    this.changeCardZIndex(-1)
     this.setState({
       isOpened: true,
     })
@@ -28,9 +29,18 @@ export class TimeoutWarning extends Component {
 
   refresh() {
     SecurityService.refresh()
+    this.changeCardZIndex(0)
     this.setState({
       isOpened: false,
     })
+  }
+
+  // IE 11 fix for Card overlapping Modal
+  changeCardZIndex = index => {
+    const cards = document.querySelectorAll('.card-fix')
+    for (let i = 0; i < cards.length; i++) {
+      cards[i].style.zIndex = index
+    }
   }
 
   render() {

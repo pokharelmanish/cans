@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { CardHeader, CardBody, CardTitle } from '@cwds/components'
-import Card from '@material-ui/core/Card/Card'
+import { Card, CardHeader, CardBody, CardTitle } from '@cwds/components'
 import StaffTable from '../StaffTable'
 import { LoadingState } from '../../../util/loadingHelper'
 import { staffPropType } from '../StaffHelper'
@@ -9,14 +8,16 @@ import { staffPropType } from '../StaffHelper'
 const SubordinateCard = ({ loadingState, staff }) => {
   const loadingProp = loadingState === LoadingState.updating ? 'true' : undefined
   return (
-    <Card loading={loadingProp}>
-      <CardHeader>
-        <CardTitle>Assigned Staff</CardTitle>
-      </CardHeader>
-      <CardBody>
-        <StaffTable staff={staff} />
-      </CardBody>
-    </Card>
+    <div className={'card-fix'}>
+      <Card loading={loadingProp} className={'card'}>
+        <CardHeader>
+          <CardTitle>Assigned Staff</CardTitle>
+        </CardHeader>
+        <CardBody>
+          <StaffTable staff={staff} />
+        </CardBody>
+      </Card>
+    </div>
   )
 }
 
