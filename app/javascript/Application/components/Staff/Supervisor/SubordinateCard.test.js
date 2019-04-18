@@ -1,7 +1,6 @@
 import React from 'react'
 import { shallow } from 'enzyme'
-import { CardHeader, CardBody, CardTitle } from '@cwds/components'
-import Card from '@material-ui/core/Card/Card'
+import { Card, CardHeader, CardBody, CardTitle } from '@cwds/components'
 import StaffTable from '../StaffTable'
 import SubordinateCard from './SubordinateCard'
 import { LoadingState } from '../../../util/loadingHelper'

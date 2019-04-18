@@ -65,7 +65,7 @@ class AssessmentFormFooter < SitePrism::Section
   def complete_assessment(has_previous_values)
     if has_previous_values
       confirm_domains_review
-      sleep 1
+      sleep 2
     end
     complete_button.click
     sleep 2
